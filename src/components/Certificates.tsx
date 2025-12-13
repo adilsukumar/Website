@@ -56,7 +56,7 @@ const Certificates = () => {
             </h2>
 
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Professional certifications and course completions
+              Some things I've picked up along the way.
             </p>
           </motion.div>
 

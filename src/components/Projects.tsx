@@ -23,7 +23,7 @@ const Projects = () => {
   const projects = [
     {
       title: "Spendture",
-      description: "A next-generation FinTech platform combining AI, behavioral psychology, and emotional design to foster healthier financial habits. Features smart reminders, psychological cues, and financial journaling.",
+      description: "My baby. A FinTech app that uses AI and psychology to help people build better money habits. Smart reminders, journaling, the works. Still building it out.",
       image: "💰",
       tags: ["Python", "AI/ML", "FinTech", "Product Development"],
       sourceUrl: "https://www.linkedin.com/company/spendture",
@@ -32,7 +32,7 @@ const Projects = () => {
     },
     {
       title: "CyberSHE",
-      description: "A women-centric digital safety platform built during WiCyS Hackathon. Features AI-powered harassment detection, privacy audits, encrypted messaging, and emergency helpline access.",
+      description: "Built this at WiCyS Hackathon. It's a safety platform for women - AI harassment detection, privacy tools, encrypted messaging. We won 1st place!",
       image: "🛡️",
       tags: ["React", "TypeScript", "Node.js", "AI", "Cybersecurity"],
       sourceUrl: "https://github.com/adilsukumar/CyberSHE_WiCyS_Hackathon_.Saras-Hack-Squad",
@@ -41,7 +41,7 @@ const Projects = () => {
     },
     {
       title: "Student Grade Tracker",
-      description: "Python-based student dashboard for tracking academic progress with grade management, study session logging, and visual analytics with colorful charts.",
+      description: "Made this to track my own grades and study sessions. Ended up with colorful charts and analytics. Python does the heavy lifting.",
       image: "📚",
       tags: ["Python", "Data Visualization", "Education"],
       sourceUrl: null,
@@ -50,7 +50,7 @@ const Projects = () => {
     },
     {
       title: "Voice-Activated AI Assistant",
-      description: "Advanced Python-based voice assistant with speech-to-text, desktop automation, email handling, reminders, and GPT-powered chatbot fallback.",
+      description: "Like my own Jarvis. It handles emails, sets reminders, automates stuff on my desktop. When it doesn't know something, GPT takes over.",
       image: "🎤",
       tags: ["Python", "NLP", "Voice AI", "Automation"],
       sourceUrl: null,
@@ -59,7 +59,7 @@ const Projects = () => {
     },
     {
       title: "Smart Home Automation",
-      description: "Bluetooth-controlled home automation using Arduino and relay modules. Remote control of lights, fans, and appliances via custom mobile app. Won 3rd place in robotics competition.",
+      description: "Arduino + Bluetooth + relays = controlling lights and fans from my phone. Got 3rd place in a robotics competition with this one.",
       image: "🏠",
       tags: ["Arduino", "IoT", "Bluetooth", "Robotics"],
       sourceUrl: null,
@@ -68,7 +68,7 @@ const Projects = () => {
     },
     {
       title: "Game Development Project",
-      description: "Custom 2D game with original mechanics, sound design, storytelling, and real-time difficulty scaling. Won 1st place among 100+ schools.",
+      description: "A 2D game I made from scratch - gameplay, sound, story, everything. Won 1st place out of 100+ schools. Still proud of this one.",
       image: "🎮",
       tags: ["Python", "Game Design", "Sound Design", "UI/UX"],
       sourceUrl: null,
@@ -149,7 +149,7 @@ const Projects = () => {
               transition={{ delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-lg max-w-2xl mx-auto"
             >
-              A selection of projects I've built, from FinTech platforms to AI assistants.
+              Some things I've built that I'm pretty proud of.
             </motion.p>
           </motion.div>
 

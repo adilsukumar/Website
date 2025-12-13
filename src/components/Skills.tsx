@@ -30,7 +30,7 @@ const Skills = () => {
     {
       icon: Code2,
       title: "Full-Stack Development",
-      description: "Building web applications with React, TypeScript, Node.js, and modern frameworks.",
+      description: "I build web apps from scratch - frontend, backend, the whole thing. React, TypeScript, whatever gets the job done.",
       technologies: ["React", "TypeScript", "Node.js", "Python"],
       color: "from-cyan-500 to-blue-500",
       emoji: "💻",
@@ -38,7 +38,7 @@ const Skills = () => {
     {
       icon: Brain,
       title: "AI & Machine Learning",
-      description: "Developing intelligent systems with deep learning, NLP, and neural networks.",
+      description: "Training models, playing with neural networks, making computers do smart things. It never gets old.",
       technologies: ["TensorFlow", "Deep Learning", "NLP", "Gen AI"],
       color: "from-purple-500 to-pink-500",
       emoji: "🧠",
@@ -46,7 +46,7 @@ const Skills = () => {
     {
       icon: TrendingUp,
       title: "Algorithmic Trading",
-      description: "Building automated trading bots with PineScript, technical analysis, fundamental analysis, and risk management.",
+      description: "Built bots that trade for me while I sleep. PineScript, Python, lots of charts and numbers.",
       technologies: ["PineScript", "Python", "APIs", "Technical Analysis", "Fundamental Analysis"],
       color: "from-green-500 to-emerald-500",
       emoji: "📈",
@@ -54,7 +54,7 @@ const Skills = () => {
     {
       icon: Dna,
       title: "Bioinformatics",
-      description: "Applying computational methods to genomic analysis and biological data.",
+      description: "Where biology meets code. Genomics, molecular stuff - it's like solving puzzles with DNA.",
       technologies: ["Genomics", "NGS Analysis", "Molecular Modeling", "Data Analytics"],
       color: "from-orange-500 to-red-500",
       emoji: "🧬",
@@ -62,7 +62,7 @@ const Skills = () => {
     {
       icon: Bot,
       title: "Automation & Robotics",
-      description: "Creating voice assistants, IoT systems, and embedded automation solutions.",
+      description: "Making things move and talk on their own. Arduino projects, voice assistants, smart home stuff.",
       technologies: ["Arduino", "IoT", "Voice AI", "Embedded Systems"],
       color: "from-yellow-500 to-orange-500",
       emoji: "🤖",
@@ -70,7 +70,7 @@ const Skills = () => {
     {
       icon: Users,
       title: "Leadership & Strategy",
-      description: "Leading teams, managing events, and driving organizational growth.",
+      description: "Led teams, organized events, gave talks. Turns out I actually enjoy the people side of things too.",
       technologies: ["Team Leadership", "Event Management", "Public Speaking", "Strategy"],
       color: "from-indigo-500 to-purple-500",
       emoji: "🎯",
@@ -187,7 +187,7 @@ const Skills = () => {
               transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-lg max-w-2xl mx-auto"
             >
-              From AI to FinTech, I specialize in building innovative solutions across multiple domains.
+              Here's what I spend most of my time tinkering with.
             </motion.p>
           </motion.div>
 

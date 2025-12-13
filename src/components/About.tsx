@@ -189,8 +189,8 @@ const About = () => {
               {/* Description with word reveal */}
               <motion.div className="space-y-4 text-muted-foreground text-lg mb-10">
                 {[
-                  "Driven by a deep curiosity, I build at the intersection of science, technology, and human behavior, creating innovative solutions with tangible impact. Currently developing a next-gen FinTech platform that blends AI, behavioral psychology, and emotional design.",
-                  "My journey spans algorithmic trading bots, AI assistants, game development, and robotics. I've earned national-level Olympiad medals and the Young Robotic Scientist Award. I thrive on learning, experimenting, and turning ideas into real-world solutions."
+                  "I'm basically that guy who can't stop asking 'what if?' - whether it's about AI, finance, or why people make the decisions they do. Right now, I'm working on a FinTech app that mixes AI with psychology to help people actually stick to their money goals.",
+                  "I've built everything from trading bots to voice assistants to games. Won some Olympiad medals and a robotics award along the way. But honestly? I just really enjoy figuring out how things work and turning wild ideas into something real."
                 ].map((paragraph, pIndex) => (
                   <motion.p key={pIndex}>
                     {paragraph.split(" ").map((word, wIndex) => (
