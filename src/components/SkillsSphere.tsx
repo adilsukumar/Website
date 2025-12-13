@@ -20,12 +20,10 @@ interface SkillPosition {
 }
 
 const SkillsSphere = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [positions, setPositions] = useState<SkillPosition[]>([]);
   const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
-    // Calculate initial positions on a sphere
     const newPositions = skills.map((skill, i) => {
       const phi = Math.acos(-1 + (2 * i) / skills.length);
       const theta = Math.sqrt(skills.length * Math.PI) * phi;
@@ -42,49 +40,84 @@ const SkillsSphere = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setRotation(prev => prev + 0.005);
+      setRotation(prev => prev + 0.004);
     }, 16);
     return () => clearInterval(interval);
   }, []);
 
   const getTransformedPosition = (pos: SkillPosition) => {
-    // Rotate around Y axis
     const cosR = Math.cos(rotation);
     const sinR = Math.sin(rotation);
     const x = pos.x * cosR - pos.z * sinR;
     const z = pos.x * sinR + pos.z * cosR;
     
-    // Project to 2D with perspective
     const scale = 1 / (2 - z);
-    const screenX = x * scale * 120;
-    const screenY = pos.y * scale * 120;
+    const screenX = x * scale * 180;
+    const screenY = pos.y * scale * 180;
     const opacity = (z + 1) / 2 * 0.8 + 0.2;
     const zIndex = Math.round((z + 1) * 10);
-    const fontSize = 10 + (z + 1) * 3;
+    const fontSize = 11 + (z + 1) * 4;
     
     return { screenX, screenY, opacity, zIndex, fontSize };
   };
 
+  // Generate spark positions
+  const sparks = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    angle: (i / 20) * 360,
+    delay: i * 0.15,
+    size: Math.random() * 4 + 2
+  }));
+
   return (
-    <div className="relative w-full h-[400px] sm:h-[450px] flex items-center justify-center overflow-hidden">
-      {/* Glowing center orb */}
+    <div className="relative w-full h-[500px] sm:h-[550px] flex items-center justify-center overflow-hidden">
+      {/* Large glowing orb */}
       <motion.div 
-        className="absolute w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br from-primary/30 via-purple-500/20 to-pink-500/30 blur-xl"
-        animate={{ 
-          scale: [1, 1.2, 1],
-          opacity: [0.5, 0.8, 0.5]
+        className="absolute w-64 h-64 sm:w-80 sm:h-80 rounded-full"
+        style={{
+          background: "radial-gradient(circle at 30% 30%, hsl(var(--primary)), hsl(var(--primary) / 0.6) 40%, hsl(var(--primary) / 0.2) 70%, transparent 100%)",
+          boxShadow: "0 0 80px 20px hsl(var(--primary) / 0.4), 0 0 120px 40px hsl(var(--primary) / 0.2), inset 0 0 60px hsl(var(--primary) / 0.3)"
         }}
-        transition={{ duration: 3, repeat: Infinity }}
+        animate={{ 
+          scale: [1, 1.03, 1],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
       
-      {/* Wireframe sphere effect */}
-      <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-primary/20" />
-      <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-primary/10 rotate-45" />
-      <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-primary/10 -rotate-45" />
-      
+      {/* Blue sparks */}
+      {sparks.map((spark) => (
+        <motion.div
+          key={spark.id}
+          className="absolute rounded-full bg-blue-400"
+          style={{
+            width: spark.size,
+            height: spark.size,
+            boxShadow: "0 0 8px 2px rgba(96, 165, 250, 0.8)"
+          }}
+          initial={{ 
+            x: 0, 
+            y: 0, 
+            opacity: 0,
+            scale: 0
+          }}
+          animate={{ 
+            x: [0, Math.cos(spark.angle * Math.PI / 180) * 200],
+            y: [0, Math.sin(spark.angle * Math.PI / 180) * 200],
+            opacity: [0, 1, 0],
+            scale: [0, 1, 0]
+          }}
+          transition={{ 
+            duration: 2.5,
+            delay: spark.delay,
+            repeat: Infinity,
+            ease: "easeOut"
+          }}
+        />
+      ))}
+
       {/* Orbiting skills */}
-      <div ref={containerRef} className="relative w-[300px] h-[300px] sm:w-[350px] sm:h-[350px]">
-        {positions.map((pos, i) => {
+      <div className="relative w-[400px] h-[400px] sm:w-[500px] sm:h-[500px]">
+        {positions.map((pos) => {
           const { screenX, screenY, opacity, zIndex, fontSize } = getTransformedPosition(pos);
           return (
             <motion.span
@@ -96,7 +129,7 @@ const SkillsSphere = () => {
                 zIndex,
                 fontSize: `${fontSize}px`,
                 color: pos.color,
-                textShadow: `0 0 10px ${pos.color}40`
+                textShadow: `0 0 12px ${pos.color}50`
               }}
             >
               {pos.skill}
@@ -106,10 +139,10 @@ const SkillsSphere = () => {
       </div>
       
       {/* Center text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="text-center bg-background/80 backdrop-blur-sm rounded-full px-6 py-4">
-          <span className="text-4xl sm:text-5xl font-display font-bold text-gradient">90+</span>
-          <p className="text-xs text-muted-foreground mt-1">Skills</p>
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+        <div className="text-center">
+          <span className="text-5xl sm:text-6xl font-display font-bold text-primary-foreground drop-shadow-lg">90+</span>
+          <p className="text-sm text-primary-foreground/80 mt-1">Skills</p>
         </div>
       </div>
     </div>
