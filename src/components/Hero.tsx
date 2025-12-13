@@ -96,27 +96,7 @@ const Hero = () => {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-12"
-          >
-            {"Founder & CEO @Spendture | AI & Bioinformatics Student at VIT | Data Science Student at IIT Madras | I love building stuff that sits right at the edge of science, tech, and how people think."
-              .split(" ")
-              .map((word, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 30, filter: "blur(5px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{
-                    delay: 0.9 + i * 0.04,
-                    duration: 0.6,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="inline-block mr-2"
-                >
-                  {word}
-                </motion.span>
-              ))}
-          </motion.p>
+            transition={{ duration: 0.8, delay:
 
           {/* CTA buttons */}
           <motion.div
