@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const AnimatedBackground = () => {
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden">
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
       {/* Base gradient with more color */}
       <div 
         className="absolute inset-0"
