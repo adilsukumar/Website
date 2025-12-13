@@ -99,7 +99,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-12"
           >
-            {"Founder & CEO @Spendture | AI & Bioinformatics Student at VIT | Building at the intersection of science, technology, and human behavior."
+            {"Founder & CEO @Spendture | AI & Bioinformatics student at VIT | I love building stuff that sits right at the edge of science, tech, and how people think."
               .split(" ")
               .map((word, i) => (
                 <motion.span

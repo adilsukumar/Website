@@ -168,7 +168,7 @@ const Contact = () => {
               transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-lg max-w-2xl mx-auto"
             >
-              Have a project in mind, want to collaborate, or just want to connect? I'd love to hear from you!
+              Got an idea? Want to team up on something? Or just wanna say hi? Drop me a message - I'm always down to chat.
             </motion.p>
           </motion.div>
 
