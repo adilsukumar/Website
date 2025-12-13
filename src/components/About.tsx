@@ -24,11 +24,23 @@ const About = () => {
     { value: "6", label: "Languages Spoken", emoji: "🌍" },
   ];
 
-  const techBadges = [
-    { name: "Python", color: "from-yellow-500 to-blue-500", position: "-top-4 -right-4", delay: 0.5 },
-    { name: "AI/ML", color: "from-purple-500 to-pink-600", position: "-bottom-4 -left-4", delay: 0.7 },
-    { name: "FinTech", color: "from-green-500 to-emerald-600", position: "top-1/2 -right-8", delay: 0.9 },
-    { name: "Bioinformatics", color: "from-cyan-500 to-blue-600", position: "-top-4 left-1/4", delay: 1.1 },
+  const skillKeywords = [
+    { name: "Python", color: "from-yellow-400 to-blue-500", size: "text-lg" },
+    { name: "AI/ML", color: "from-purple-500 to-pink-500", size: "text-xl" },
+    { name: "React", color: "from-cyan-400 to-blue-500", size: "text-base" },
+    { name: "TypeScript", color: "from-blue-500 to-indigo-500", size: "text-sm" },
+    { name: "FinTech", color: "from-green-500 to-emerald-500", size: "text-lg" },
+    { name: "Bioinformatics", color: "from-cyan-500 to-teal-500", size: "text-base" },
+    { name: "Data Science", color: "from-orange-500 to-red-500", size: "text-lg" },
+    { name: "Node.js", color: "from-green-400 to-green-600", size: "text-sm" },
+    { name: "Deep Learning", color: "from-violet-500 to-purple-600", size: "text-base" },
+    { name: "TensorFlow", color: "from-orange-400 to-yellow-500", size: "text-sm" },
+    { name: "Genomics", color: "from-pink-500 to-rose-500", size: "text-base" },
+    { name: "Arduino", color: "from-teal-400 to-cyan-500", size: "text-sm" },
+    { name: "NLP", color: "from-indigo-400 to-purple-500", size: "text-lg" },
+    { name: "Trading Bots", color: "from-emerald-400 to-green-500", size: "text-sm" },
+    { name: "IoT", color: "from-blue-400 to-cyan-400", size: "text-base" },
+    { name: "Gen AI", color: "from-fuchsia-500 to-pink-500", size: "text-lg" },
   ];
 
   return (
@@ -75,85 +87,113 @@ const About = () => {
       >
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Image/Visual side with parallax */}
+            {/* Skills word cloud visual */}
             <motion.div
               initial={{ opacity: 0, x: -150, rotateY: -30 }}
               animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative perspective-1000"
+              className="relative"
             >
               <motion.div
-                className="relative aspect-square max-w-md mx-auto preserve-3d"
-                style={{ y, rotate, scale }}
+                className="relative aspect-square max-w-md mx-auto"
+                style={{ scale }}
               >
-                {/* Decorative glow ring */}
+                {/* Decorative glow background */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-animated rounded-3xl blur-3xl opacity-30"
+                  className="absolute inset-0 bg-gradient-animated rounded-full blur-3xl opacity-20"
                   animate={{
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 180, 360],
+                    scale: [1, 1.3, 1],
                   }}
-                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                 />
                 
-                {/* Glass card with animated border */}
-                <motion.div
-                  className="absolute inset-4 glass-strong rounded-3xl border-gradient-animated overflow-hidden"
-                  whileHover={{ scale: 1.05, rotateY: 5 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                />
-
-                {/* Main image area */}
-                <motion.div
-                  className="absolute inset-8 bg-muted rounded-2xl overflow-hidden"
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-animated opacity-20"
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  />
-                  <div className="w-full h-full flex items-center justify-center relative">
-                    <motion.span
-                      className="text-8xl"
-                      animate={{
-                        rotate: [0, 10, -10, 0],
-                        scale: [1, 1.15, 1],
-                        y: [0, -10, 0],
-                      }}
-                      transition={{ duration: 4, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
-                    >
-                      🚀
-                    </motion.span>
-                  </div>
-                </motion.div>
-
-                {/* Floating tech badges */}
-                {techBadges.map((badge, i) => (
-                  <motion.div
-                    key={badge.name}
-                    initial={{ opacity: 0, scale: 0, rotate: -180 }}
-                    animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
-                    transition={{ delay: badge.delay, type: "spring", stiffness: 200, damping: 15 }}
-                    className={`absolute ${badge.position}`}
-                  >
+                {/* Skills cloud container */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative w-full h-full">
+                    {/* Central focus text */}
                     <motion.div
-                      animate={{
-                        y: [0, -15, 0],
-                        rotate: [0, 5, -5, 0],
-                        scale: [1, 1.05, 1],
-                      }}
-                      transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
-                      whileHover={{ scale: 1.3, rotate: 10 }}
-                      className={`glass px-4 py-2 rounded-xl cursor-pointer bg-gradient-to-r ${badge.color} glow`}
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+                      initial={{ scale: 0 }}
+                      animate={isInView ? { scale: 1 } : {}}
+                      transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
                     >
-                      <span className="text-white font-display font-semibold text-sm">
-                        {badge.name}
+                      <span className="text-4xl sm:text-5xl font-display font-bold holographic">
+                        {"</>"}
                       </span>
                     </motion.div>
-                  </motion.div>
-                ))}
+
+                    {/* Orbiting skills */}
+                    {skillKeywords.map((skill, i) => {
+                      const angle = (i / skillKeywords.length) * 2 * Math.PI;
+                      const radius = 120 + (i % 3) * 30;
+                      const x = Math.cos(angle) * radius;
+                      const y = Math.sin(angle) * radius;
+                      
+                      return (
+                        <motion.div
+                          key={skill.name}
+                          className="absolute top-1/2 left-1/2"
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={isInView ? { 
+                            opacity: 1, 
+                            scale: 1,
+                            x: x,
+                            y: y,
+                          } : {}}
+                          transition={{ 
+                            delay: 0.5 + i * 0.08, 
+                            type: "spring", 
+                            stiffness: 150,
+                            damping: 15 
+                          }}
+                        >
+                          <motion.div
+                            animate={{
+                              y: [0, -8, 0],
+                              x: [0, (i % 2 === 0 ? 5 : -5), 0],
+                            }}
+                            transition={{ 
+                              duration: 3 + (i % 3), 
+                              repeat: Infinity, 
+                              ease: "easeInOut",
+                              delay: i * 0.2
+                            }}
+                            whileHover={{ 
+                              scale: 1.4, 
+                              zIndex: 50,
+                            }}
+                            className={`px-3 py-1.5 rounded-lg cursor-pointer bg-gradient-to-r ${skill.color} shadow-lg`}
+                          >
+                            <span className={`text-white font-display font-semibold ${skill.size} whitespace-nowrap`}>
+                              {skill.name}
+                            </span>
+                          </motion.div>
+                        </motion.div>
+                      );
+                    })}
+
+                    {/* Connecting lines/dots decoration */}
+                    {[...Array(8)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute top-1/2 left-1/2 w-2 h-2 bg-primary/40 rounded-full"
+                        style={{
+                          x: Math.cos((i / 8) * 2 * Math.PI) * 80,
+                          y: Math.sin((i / 8) * 2 * Math.PI) * 80,
+                        }}
+                        animate={{
+                          scale: [1, 1.5, 1],
+                          opacity: [0.3, 0.7, 0.3],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: i * 0.25,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
 
