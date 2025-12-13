@@ -142,6 +142,10 @@
     background-image: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
   }
 
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
   .bg-gradient-animated {
     background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-mid)), hsl(var(--gradient-end)), hsl(var(--gradient-start)));
     background-size: 300% 300%;
