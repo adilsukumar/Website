@@ -41,6 +41,14 @@ const About = () => {
     { name: "Trading Bots", color: "from-emerald-400 to-green-500", size: "text-sm" },
     { name: "IoT", color: "from-blue-400 to-cyan-400", size: "text-base" },
     { name: "Gen AI", color: "from-fuchsia-500 to-pink-500", size: "text-lg" },
+    { name: "PineScript", color: "from-lime-500 to-green-500", size: "text-sm" },
+    { name: "Robotics", color: "from-slate-400 to-zinc-500", size: "text-base" },
+    { name: "APIs", color: "from-sky-400 to-blue-500", size: "text-sm" },
+    { name: "Voice AI", color: "from-rose-400 to-pink-500", size: "text-base" },
+    { name: "MongoDB", color: "from-green-500 to-lime-500", size: "text-sm" },
+    { name: "SQL", color: "from-blue-500 to-sky-500", size: "text-sm" },
+    { name: "Git", color: "from-orange-500 to-red-600", size: "text-base" },
+    { name: "Leadership", color: "from-amber-500 to-yellow-500", size: "text-lg" },
   ];
 
   return (
