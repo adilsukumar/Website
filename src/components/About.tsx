@@ -198,17 +198,3 @@ const About = () => {
 };
 
 export default About;
-                      {stat.label}
-                    </motion.div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default About;
