@@ -150,34 +150,83 @@ const About = () => {
 
       <motion.div className="container mx-auto px-6" ref={ref}>
         <div className="max-w-6xl mx-auto">
-          {/* Skills cloud above heading */}
+          {/* Animated Skills Orbit */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.8 }}
-            className="mb-12"
+            className="mb-16 relative"
           >
-            <div className="glass-strong rounded-3xl p-4 md:p-6 border-gradient-animated">
-              <div className="flex items-center justify-between gap-2 flex-wrap">
-                <div>
-                  <p className="text-xs uppercase tracking-wide text-muted-foreground">Skill snapshot</p>
-                  <p className="font-display text-lg font-semibold">80+ tools, languages & domains</p>
-                </div>
-                <span className="text-xs sm:text-sm text-muted-foreground">Scroll to see more →</span>
-              </div>
-              <div className="mt-4 max-h-40 md:max-h-48 overflow-y-auto pr-1">
-                <div className="flex flex-wrap gap-2">
-                  {skillRows.flat().map((skill, index) => (
-                    <motion.span
-                      key={`${skill.name}-${index}`}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      className={`px-3 py-1 rounded-full bg-gradient-to-r ${skill.color} text-[0.7rem] font-medium text-white shadow`}
+            <div className="text-center mb-6">
+              <motion.span 
+                className="text-6xl sm:text-7xl font-display font-bold text-gradient inline-block"
+                animate={{ scale: [1, 1.02, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                90+
+              </motion.span>
+              <p className="text-muted-foreground mt-2">Skills in my arsenal</p>
+            </div>
+            
+            {/* Orbiting rings */}
+            <div className="relative h-48 sm:h-64 overflow-hidden">
+              {/* Ring 1 - Outer */}
+              <motion.div 
+                className="absolute inset-0 flex items-center"
+                animate={{ x: ["-50%", "0%"] }}
+                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              >
+                <div className="flex gap-4 whitespace-nowrap">
+                  {[...skillRows[0], ...skillRows[1], ...skillRows[0], ...skillRows[1]].map((skill, i) => (
+                    <span
+                      key={`r1-${i}`}
+                      className={`px-4 py-2 rounded-full bg-gradient-to-r ${skill.color} text-xs font-medium text-white shadow-lg`}
                     >
                       {skill.name}
-                    </motion.span>
+                    </span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
+              
+              {/* Ring 2 - Middle (reverse) */}
+              <motion.div 
+                className="absolute inset-0 flex items-center mt-16"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+              >
+                <div className="flex gap-4 whitespace-nowrap">
+                  {[...skillRows[2], ...skillRows[3], ...skillRows[2], ...skillRows[3]].map((skill, i) => (
+                    <span
+                      key={`r2-${i}`}
+                      className={`px-4 py-2 rounded-full bg-gradient-to-r ${skill.color} text-xs font-medium text-white shadow-lg opacity-80`}
+                    >
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+              
+              {/* Ring 3 - Inner */}
+              <motion.div 
+                className="absolute inset-0 flex items-center mt-32"
+                animate={{ x: ["-25%", "25%", "-25%"] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              >
+                <div className="flex gap-4 whitespace-nowrap">
+                  {[...skillRows[4], ...skillRows[5], ...skillRows[4], ...skillRows[5]].map((skill, i) => (
+                    <span
+                      key={`r3-${i}`}
+                      className={`px-4 py-2 rounded-full bg-gradient-to-r ${skill.color} text-xs font-medium text-white shadow-lg opacity-60`}
+                    >
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+              
+              {/* Gradient fade edges */}
+              <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
             </div>
           </motion.div>
 
@@ -282,63 +331,34 @@ const About = () => {
               </div>
             </motion.div>
 
-            {/* Skills Counter Card - Takes 2 columns */}
+            {/* Quote Card - Takes 2 columns */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
               className="lg:col-span-2"
             >
-              <div className="glass-strong rounded-3xl p-8 border-gradient-animated relative overflow-hidden">
-                {/* Animated background gradient */}
+              <div className="glass-strong rounded-3xl p-8 border-gradient-animated relative overflow-hidden h-full flex flex-col justify-center">
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/10 to-pink-500/20"
-                  animate={{
-                    opacity: [0.3, 0.6, 0.3],
-                  }}
+                  className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-purple-500/10"
+                  animate={{ opacity: [0.3, 0.5, 0.3] }}
                   transition={{ duration: 4, repeat: Infinity }}
                 />
                 
-                <div className="relative z-10 text-center">
-                  <motion.div
-                    className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient mb-6"
-                    animate={{
-                      boxShadow: [
-                        "0 0 40px 10px hsl(var(--primary) / 0.3)",
-                        "0 0 60px 20px hsl(var(--primary) / 0.5)",
-                        "0 0 40px 10px hsl(var(--primary) / 0.3)",
-                      ]
-                    }}
+                <div className="relative z-10">
+                  <motion.span 
+                    className="text-6xl text-primary/30 font-serif absolute -top-2 -left-2"
+                    animate={{ opacity: [0.3, 0.6, 0.3] }}
                     transition={{ duration: 3, repeat: Infinity }}
                   >
-                    <motion.span
-                      className="font-display text-5xl font-bold text-primary-foreground"
-                      initial={{ scale: 0 }}
-                      animate={isInView ? { scale: 1 } : {}}
-                      transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
-                    >
-                      90+
-                    </motion.span>
-                  </motion.div>
-                  
-                  <h3 className="font-display text-2xl font-bold mb-2">Skills Mastered</h3>
-                  <p className="text-muted-foreground text-sm">
-                    From AI/ML to IoT, Finance to Leadership
+                    "
+                  </motion.span>
+                  <p className="text-lg text-muted-foreground italic pl-6 pt-4">
+                    I just really enjoy figuring out how things work and turning wild ideas into something real.
                   </p>
-                  
-                  {/* Mini skill categories */}
-                  <div className="flex flex-wrap justify-center gap-2 mt-6">
-                    {["AI/ML", "FinTech", "IoT", "Data", "Leadership"].map((cat, i) => (
-                      <motion.span
-                        key={cat}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ delay: 1 + i * 0.1, type: "spring" }}
-                        className="px-3 py-1 text-xs bg-primary/20 text-primary rounded-full"
-                      >
-                        {cat}
-                      </motion.span>
-                    ))}
+                  <div className="mt-6 flex items-center gap-3">
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-primary to-purple-500" />
+                    <span className="text-sm text-muted-foreground">My philosophy</span>
                   </div>
                 </div>
               </div>
