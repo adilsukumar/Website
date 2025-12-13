@@ -25,50 +25,104 @@ const About = () => {
   ];
 
   const skillKeywords = [
-    // Programming
-    { name: "Python", color: "from-yellow-400 to-blue-500" },
-    { name: "React", color: "from-cyan-400 to-blue-500" },
-    { name: "TypeScript", color: "from-blue-500 to-indigo-500" },
-    { name: "Node.js", color: "from-green-400 to-green-600" },
-    { name: "JavaScript", color: "from-yellow-400 to-amber-500" },
-    { name: "HTML/CSS", color: "from-orange-500 to-red-500" },
-    { name: "C++", color: "from-blue-600 to-indigo-600" },
-    { name: "SQL", color: "from-blue-500 to-sky-500" },
-    { name: "PineScript", color: "from-lime-500 to-green-500" },
+    // Programming Languages
+    { name: "Python", color: "from-yellow-400 to-blue-500", tier: 1 },
+    { name: "JavaScript", color: "from-yellow-400 to-amber-500", tier: 1 },
+    { name: "TypeScript", color: "from-blue-500 to-indigo-500", tier: 2 },
+    { name: "C++", color: "from-blue-600 to-indigo-600", tier: 2 },
+    { name: "C", color: "from-slate-500 to-blue-600", tier: 3 },
+    { name: "Java", color: "from-red-500 to-orange-500", tier: 3 },
+    { name: "R", color: "from-blue-400 to-sky-500", tier: 3 },
+    { name: "SQL", color: "from-blue-500 to-sky-500", tier: 2 },
+    { name: "PineScript", color: "from-lime-500 to-green-500", tier: 2 },
+    { name: "HTML", color: "from-orange-500 to-red-500", tier: 2 },
+    { name: "CSS", color: "from-blue-500 to-purple-500", tier: 2 },
+    { name: "Bash", color: "from-green-600 to-emerald-600", tier: 3 },
+    // Frameworks & Libraries
+    { name: "React", color: "from-cyan-400 to-blue-500", tier: 1 },
+    { name: "Node.js", color: "from-green-400 to-green-600", tier: 1 },
+    { name: "Express.js", color: "from-gray-500 to-slate-600", tier: 2 },
+    { name: "Flask", color: "from-slate-400 to-gray-500", tier: 3 },
+    { name: "Django", color: "from-green-600 to-emerald-700", tier: 3 },
+    { name: "Tailwind", color: "from-teal-400 to-cyan-500", tier: 2 },
+    { name: "Bootstrap", color: "from-purple-500 to-violet-600", tier: 3 },
+    { name: "jQuery", color: "from-blue-400 to-sky-500", tier: 3 },
     // AI/ML
-    { name: "AI/ML", color: "from-purple-500 to-pink-500" },
-    { name: "Deep Learning", color: "from-violet-500 to-purple-600" },
-    { name: "TensorFlow", color: "from-orange-400 to-yellow-500" },
-    { name: "NLP", color: "from-indigo-400 to-purple-500" },
-    { name: "Gen AI", color: "from-fuchsia-500 to-pink-500" },
-    { name: "Neural Networks", color: "from-pink-500 to-purple-500" },
-    { name: "Computer Vision", color: "from-teal-500 to-cyan-500" },
-    // Data
-    { name: "Data Science", color: "from-orange-500 to-red-500" },
-    { name: "Data Analytics", color: "from-sky-500 to-blue-500" },
-    { name: "MongoDB", color: "from-green-500 to-lime-500" },
-    { name: "Pandas", color: "from-indigo-500 to-blue-500" },
-    // Domain
-    { name: "FinTech", color: "from-green-500 to-emerald-500" },
-    { name: "Bioinformatics", color: "from-cyan-500 to-teal-500" },
-    { name: "Genomics", color: "from-pink-500 to-rose-500" },
-    { name: "Trading Bots", color: "from-emerald-400 to-green-500" },
-    { name: "Algo Trading", color: "from-lime-400 to-emerald-500" },
+    { name: "AI/ML", color: "from-purple-500 to-pink-500", tier: 1 },
+    { name: "Deep Learning", color: "from-violet-500 to-purple-600", tier: 1 },
+    { name: "TensorFlow", color: "from-orange-400 to-yellow-500", tier: 2 },
+    { name: "PyTorch", color: "from-red-500 to-orange-500", tier: 2 },
+    { name: "Keras", color: "from-red-600 to-rose-600", tier: 3 },
+    { name: "Scikit-learn", color: "from-orange-500 to-yellow-500", tier: 2 },
+    { name: "NLP", color: "from-indigo-400 to-purple-500", tier: 1 },
+    { name: "Gen AI", color: "from-fuchsia-500 to-pink-500", tier: 1 },
+    { name: "LLMs", color: "from-violet-500 to-fuchsia-500", tier: 2 },
+    { name: "Neural Networks", color: "from-pink-500 to-purple-500", tier: 2 },
+    { name: "Computer Vision", color: "from-teal-500 to-cyan-500", tier: 2 },
+    { name: "OpenCV", color: "from-green-500 to-teal-500", tier: 3 },
+    { name: "Hugging Face", color: "from-yellow-500 to-orange-500", tier: 3 },
+    { name: "Transformers", color: "from-purple-400 to-pink-500", tier: 2 },
+    { name: "YOLO", color: "from-rose-500 to-red-500", tier: 3 },
+    // Data Science
+    { name: "Data Science", color: "from-orange-500 to-red-500", tier: 1 },
+    { name: "Data Analytics", color: "from-sky-500 to-blue-500", tier: 2 },
+    { name: "Pandas", color: "from-indigo-500 to-blue-500", tier: 2 },
+    { name: "NumPy", color: "from-blue-400 to-cyan-500", tier: 2 },
+    { name: "Matplotlib", color: "from-blue-500 to-indigo-500", tier: 3 },
+    { name: "Seaborn", color: "from-teal-400 to-cyan-500", tier: 3 },
+    { name: "Plotly", color: "from-purple-500 to-blue-500", tier: 3 },
+    { name: "Statistics", color: "from-emerald-500 to-green-500", tier: 2 },
+    { name: "Excel", color: "from-green-600 to-emerald-600", tier: 3 },
+    { name: "Power BI", color: "from-yellow-500 to-amber-500", tier: 3 },
+    // Databases
+    { name: "MongoDB", color: "from-green-500 to-lime-500", tier: 2 },
+    { name: "PostgreSQL", color: "from-blue-500 to-indigo-500", tier: 3 },
+    { name: "MySQL", color: "from-blue-400 to-sky-500", tier: 3 },
+    { name: "Firebase", color: "from-yellow-500 to-orange-500", tier: 2 },
+    { name: "Supabase", color: "from-green-500 to-emerald-500", tier: 3 },
+    // Domain Expertise
+    { name: "FinTech", color: "from-green-500 to-emerald-500", tier: 1 },
+    { name: "Bioinformatics", color: "from-cyan-500 to-teal-500", tier: 1 },
+    { name: "Genomics", color: "from-pink-500 to-rose-500", tier: 2 },
+    { name: "NGS Analysis", color: "from-violet-500 to-purple-500", tier: 3 },
+    { name: "Molecular Modeling", color: "from-teal-500 to-green-500", tier: 3 },
+    { name: "Trading Bots", color: "from-emerald-400 to-green-500", tier: 2 },
+    { name: "Algo Trading", color: "from-lime-400 to-emerald-500", tier: 2 },
+    { name: "Technical Analysis", color: "from-blue-500 to-cyan-500", tier: 2 },
+    { name: "Risk Management", color: "from-red-500 to-rose-500", tier: 3 },
+    { name: "Behavioral Finance", color: "from-amber-500 to-yellow-500", tier: 3 },
     // Hardware/IoT
-    { name: "Arduino", color: "from-teal-400 to-cyan-500" },
-    { name: "IoT", color: "from-blue-400 to-cyan-400" },
-    { name: "Robotics", color: "from-slate-400 to-zinc-500" },
-    { name: "Embedded Systems", color: "from-gray-500 to-slate-500" },
-    // Tools
-    { name: "Git", color: "from-orange-500 to-red-600" },
-    { name: "APIs", color: "from-sky-400 to-blue-500" },
-    { name: "Voice AI", color: "from-rose-400 to-pink-500" },
-    { name: "Automation", color: "from-violet-400 to-indigo-500" },
+    { name: "Arduino", color: "from-teal-400 to-cyan-500", tier: 2 },
+    { name: "Raspberry Pi", color: "from-rose-500 to-red-500", tier: 3 },
+    { name: "IoT", color: "from-blue-400 to-cyan-400", tier: 2 },
+    { name: "Robotics", color: "from-slate-400 to-zinc-500", tier: 2 },
+    { name: "Embedded Systems", color: "from-gray-500 to-slate-500", tier: 3 },
+    { name: "Bluetooth", color: "from-blue-500 to-indigo-500", tier: 3 },
+    { name: "Sensors", color: "from-orange-500 to-amber-500", tier: 3 },
+    // Tools & DevOps
+    { name: "Git", color: "from-orange-500 to-red-600", tier: 2 },
+    { name: "GitHub", color: "from-gray-600 to-slate-700", tier: 2 },
+    { name: "VS Code", color: "from-blue-500 to-sky-500", tier: 3 },
+    { name: "Docker", color: "from-blue-400 to-cyan-500", tier: 3 },
+    { name: "Linux", color: "from-yellow-500 to-amber-600", tier: 3 },
+    { name: "APIs", color: "from-sky-400 to-blue-500", tier: 2 },
+    { name: "REST", color: "from-green-500 to-emerald-500", tier: 3 },
+    { name: "Postman", color: "from-orange-500 to-red-500", tier: 3 },
+    // Automation & AI
+    { name: "Voice AI", color: "from-rose-400 to-pink-500", tier: 2 },
+    { name: "Automation", color: "from-violet-400 to-indigo-500", tier: 2 },
+    { name: "Web Scraping", color: "from-green-500 to-teal-500", tier: 3 },
+    { name: "Selenium", color: "from-green-600 to-emerald-600", tier: 3 },
+    { name: "Chatbots", color: "from-purple-500 to-pink-500", tier: 3 },
     // Soft Skills
-    { name: "Leadership", color: "from-amber-500 to-yellow-500" },
-    { name: "Public Speaking", color: "from-rose-500 to-red-500" },
-    { name: "Strategy", color: "from-indigo-500 to-violet-500" },
-    { name: "Team Building", color: "from-cyan-500 to-blue-500" },
+    { name: "Leadership", color: "from-amber-500 to-yellow-500", tier: 1 },
+    { name: "Public Speaking", color: "from-rose-500 to-red-500", tier: 2 },
+    { name: "Strategy", color: "from-indigo-500 to-violet-500", tier: 2 },
+    { name: "Team Building", color: "from-cyan-500 to-blue-500", tier: 2 },
+    { name: "Event Management", color: "from-pink-500 to-rose-500", tier: 3 },
+    { name: "Problem Solving", color: "from-emerald-500 to-green-500", tier: 2 },
+    { name: "Critical Thinking", color: "from-blue-500 to-indigo-500", tier: 3 },
+    { name: "Communication", color: "from-teal-500 to-cyan-500", tier: 2 },
   ];
 
   return (
@@ -83,29 +137,6 @@ const About = () => {
           className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-secondary/10 rounded-full blur-3xl blob"
           style={{ y: useTransform(smoothProgress, [0, 1], [-100, 100]) }}
         />
-        {/* Floating particles */}
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-primary/30 rounded-full"
-            style={{
-              left: `${10 + Math.random() * 80}%`,
-              top: `${10 + Math.random() * 80}%`,
-            }}
-            animate={{
-              y: [-30, 30, -30],
-              x: [-20, 20, -20],
-              scale: [1, 1.5, 1],
-              opacity: [0.2, 0.6, 0.2],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-              ease: [0.65, 0, 0.35, 1],
-            }}
-          />
-        ))}
       </div>
 
       <motion.div 
@@ -115,96 +146,155 @@ const About = () => {
       >
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Skills galaxy visual */}
+            {/* Skills Universe - 3D Sphere Effect */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.5 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="relative"
             >
-              {/* Glowing background */}
+              {/* Outer glow rings */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-secondary/20 rounded-3xl blur-2xl"
-                animate={{ opacity: [0.3, 0.5, 0.3] }}
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: "radial-gradient(circle at center, hsl(var(--primary) / 0.3) 0%, transparent 70%)",
+                }}
+                animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
                 transition={{ duration: 4, repeat: Infinity }}
               />
               
-              {/* Skills grid container */}
-              <div className="relative glass rounded-3xl p-6 overflow-hidden">
-                {/* Animated border glow */}
+              {/* Skills sphere container */}
+              <div className="relative aspect-square max-w-lg mx-auto">
+                {/* Center core */}
                 <motion.div
-                  className="absolute inset-0 rounded-3xl"
-                  style={{
-                    background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent)",
-                    backgroundSize: "200% 100%",
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-primary via-purple-500 to-pink-500 z-20"
+                  animate={{ 
+                    boxShadow: [
+                      "0 0 60px 20px hsl(var(--primary) / 0.4)",
+                      "0 0 80px 30px hsl(var(--primary) / 0.6)",
+                      "0 0 60px 20px hsl(var(--primary) / 0.4)",
+                    ]
                   }}
-                  animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-3xl font-display font-bold text-white">80+</span>
+                  </div>
+                </motion.div>
+
+                {/* Rotating ring 1 */}
+                <motion.div
+                  className="absolute inset-8 rounded-full border border-primary/20"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                />
+                
+                {/* Rotating ring 2 */}
+                <motion.div
+                  className="absolute inset-16 rounded-full border border-secondary/20"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
                 />
 
-                {/* Skills flowing grid */}
-                <div className="relative flex flex-wrap gap-2 justify-center items-center min-h-[350px]">
-                  {skillKeywords.map((skill, i) => (
+                {/* Rotating ring 3 */}
+                <motion.div
+                  className="absolute inset-4 rounded-full border border-primary/10"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                />
+
+                {/* Skills orbiting in 3D space */}
+                {skillKeywords.map((skill, i) => {
+                  const totalSkills = skillKeywords.length;
+                  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+                  const theta = goldenAngle * i;
+                  const phi = Math.acos(1 - (2 * (i + 0.5)) / totalSkills);
+                  
+                  const baseRadius = skill.tier === 1 ? 180 : skill.tier === 2 ? 150 : 120;
+                  const x = Math.sin(phi) * Math.cos(theta) * baseRadius;
+                  const y = Math.sin(phi) * Math.sin(theta) * baseRadius;
+                  const z = Math.cos(phi) * baseRadius;
+                  
+                  const scale = (z + baseRadius) / (2 * baseRadius) * 0.5 + 0.5;
+                  const opacity = scale * 0.6 + 0.4;
+
+                  return (
                     <motion.div
                       key={skill.name}
-                      initial={{ opacity: 0, scale: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+                      className="absolute top-1/2 left-1/2"
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={isInView ? { 
+                        opacity: opacity, 
+                        scale: scale,
+                        x: x,
+                        y: y,
+                      } : {}}
                       transition={{ 
-                        delay: 0.3 + i * 0.04, 
+                        delay: 0.2 + i * 0.02, 
                         type: "spring", 
-                        stiffness: 200,
+                        stiffness: 100,
                         damping: 15 
                       }}
-                      whileHover={{ 
-                        scale: 1.2, 
-                        zIndex: 50,
-                        y: -5,
-                      }}
-                      className="relative group"
+                      style={{ zIndex: Math.round(z + baseRadius) }}
                     >
                       <motion.div
                         animate={{
-                          y: [0, (i % 2 === 0 ? -4 : 4), 0],
+                          x: [0, Math.sin(i) * 3, 0],
+                          y: [0, Math.cos(i) * 3, 0],
                         }}
                         transition={{ 
-                          duration: 2 + (i % 3), 
+                          duration: 4 + (i % 3), 
                           repeat: Infinity, 
                           ease: "easeInOut",
-                          delay: i * 0.1
                         }}
-                        className={`px-3 py-1.5 rounded-full cursor-pointer bg-gradient-to-r ${skill.color} shadow-lg hover:shadow-xl transition-shadow`}
+                        whileHover={{ 
+                          scale: 1.5, 
+                          zIndex: 100,
+                          opacity: 1,
+                        }}
+                        className={`px-2 py-1 rounded-full cursor-pointer bg-gradient-to-r ${skill.color} shadow-lg backdrop-blur-sm border border-white/10`}
+                        style={{
+                          fontSize: skill.tier === 1 ? "0.75rem" : skill.tier === 2 ? "0.65rem" : "0.6rem",
+                        }}
                       >
-                        <span className="text-white font-display font-medium text-xs sm:text-sm whitespace-nowrap">
+                        <span className="text-white font-display font-semibold whitespace-nowrap">
                           {skill.name}
                         </span>
                       </motion.div>
-                      
-                      {/* Glow effect on hover */}
-                      <motion.div
-                        className={`absolute inset-0 rounded-full bg-gradient-to-r ${skill.color} blur-md opacity-0 group-hover:opacity-50 -z-10 transition-opacity`}
-                      />
                     </motion.div>
-                  ))}
-                </div>
+                  );
+                })}
 
-                {/* Corner decorations */}
-                <div className="absolute top-2 left-2 w-8 h-8 border-l-2 border-t-2 border-primary/30 rounded-tl-lg" />
-                <div className="absolute top-2 right-2 w-8 h-8 border-r-2 border-t-2 border-primary/30 rounded-tr-lg" />
-                <div className="absolute bottom-2 left-2 w-8 h-8 border-l-2 border-b-2 border-primary/30 rounded-bl-lg" />
-                <div className="absolute bottom-2 right-2 w-8 h-8 border-r-2 border-b-2 border-primary/30 rounded-br-lg" />
+                {/* Particle effects */}
+                {[...Array(20)].map((_, i) => (
+                  <motion.div
+                    key={`particle-${i}`}
+                    className="absolute top-1/2 left-1/2 w-1 h-1 bg-primary/60 rounded-full"
+                    animate={{
+                      x: [0, Math.cos(i * 0.5) * 200, 0],
+                      y: [0, Math.sin(i * 0.5) * 200, 0],
+                      opacity: [0, 1, 0],
+                      scale: [0, 1.5, 0],
+                    }}
+                    transition={{
+                      duration: 4 + i * 0.2,
+                      repeat: Infinity,
+                      delay: i * 0.3,
+                      ease: "easeOut",
+                    }}
+                  />
+                ))}
               </div>
 
-              {/* Floating accent elements */}
+              {/* Label */}
               <motion.div
-                className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-primary/30 to-transparent rounded-full blur-xl"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
-              <motion.div
-                className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-secondary/30 to-transparent rounded-full blur-xl"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 1.5 }}
+                className="text-center mt-4"
+              >
+                <span className="text-sm text-muted-foreground font-display">Skills Universe</span>
+              </motion.div>
             </motion.div>
 
             {/* Content side */}
