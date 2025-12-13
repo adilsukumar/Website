@@ -10,12 +10,7 @@ const Hero = () => {
   const scale = useTransform(smoothProgress, [0, 0.5], [1, 0.8]);
   const name = "Adil Sukumar";
 
-  const subtitleLines = [
-    "Founder & CEO @Spendture",
-    "AI & Bioinformatics Student at VIT",
-    "Data Science Student at IIT Madras",
-    "Building at the edge of science, tech & psychology"
-  ];
+  const subtitle = "Founder @Spendture | AI & Bioinformatics @ VIT | Data Science @ IIT Madras";
 
   const socials = [
     { icon: Github, href: "https://github.com/adilsukumar", label: "GitHub" },
@@ -58,13 +53,9 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.8 }} className="text-sm sm:text-base text-muted-foreground max-w-2xl mb-12 space-y-1">
-            {subtitleLines.map((line, i) => (
-              <motion.p key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 + i * 0.1, duration: 0.5 }}>
-                {i === subtitleLines.length - 1 ? <span className="text-primary">{line}</span> : line}
-              </motion.p>
-            ))}
-          </motion.div>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.8 }} className="text-base sm:text-lg text-muted-foreground max-w-2xl mb-12">
+            {subtitle}
+          </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1.4, ease: [0.16, 1, 0.3, 1] }} className="flex flex-wrap gap-4 mb-16">
             <motion.a href="#projects" className="group relative px-8 py-4 bg-gradient-animated text-primary-foreground font-display font-semibold rounded-xl overflow-hidden glow-intense border-gradient-animated" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
