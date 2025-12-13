@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, Suspense } from "react";
+import SkillsSphere from "./SkillsSphere";
 
 const About = () => {
   const ref = useRef(null);
@@ -150,84 +151,20 @@ const About = () => {
 
       <motion.div className="container mx-auto px-6" ref={ref}>
         <div className="max-w-6xl mx-auto">
-          {/* Animated Skills Orbit */}
+          {/* 3D Skills Planet Sphere */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.8 }}
-            className="mb-16 relative"
+            className="mb-8"
           >
-            <div className="text-center mb-6">
-              <motion.span 
-                className="text-6xl sm:text-7xl font-display font-bold text-gradient inline-block"
-                animate={{ scale: [1, 1.02, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                90+
-              </motion.span>
-              <p className="text-muted-foreground mt-2">Skills in my arsenal</p>
-            </div>
-            
-            {/* Orbiting rings */}
-            <div className="relative h-48 sm:h-64 overflow-hidden">
-              {/* Ring 1 - Outer */}
-              <motion.div 
-                className="absolute inset-0 flex items-center"
-                animate={{ x: ["-50%", "0%"] }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="flex gap-4 whitespace-nowrap">
-                  {[...skillRows[0], ...skillRows[1], ...skillRows[0], ...skillRows[1]].map((skill, i) => (
-                    <span
-                      key={`r1-${i}`}
-                      className={`px-4 py-2 rounded-full bg-gradient-to-r ${skill.color} text-xs font-medium text-white shadow-lg`}
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-              
-              {/* Ring 2 - Middle (reverse) */}
-              <motion.div 
-                className="absolute inset-0 flex items-center mt-16"
-                animate={{ x: ["0%", "-50%"] }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="flex gap-4 whitespace-nowrap">
-                  {[...skillRows[2], ...skillRows[3], ...skillRows[2], ...skillRows[3]].map((skill, i) => (
-                    <span
-                      key={`r2-${i}`}
-                      className={`px-4 py-2 rounded-full bg-gradient-to-r ${skill.color} text-xs font-medium text-white shadow-lg opacity-80`}
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-              
-              {/* Ring 3 - Inner */}
-              <motion.div 
-                className="absolute inset-0 flex items-center mt-32"
-                animate={{ x: ["-25%", "25%", "-25%"] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="flex gap-4 whitespace-nowrap">
-                  {[...skillRows[4], ...skillRows[5], ...skillRows[4], ...skillRows[5]].map((skill, i) => (
-                    <span
-                      key={`r3-${i}`}
-                      className={`px-4 py-2 rounded-full bg-gradient-to-r ${skill.color} text-xs font-medium text-white shadow-lg opacity-60`}
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-              
-              {/* Gradient fade edges */}
-              <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-              <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-            </div>
+            <Suspense fallback={
+              <div className="h-[400px] flex items-center justify-center">
+                <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
+              </div>
+            }>
+              <SkillsSphere />
+            </Suspense>
           </motion.div>
 
           {/* Section Header */}
