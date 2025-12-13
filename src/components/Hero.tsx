@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Twitter, Sparkles } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Sparkles } from "lucide-react";
 import { useRef } from "react";
 
 const Hero = () => {
@@ -9,34 +9,12 @@ const Hero = () => {
     offset: ["start start", "end start"],
   });
 
-  // Smoother spring-based transforms
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
   const y = useTransform(smoothProgress, [0, 1], [0, 300]);
   const opacity = useTransform(smoothProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(smoothProgress, [0, 0.5], [1, 0.8]);
 
-  const name = "Alex Chen";
-
-  // Smooth spring config for animations
-  const springConfig = { stiffness: 100, damping: 15, mass: 1 };
-  const gentleSpring = { type: "spring", stiffness: 50, damping: 20 };
-
-  // Generate stars positions
-  const stars = [...Array(80)].map((_, i) => ({
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: 1 + Math.random() * 3,
-    delay: Math.random() * 5,
-    duration: 2 + Math.random() * 3,
-  }));
-
-  // Generate constellation lines
-  const constellationPoints = [
-    { x: 15, y: 20 }, { x: 25, y: 15 }, { x: 35, y: 25 }, { x: 30, y: 35 },
-    { x: 65, y: 18 }, { x: 75, y: 22 }, { x: 80, y: 30 }, { x: 72, y: 38 },
-    { x: 20, y: 70 }, { x: 30, y: 75 }, { x: 40, y: 68 }, { x: 35, y: 80 },
-    { x: 70, y: 65 }, { x: 82, y: 70 }, { x: 78, y: 80 }, { x: 85, y: 85 },
-  ];
+  const name = "Adil Sukumar";
 
   return (
     <section
@@ -49,7 +27,7 @@ const Hero = () => {
         style={{ opacity, scale }}
       >
         <div className="max-w-5xl mx-auto">
-          {/* Status badge with smooth bounce */}
+          {/* Status badge */}
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -70,11 +48,11 @@ const Hero = () => {
               transition={{ duration: 3, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
             >
               <Sparkles className="w-3 h-3" />
-              Available for projects
+              Open to Opportunities
             </motion.span>
           </motion.div>
 
-          {/* Main heading with smooth letter animation */}
+          {/* Main heading */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -114,14 +92,14 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* Subtitle with smooth word reveal */}
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
             className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-12"
           >
-            {"Creative developer crafting exceptional digital experiences. I turn complex ideas into elegant, performant solutions."
+            {"Founder & CEO @Spendture | AI & Bioinformatics Student at VIT | Building at the intersection of science, technology, and human behavior."
               .split(" ")
               .map((word, i) => (
                 <motion.span
@@ -140,7 +118,7 @@ const Hero = () => {
               ))}
           </motion.p>
 
-          {/* CTA buttons with magnetic effect */}
+          {/* CTA buttons */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -175,7 +153,7 @@ const Hero = () => {
             </motion.a>
           </motion.div>
 
-          {/* Social links with smooth stagger */}
+          {/* Social links */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -183,13 +161,15 @@ const Hero = () => {
             className="flex items-center gap-6"
           >
             {[
-              { icon: Github, href: "#", label: "GitHub" },
-              { icon: Twitter, href: "#", label: "Twitter" },
-              { icon: Linkedin, href: "#", label: "LinkedIn" },
+              { icon: Github, href: "https://github.com/adilsukumar", label: "GitHub" },
+              { icon: Linkedin, href: "https://linkedin.com/in/adilsukumar", label: "LinkedIn" },
+              { icon: Mail, href: "mailto:adilsukumar24@gmail.com", label: "Email" },
             ].map(({ icon: Icon, href, label }, i) => (
               <motion.a
                 key={label}
                 href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                 aria-label={label}
                 initial={{ opacity: 0, y: 30, scale: 0.5 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -213,7 +193,7 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      {/* Scroll indicator with smooth pulse */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

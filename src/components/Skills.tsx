@@ -3,11 +3,11 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import {
   Code2,
-  Palette,
-  Zap,
-  Globe,
-  Database,
-  Smartphone,
+  Brain,
+  TrendingUp,
+  Dna,
+  Bot,
+  Users,
 } from "lucide-react";
 
 const Skills = () => {
@@ -29,51 +29,51 @@ const Skills = () => {
   const skills = [
     {
       icon: Code2,
-      title: "Frontend Development",
-      description: "Building responsive, performant interfaces with React, Next.js, and modern CSS.",
-      technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+      title: "Full-Stack Development",
+      description: "Building web applications with React, TypeScript, Node.js, and modern frameworks.",
+      technologies: ["React", "TypeScript", "Node.js", "Python"],
       color: "from-cyan-500 to-blue-500",
-      emoji: "⚛️",
+      emoji: "💻",
     },
     {
-      icon: Database,
-      title: "Backend Development",
-      description: "Creating scalable APIs and services with Node.js, Python, and cloud platforms.",
-      technologies: ["Node.js", "Python", "PostgreSQL", "AWS"],
-      color: "from-green-500 to-emerald-500",
-      emoji: "🗄️",
-    },
-    {
-      icon: Palette,
-      title: "UI/UX Design",
-      description: "Crafting intuitive, beautiful interfaces that users love to interact with.",
-      technologies: ["Figma", "Adobe XD", "Framer", "Prototyping"],
+      icon: Brain,
+      title: "AI & Machine Learning",
+      description: "Developing intelligent systems with deep learning, NLP, and neural networks.",
+      technologies: ["TensorFlow", "Deep Learning", "NLP", "Gen AI"],
       color: "from-purple-500 to-pink-500",
-      emoji: "🎨",
+      emoji: "🧠",
     },
     {
-      icon: Smartphone,
-      title: "Mobile Development",
-      description: "Building cross-platform mobile applications with React Native.",
-      technologies: ["React Native", "Expo", "iOS", "Android"],
+      icon: TrendingUp,
+      title: "Algorithmic Trading",
+      description: "Building automated trading bots with PineScript, technical analysis, and risk management.",
+      technologies: ["PineScript", "Python", "APIs", "Technical Analysis"],
+      color: "from-green-500 to-emerald-500",
+      emoji: "📈",
+    },
+    {
+      icon: Dna,
+      title: "Bioinformatics",
+      description: "Applying computational methods to genomic analysis and biological data.",
+      technologies: ["Genomics", "NGS Analysis", "Molecular Modeling", "Data Analytics"],
       color: "from-orange-500 to-red-500",
-      emoji: "📱",
+      emoji: "🧬",
     },
     {
-      icon: Zap,
-      title: "Performance",
-      description: "Optimizing for speed, accessibility, and exceptional user experiences.",
-      technologies: ["Lighthouse", "Web Vitals", "SEO", "A11y"],
+      icon: Bot,
+      title: "Automation & Robotics",
+      description: "Creating voice assistants, IoT systems, and embedded automation solutions.",
+      technologies: ["Arduino", "IoT", "Voice AI", "Embedded Systems"],
       color: "from-yellow-500 to-orange-500",
-      emoji: "⚡",
+      emoji: "🤖",
     },
     {
-      icon: Globe,
-      title: "DevOps & Cloud",
-      description: "Deploying and managing applications at scale with modern infrastructure.",
-      technologies: ["Docker", "Kubernetes", "CI/CD", "Vercel"],
+      icon: Users,
+      title: "Leadership & Strategy",
+      description: "Leading teams, managing events, and driving organizational growth.",
+      technologies: ["Team Leadership", "Event Management", "Public Speaking", "Strategy"],
       color: "from-indigo-500 to-purple-500",
-      emoji: "☁️",
+      emoji: "🎯",
     },
   ];
 
@@ -133,7 +133,7 @@ const Skills = () => {
         style={{ opacity: sectionOpacity }}
       >
         <div className="max-w-6xl mx-auto">
-          {/* Section header with intense animation */}
+          {/* Section header */}
           <motion.div
             initial={{ opacity: 0, y: 80 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -187,11 +187,11 @@ const Skills = () => {
               transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-lg max-w-2xl mx-auto"
             >
-              I specialize in building complete digital products, from concept to deployment.
+              From AI to FinTech, I specialize in building innovative solutions across multiple domains.
             </motion.p>
           </motion.div>
 
-          {/* Skills grid with stagger */}
+          {/* Skills grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {skills.map((skill, index) => (
               <motion.div
@@ -220,7 +220,7 @@ const Skills = () => {
                   transition={{ duration: 0.3 }}
                 />
 
-                {/* Icon with rotation */}
+                {/* Icon */}
                 <motion.div
                   className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-r ${skill.color} relative overflow-hidden`}
                   initial={{ scale: 0, rotate: -180 }}

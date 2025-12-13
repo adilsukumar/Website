@@ -22,44 +22,64 @@ const Projects = () => {
 
   const projects = [
     {
-      title: "Nova Dashboard",
-      description: "A comprehensive analytics dashboard with real-time data visualization, built for enterprise clients.",
-      image: "🚀",
-      tags: ["React", "D3.js", "Node.js", "PostgreSQL"],
+      title: "Spendture",
+      description: "A next-generation FinTech platform combining AI, behavioral psychology, and emotional design to foster healthier financial habits. Features smart reminders, psychological cues, and financial journaling.",
+      image: "💰",
+      tags: ["Python", "AI/ML", "FinTech", "Product Development"],
       liveUrl: "#",
       githubUrl: "#",
       featured: true,
-      gradient: "from-cyan-500 via-blue-500 to-purple-500",
+      gradient: "from-green-500 via-emerald-500 to-teal-500",
     },
     {
-      title: "Velocity",
-      description: "High-performance e-commerce platform with AI-powered recommendations and seamless checkout.",
-      image: "⚡",
-      tags: ["Next.js", "Stripe", "Prisma", "Tailwind"],
+      title: "CyberSHE",
+      description: "A women-centric digital safety platform built during WiCyS Hackathon. Features AI-powered harassment detection, privacy audits, encrypted messaging, and emergency helpline access.",
+      image: "🛡️",
+      tags: ["React", "TypeScript", "Node.js", "AI", "Cybersecurity"],
       liveUrl: "#",
-      githubUrl: "#",
+      githubUrl: "https://github.com/adilsukumar/CyberSHE_WiCyS_Hackathon_.Saras-Hack-Squad",
       featured: true,
-      gradient: "from-orange-500 via-pink-500 to-purple-500",
+      gradient: "from-purple-500 via-pink-500 to-rose-500",
     },
     {
-      title: "Mindful",
-      description: "Mental wellness app with guided meditations, mood tracking, and personalized insights.",
-      image: "🧘",
-      tags: ["React Native", "Firebase", "TensorFlow"],
-      liveUrl: "#",
-      githubUrl: "#",
-      featured: false,
-      gradient: "from-green-500 to-teal-500",
-    },
-    {
-      title: "CodeCollab",
-      description: "Real-time collaborative code editor with video chat and integrated AI assistant.",
-      image: "👥",
-      tags: ["WebRTC", "Socket.io", "Monaco Editor"],
+      title: "Algorithmic Trading Bots",
+      description: "Python-based trading bots with real-time market APIs, technical indicator analysis, and automated buy/sell execution. Integrated ML for prediction accuracy.",
+      image: "📊",
+      tags: ["Python", "PineScript", "APIs", "Trading"],
       liveUrl: "#",
       githubUrl: "#",
       featured: false,
       gradient: "from-blue-500 to-indigo-500",
+    },
+    {
+      title: "Voice-Activated AI Assistant",
+      description: "Advanced Python-based voice assistant with speech-to-text, desktop automation, email handling, reminders, and GPT-powered chatbot fallback.",
+      image: "🎤",
+      tags: ["Python", "NLP", "Voice AI", "Automation"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: false,
+      gradient: "from-cyan-500 to-blue-500",
+    },
+    {
+      title: "Smart Home Automation",
+      description: "Bluetooth-controlled home automation using Arduino and relay modules. Remote control of lights, fans, and appliances via custom mobile app.",
+      image: "🏠",
+      tags: ["Arduino", "IoT", "Bluetooth", "Mobile App"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: false,
+      gradient: "from-orange-500 to-red-500",
+    },
+    {
+      title: "Game Development Project",
+      description: "Custom 2D game with original mechanics, sound design, storytelling, and real-time difficulty scaling. Won 1st place among 100+ schools.",
+      image: "🎮",
+      tags: ["Python", "Game Design", "Sound Design", "UI/UX"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: false,
+      gradient: "from-yellow-500 to-orange-500",
     },
   ];
 
@@ -69,7 +89,7 @@ const Projects = () => {
       className="py-32 relative noise spotlight overflow-hidden"
       ref={containerRef}
     >
-      {/* Intense animated background */}
+      {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-0 left-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl blob"
@@ -187,7 +207,7 @@ const Projects = () => {
               transition={{ delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-lg max-w-2xl mx-auto"
             >
-              A selection of projects I've worked on, from concept to completion.
+              A selection of projects I've built, from FinTech platforms to AI assistants.
             </motion.p>
           </motion.div>
 
@@ -247,7 +267,7 @@ const Projects = () => {
                         transition={{ duration: 6, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
                       />
                       
-                      {/* Emoji with intense animation */}
+                      {/* Emoji */}
                       <motion.span
                         className="text-8xl relative z-10"
                         animate={{
@@ -280,10 +300,12 @@ const Projects = () => {
                             className="px-5 py-2.5 bg-gradient text-primary-foreground rounded-xl font-medium flex items-center gap-2 glow"
                           >
                             <ExternalLink className="w-4 h-4" />
-                            Live Demo
+                            View Project
                           </motion.a>
                           <motion.a
                             href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             whileHover={{ scale: 1.1, y: -3 }}
                             whileTap={{ scale: 0.95 }}
                             className="px-5 py-2.5 glass text-foreground rounded-xl font-medium flex items-center gap-2"
@@ -315,7 +337,7 @@ const Projects = () => {
                         {project.description}
                       </motion.p>
 
-                      {/* Tags with stagger */}
+                      {/* Tags */}
                       <div className="flex flex-wrap gap-2 mb-6">
                         {project.tags.map((tag, tagIndex) => (
                           <motion.span
@@ -353,7 +375,7 @@ const Projects = () => {
                           whileHover={{ x: 5 }}
                         >
                           <ExternalLink className="w-4 h-4" />
-                          <span className="font-display font-medium">Live Demo</span>
+                          <span className="font-display font-medium">View Project</span>
                           <motion.div
                             initial={{ x: -5, opacity: 0 }}
                             whileHover={{ x: 0, opacity: 1 }}
@@ -363,6 +385,8 @@ const Projects = () => {
                         </motion.a>
                         <motion.a
                           href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-smooth"
                           whileHover={{ x: 5 }}
                         >
@@ -408,62 +432,58 @@ const Projects = () => {
                     className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
                   />
 
-                  <div className="flex items-start gap-4 mb-4 relative z-10">
+                  <div className="relative z-10">
+                    {/* Emoji header */}
                     <motion.div
-                      className={`w-16 h-16 rounded-xl flex items-center justify-center text-4xl flex-shrink-0 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}
-                      whileHover={{ rotate: 360, scale: 1.15 }}
-                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                      className="text-5xl mb-4"
+                      whileHover={{
+                        rotate: [0, -10, 10, 0],
+                        scale: [1, 1.2, 1],
+                        transition: { duration: 0.5 },
+                      }}
                     >
-                      <motion.div
-                        className="absolute inset-0 bg-white/20"
-                        initial={{ x: "-100%" }}
-                        whileHover={{ x: "100%" }}
-                        transition={{ duration: 0.5 }}
-                      />
-                      <span className="relative z-10">{project.image}</span>
+                      {project.image}
                     </motion.div>
-                    <div>
-                      <motion.h3 
-                        className="font-display text-xl font-semibold group-hover:holographic transition-smooth"
-                      >
-                        {project.title}
-                      </motion.h3>
-                      <p className="text-muted-foreground text-sm mt-1">
-                        {project.description}
-                      </p>
+
+                    <h3 className="font-display text-xl font-bold mb-2 group-hover:text-gradient transition-smooth">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-muted-foreground text-sm mb-4">
+                      {project.description}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 bg-muted text-xs text-muted-foreground rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </div>
-                  </div>
 
-                  <div className="flex flex-wrap gap-2 mb-4 relative z-10">
-                    {project.tags.map((tag, tagIndex) => (
-                      <motion.span
-                        key={tag}
-                        initial={{ opacity: 0 }}
-                        animate={isInView ? { opacity: 1 } : {}}
-                        transition={{ delay: 2.3 + index * 0.1 + tagIndex * 0.05 }}
-                        whileHover={{ scale: 1.1, y: -2 }}
-                        className="px-3 py-1 bg-muted text-xs text-muted-foreground rounded-full transition-smooth"
+                    {/* Links */}
+                    <div className="flex gap-4">
+                      <motion.a
+                        href={project.githubUrl}
+                        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-smooth"
+                        whileHover={{ x: 3 }}
                       >
-                        {tag}
-                      </motion.span>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-4 relative z-10">
-                    <motion.a
-                      href={project.liveUrl}
-                      className="text-primary hover:text-primary/80 transition-smooth"
-                      whileHover={{ scale: 1.3, rotate: 15, y: -3 }}
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                    </motion.a>
-                    <motion.a
-                      href={project.githubUrl}
-                      className="text-muted-foreground hover:text-foreground transition-smooth"
-                      whileHover={{ scale: 1.3, rotate: -15, y: -3 }}
-                    >
-                      <Github className="w-5 h-5" />
-                    </motion.a>
+                        <Github className="w-4 h-4" />
+                        Code
+                      </motion.a>
+                      <motion.a
+                        href={project.liveUrl}
+                        className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-smooth"
+                        whileHover={{ x: 3 }}
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        View
+                      </motion.a>
+                    </div>
                   </div>
                 </motion.div>
               ))}

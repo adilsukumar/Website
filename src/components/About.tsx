@@ -19,16 +19,16 @@ const About = () => {
   const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
 
   const stats = [
-    { value: "5+", label: "Years Experience", emoji: "🚀" },
-    { value: "50+", label: "Projects Completed", emoji: "💼" },
-    { value: "30+", label: "Happy Clients", emoji: "😊" },
+    { value: "5+", label: "Leadership Roles", emoji: "🎯" },
+    { value: "10+", label: "Projects Built", emoji: "💼" },
+    { value: "6", label: "Languages Spoken", emoji: "🌍" },
   ];
 
   const techBadges = [
-    { name: "React", color: "from-cyan-400 to-blue-500", position: "-top-4 -right-4", delay: 0.5 },
-    { name: "TypeScript", color: "from-blue-500 to-indigo-600", position: "-bottom-4 -left-4", delay: 0.7 },
-    { name: "Next.js", color: "from-gray-600 to-gray-800", position: "top-1/2 -right-8", delay: 0.9 },
-    { name: "Node.js", color: "from-green-500 to-emerald-600", position: "-top-4 left-1/4", delay: 1.1 },
+    { name: "Python", color: "from-yellow-500 to-blue-500", position: "-top-4 -right-4", delay: 0.5 },
+    { name: "AI/ML", color: "from-purple-500 to-pink-600", position: "-bottom-4 -left-4", delay: 0.7 },
+    { name: "FinTech", color: "from-green-500 to-emerald-600", position: "top-1/2 -right-8", delay: 0.9 },
+    { name: "Bioinformatics", color: "from-cyan-500 to-blue-600", position: "-top-4 left-1/4", delay: 1.1 },
   ];
 
   return (
@@ -124,7 +124,7 @@ const About = () => {
                       }}
                       transition={{ duration: 4, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
                     >
-                      👨‍💻
+                      🚀
                     </motion.span>
                   </div>
                 </motion.div>
@@ -184,24 +184,13 @@ const About = () => {
                 >
                   future
                 </motion.span>
-                {" of the web".split("").map((char, i) => (
-                  <motion.span
-                    key={`end-${i}`}
-                    initial={{ opacity: 0, y: 60, rotateX: -90 }}
-                    animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-                    transition={{ delay: 0.9 + i * 0.03, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="inline-block"
-                  >
-                    {char === " " ? "\u00A0" : char}
-                  </motion.span>
-                ))}
               </motion.h2>
 
               {/* Description with word reveal */}
               <motion.div className="space-y-4 text-muted-foreground text-lg mb-10">
                 {[
-                  "I'm a passionate full-stack developer with a keen eye for design and a love for creating seamless user experiences. My journey in tech started over 5 years ago, and I've been hooked ever since.",
-                  "When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community."
+                  "Driven by a deep curiosity, I build at the intersection of science, technology, and human behavior, creating innovative solutions with tangible impact. Currently developing a next-gen FinTech platform that blends AI, behavioral psychology, and emotional design.",
+                  "My journey spans algorithmic trading bots, AI assistants, game development, and robotics. I've earned national-level Olympiad medals and the Young Robotic Scientist Award. I thrive on learning, experimenting, and turning ideas into real-world solutions."
                 ].map((paragraph, pIndex) => (
                   <motion.p key={pIndex}>
                     {paragraph.split(" ").map((word, wIndex) => (
@@ -223,7 +212,7 @@ const About = () => {
                 ))}
               </motion.div>
 
-              {/* Stats with counter animation */}
+              {/* Stats */}
               <div className="grid grid-cols-3 gap-6">
                 {stats.map((stat, index) => (
                   <motion.div
