@@ -1,7 +1,5 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Text, Float, OrbitControls } from "@react-three/drei";
-import { useRef, useMemo } from "react";
-import * as THREE from "three";
+import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const skills = [
   "Python", "React", "AI/ML", "TensorFlow", "Data Science", "JavaScript",
@@ -11,132 +9,109 @@ const skills = [
   "Flask", "Django", "C++", "Git", "Linux", "APIs"
 ];
 
-function SkillText({ text, position, color }: { text: string; position: [number, number, number]; color: string }) {
-  const ref = useRef<THREE.Mesh>(null);
-  
-  useFrame(({ camera }) => {
-    if (ref.current) {
-      ref.current.lookAt(camera.position);
-    }
-  });
+const colors = ["#f472b6", "#a78bfa", "#60a5fa", "#34d399", "#fbbf24", "#f87171"];
 
-  return (
-    <Float speed={2} rotationIntensity={0} floatIntensity={0.5}>
-      <Text
-        ref={ref}
-        position={position}
-        fontSize={0.15}
-        color={color}
-        anchorX="center"
-        anchorY="middle"
-        font="/fonts/inter.woff"
-      >
-        {text}
-      </Text>
-    </Float>
-  );
-}
-
-function GlowingSphere() {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.1;
-    }
-  });
-
-  return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[1.2, 64, 64]} />
-      <meshStandardMaterial
-        color="#6366f1"
-        emissive="#4f46e5"
-        emissiveIntensity={0.3}
-        transparent
-        opacity={0.8}
-        wireframe
-      />
-    </mesh>
-  );
-}
-
-function OrbitingSkills() {
-  const groupRef = useRef<THREE.Group>(null);
-  
-  const skillPositions = useMemo(() => {
-    return skills.map((_, i) => {
-      const phi = Math.acos(-1 + (2 * i) / skills.length);
-      const theta = Math.sqrt(skills.length * Math.PI) * phi;
-      const radius = 2.2 + Math.random() * 0.5;
-      return [
-        radius * Math.cos(theta) * Math.sin(phi),
-        radius * Math.sin(theta) * Math.sin(phi),
-        radius * Math.cos(phi)
-      ] as [number, number, number];
-    });
-  }, []);
-
-  const colors = ["#f472b6", "#a78bfa", "#60a5fa", "#34d399", "#fbbf24", "#f87171"];
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-      groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.03) * 0.1;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {skills.map((skill, i) => (
-        <SkillText
-          key={skill}
-          text={skill}
-          position={skillPositions[i]}
-          color={colors[i % colors.length]}
-        />
-      ))}
-    </group>
-  );
-}
-
-function Scene() {
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#a78bfa" />
-      <GlowingSphere />
-      <OrbitingSkills />
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        autoRotate
-        autoRotateSpeed={0.5}
-        minPolarAngle={Math.PI / 3}
-        maxPolarAngle={Math.PI / 1.5}
-      />
-    </>
-  );
+interface SkillPosition {
+  x: number;
+  y: number;
+  z: number;
+  skill: string;
+  color: string;
 }
 
 const SkillsSphere = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [positions, setPositions] = useState<SkillPosition[]>([]);
+  const [rotation, setRotation] = useState(0);
+
+  useEffect(() => {
+    // Calculate initial positions on a sphere
+    const newPositions = skills.map((skill, i) => {
+      const phi = Math.acos(-1 + (2 * i) / skills.length);
+      const theta = Math.sqrt(skills.length * Math.PI) * phi;
+      return {
+        x: Math.cos(theta) * Math.sin(phi),
+        y: Math.sin(theta) * Math.sin(phi),
+        z: Math.cos(phi),
+        skill,
+        color: colors[i % colors.length]
+      };
+    });
+    setPositions(newPositions);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotation(prev => prev + 0.005);
+    }, 16);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getTransformedPosition = (pos: SkillPosition) => {
+    // Rotate around Y axis
+    const cosR = Math.cos(rotation);
+    const sinR = Math.sin(rotation);
+    const x = pos.x * cosR - pos.z * sinR;
+    const z = pos.x * sinR + pos.z * cosR;
+    
+    // Project to 2D with perspective
+    const scale = 1 / (2 - z);
+    const screenX = x * scale * 120;
+    const screenY = pos.y * scale * 120;
+    const opacity = (z + 1) / 2 * 0.8 + 0.2;
+    const zIndex = Math.round((z + 1) * 10);
+    const fontSize = 10 + (z + 1) * 3;
+    
+    return { screenX, screenY, opacity, zIndex, fontSize };
+  };
+
   return (
-    <div className="relative w-full h-[400px] sm:h-[500px]">
-      <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-        <Scene />
-      </Canvas>
+    <div className="relative w-full h-[400px] sm:h-[450px] flex items-center justify-center overflow-hidden">
+      {/* Glowing center orb */}
+      <motion.div 
+        className="absolute w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br from-primary/30 via-purple-500/20 to-pink-500/30 blur-xl"
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.5, 0.8, 0.5]
+        }}
+        transition={{ duration: 3, repeat: Infinity }}
+      />
       
-      {/* Center text overlay */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="text-center">
-          <span className="text-5xl sm:text-6xl font-display font-bold text-gradient">90+</span>
-          <p className="text-sm text-muted-foreground mt-1">Skills</p>
-        </div>
+      {/* Wireframe sphere effect */}
+      <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-primary/20" />
+      <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-primary/10 rotate-45" />
+      <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-primary/10 -rotate-45" />
+      
+      {/* Orbiting skills */}
+      <div ref={containerRef} className="relative w-[300px] h-[300px] sm:w-[350px] sm:h-[350px]">
+        {positions.map((pos, i) => {
+          const { screenX, screenY, opacity, zIndex, fontSize } = getTransformedPosition(pos);
+          return (
+            <motion.span
+              key={pos.skill}
+              className="absolute left-1/2 top-1/2 whitespace-nowrap font-medium transition-all duration-75"
+              style={{
+                transform: `translate(calc(-50% + ${screenX}px), calc(-50% + ${screenY}px))`,
+                opacity,
+                zIndex,
+                fontSize: `${fontSize}px`,
+                color: pos.color,
+                textShadow: `0 0 10px ${pos.color}40`
+              }}
+            >
+              {pos.skill}
+            </motion.span>
+          );
+        })}
       </div>
       
-      {/* Gradient overlay for blending */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-background via-transparent to-background/50" />
+      {/* Center text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="text-center bg-background/80 backdrop-blur-sm rounded-full px-6 py-4">
+          <span className="text-4xl sm:text-5xl font-display font-bold text-gradient">90+</span>
+          <p className="text-xs text-muted-foreground mt-1">Skills</p>
+        </div>
+      </div>
     </div>
   );
 };
