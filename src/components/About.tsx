@@ -25,30 +25,50 @@ const About = () => {
   ];
 
   const skillKeywords = [
-    { name: "Python", color: "from-yellow-400 to-blue-500", size: "text-lg" },
-    { name: "AI/ML", color: "from-purple-500 to-pink-500", size: "text-xl" },
-    { name: "React", color: "from-cyan-400 to-blue-500", size: "text-base" },
-    { name: "TypeScript", color: "from-blue-500 to-indigo-500", size: "text-sm" },
-    { name: "FinTech", color: "from-green-500 to-emerald-500", size: "text-lg" },
-    { name: "Bioinformatics", color: "from-cyan-500 to-teal-500", size: "text-base" },
-    { name: "Data Science", color: "from-orange-500 to-red-500", size: "text-lg" },
-    { name: "Node.js", color: "from-green-400 to-green-600", size: "text-sm" },
-    { name: "Deep Learning", color: "from-violet-500 to-purple-600", size: "text-base" },
-    { name: "TensorFlow", color: "from-orange-400 to-yellow-500", size: "text-sm" },
-    { name: "Genomics", color: "from-pink-500 to-rose-500", size: "text-base" },
-    { name: "Arduino", color: "from-teal-400 to-cyan-500", size: "text-sm" },
-    { name: "NLP", color: "from-indigo-400 to-purple-500", size: "text-lg" },
-    { name: "Trading Bots", color: "from-emerald-400 to-green-500", size: "text-sm" },
-    { name: "IoT", color: "from-blue-400 to-cyan-400", size: "text-base" },
-    { name: "Gen AI", color: "from-fuchsia-500 to-pink-500", size: "text-lg" },
-    { name: "PineScript", color: "from-lime-500 to-green-500", size: "text-sm" },
-    { name: "Robotics", color: "from-slate-400 to-zinc-500", size: "text-base" },
-    { name: "APIs", color: "from-sky-400 to-blue-500", size: "text-sm" },
-    { name: "Voice AI", color: "from-rose-400 to-pink-500", size: "text-base" },
-    { name: "MongoDB", color: "from-green-500 to-lime-500", size: "text-sm" },
-    { name: "SQL", color: "from-blue-500 to-sky-500", size: "text-sm" },
-    { name: "Git", color: "from-orange-500 to-red-600", size: "text-base" },
-    { name: "Leadership", color: "from-amber-500 to-yellow-500", size: "text-lg" },
+    // Programming
+    { name: "Python", color: "from-yellow-400 to-blue-500" },
+    { name: "React", color: "from-cyan-400 to-blue-500" },
+    { name: "TypeScript", color: "from-blue-500 to-indigo-500" },
+    { name: "Node.js", color: "from-green-400 to-green-600" },
+    { name: "JavaScript", color: "from-yellow-400 to-amber-500" },
+    { name: "HTML/CSS", color: "from-orange-500 to-red-500" },
+    { name: "C++", color: "from-blue-600 to-indigo-600" },
+    { name: "SQL", color: "from-blue-500 to-sky-500" },
+    { name: "PineScript", color: "from-lime-500 to-green-500" },
+    // AI/ML
+    { name: "AI/ML", color: "from-purple-500 to-pink-500" },
+    { name: "Deep Learning", color: "from-violet-500 to-purple-600" },
+    { name: "TensorFlow", color: "from-orange-400 to-yellow-500" },
+    { name: "NLP", color: "from-indigo-400 to-purple-500" },
+    { name: "Gen AI", color: "from-fuchsia-500 to-pink-500" },
+    { name: "Neural Networks", color: "from-pink-500 to-purple-500" },
+    { name: "Computer Vision", color: "from-teal-500 to-cyan-500" },
+    // Data
+    { name: "Data Science", color: "from-orange-500 to-red-500" },
+    { name: "Data Analytics", color: "from-sky-500 to-blue-500" },
+    { name: "MongoDB", color: "from-green-500 to-lime-500" },
+    { name: "Pandas", color: "from-indigo-500 to-blue-500" },
+    // Domain
+    { name: "FinTech", color: "from-green-500 to-emerald-500" },
+    { name: "Bioinformatics", color: "from-cyan-500 to-teal-500" },
+    { name: "Genomics", color: "from-pink-500 to-rose-500" },
+    { name: "Trading Bots", color: "from-emerald-400 to-green-500" },
+    { name: "Algo Trading", color: "from-lime-400 to-emerald-500" },
+    // Hardware/IoT
+    { name: "Arduino", color: "from-teal-400 to-cyan-500" },
+    { name: "IoT", color: "from-blue-400 to-cyan-400" },
+    { name: "Robotics", color: "from-slate-400 to-zinc-500" },
+    { name: "Embedded Systems", color: "from-gray-500 to-slate-500" },
+    // Tools
+    { name: "Git", color: "from-orange-500 to-red-600" },
+    { name: "APIs", color: "from-sky-400 to-blue-500" },
+    { name: "Voice AI", color: "from-rose-400 to-pink-500" },
+    { name: "Automation", color: "from-violet-400 to-indigo-500" },
+    // Soft Skills
+    { name: "Leadership", color: "from-amber-500 to-yellow-500" },
+    { name: "Public Speaking", color: "from-rose-500 to-red-500" },
+    { name: "Strategy", color: "from-indigo-500 to-violet-500" },
+    { name: "Team Building", color: "from-cyan-500 to-blue-500" },
   ];
 
   return (
@@ -95,114 +115,96 @@ const About = () => {
       >
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Skills word cloud visual */}
+            {/* Skills galaxy visual */}
             <motion.div
-              initial={{ opacity: 0, x: -150, rotateY: -30 }}
-              animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="relative"
             >
+              {/* Glowing background */}
               <motion.div
-                className="relative aspect-square max-w-md mx-auto"
-                style={{ scale }}
-              >
-                {/* Decorative glow background */}
+                className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-secondary/20 rounded-3xl blur-2xl"
+                animate={{ opacity: [0.3, 0.5, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+              
+              {/* Skills grid container */}
+              <div className="relative glass rounded-3xl p-6 overflow-hidden">
+                {/* Animated border glow */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-animated rounded-full blur-3xl opacity-20"
-                  animate={{
-                    scale: [1, 1.3, 1],
+                  className="absolute inset-0 rounded-3xl"
+                  style={{
+                    background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent)",
+                    backgroundSize: "200% 100%",
                   }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                  animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 />
-                
-                {/* Skills cloud container */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                    {/* Central focus text */}
+
+                {/* Skills flowing grid */}
+                <div className="relative flex flex-wrap gap-2 justify-center items-center min-h-[350px]">
+                  {skillKeywords.map((skill, i) => (
                     <motion.div
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-                      initial={{ scale: 0 }}
-                      animate={isInView ? { scale: 1 } : {}}
-                      transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
+                      key={skill.name}
+                      initial={{ opacity: 0, scale: 0, y: 20 }}
+                      animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+                      transition={{ 
+                        delay: 0.3 + i * 0.04, 
+                        type: "spring", 
+                        stiffness: 200,
+                        damping: 15 
+                      }}
+                      whileHover={{ 
+                        scale: 1.2, 
+                        zIndex: 50,
+                        y: -5,
+                      }}
+                      className="relative group"
                     >
-                      <span className="text-4xl sm:text-5xl font-display font-bold holographic">
-                        {"</>"}
-                      </span>
-                    </motion.div>
-
-                    {/* Orbiting skills */}
-                    {skillKeywords.map((skill, i) => {
-                      const angle = (i / skillKeywords.length) * 2 * Math.PI;
-                      const radius = 120 + (i % 3) * 30;
-                      const x = Math.cos(angle) * radius;
-                      const y = Math.sin(angle) * radius;
-                      
-                      return (
-                        <motion.div
-                          key={skill.name}
-                          className="absolute top-1/2 left-1/2"
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={isInView ? { 
-                            opacity: 1, 
-                            scale: 1,
-                            x: x,
-                            y: y,
-                          } : {}}
-                          transition={{ 
-                            delay: 0.5 + i * 0.08, 
-                            type: "spring", 
-                            stiffness: 150,
-                            damping: 15 
-                          }}
-                        >
-                          <motion.div
-                            animate={{
-                              y: [0, -8, 0],
-                              x: [0, (i % 2 === 0 ? 5 : -5), 0],
-                            }}
-                            transition={{ 
-                              duration: 3 + (i % 3), 
-                              repeat: Infinity, 
-                              ease: "easeInOut",
-                              delay: i * 0.2
-                            }}
-                            whileHover={{ 
-                              scale: 1.4, 
-                              zIndex: 50,
-                            }}
-                            className={`px-3 py-1.5 rounded-lg cursor-pointer bg-gradient-to-r ${skill.color} shadow-lg`}
-                          >
-                            <span className={`text-white font-display font-semibold ${skill.size} whitespace-nowrap`}>
-                              {skill.name}
-                            </span>
-                          </motion.div>
-                        </motion.div>
-                      );
-                    })}
-
-                    {/* Connecting lines/dots decoration */}
-                    {[...Array(8)].map((_, i) => (
                       <motion.div
-                        key={i}
-                        className="absolute top-1/2 left-1/2 w-2 h-2 bg-primary/40 rounded-full"
-                        style={{
-                          x: Math.cos((i / 8) * 2 * Math.PI) * 80,
-                          y: Math.sin((i / 8) * 2 * Math.PI) * 80,
-                        }}
                         animate={{
-                          scale: [1, 1.5, 1],
-                          opacity: [0.3, 0.7, 0.3],
+                          y: [0, (i % 2 === 0 ? -4 : 4), 0],
                         }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          delay: i * 0.25,
+                        transition={{ 
+                          duration: 2 + (i % 3), 
+                          repeat: Infinity, 
+                          ease: "easeInOut",
+                          delay: i * 0.1
                         }}
+                        className={`px-3 py-1.5 rounded-full cursor-pointer bg-gradient-to-r ${skill.color} shadow-lg hover:shadow-xl transition-shadow`}
+                      >
+                        <span className="text-white font-display font-medium text-xs sm:text-sm whitespace-nowrap">
+                          {skill.name}
+                        </span>
+                      </motion.div>
+                      
+                      {/* Glow effect on hover */}
+                      <motion.div
+                        className={`absolute inset-0 rounded-full bg-gradient-to-r ${skill.color} blur-md opacity-0 group-hover:opacity-50 -z-10 transition-opacity`}
                       />
-                    ))}
-                  </div>
+                    </motion.div>
+                  ))}
                 </div>
-              </motion.div>
+
+                {/* Corner decorations */}
+                <div className="absolute top-2 left-2 w-8 h-8 border-l-2 border-t-2 border-primary/30 rounded-tl-lg" />
+                <div className="absolute top-2 right-2 w-8 h-8 border-r-2 border-t-2 border-primary/30 rounded-tr-lg" />
+                <div className="absolute bottom-2 left-2 w-8 h-8 border-l-2 border-b-2 border-primary/30 rounded-bl-lg" />
+                <div className="absolute bottom-2 right-2 w-8 h-8 border-r-2 border-b-2 border-primary/30 rounded-br-lg" />
+              </div>
+
+              {/* Floating accent elements */}
+              <motion.div
+                className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-primary/30 to-transparent rounded-full blur-xl"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-secondary/30 to-transparent rounded-full blur-xl"
+                animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.8, 0.5] }}
+                transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+              />
             </motion.div>
 
             {/* Content side */}
