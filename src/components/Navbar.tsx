@@ -38,11 +38,6 @@ const Navbar = () => {
     { label: "Projects", href: "#projects" },
     { label: "Contact", href: "#contact" },
   ];
-      scale: 1.1,
-      rotate: [0, -10, 10, 0],
-      transition: { duration: 0.4 },
-    },
-  };
 
   return (
     <>
