@@ -8,58 +8,222 @@ interface Message {
   isBot: boolean;
 }
 
-const builtInResponses: Record<string, string> = {
-  "hi": "Hey there! 👋 I'm Alex's virtual assistant. How can I help you today?",
-  "hello": "Hello! Welcome to my portfolio. Feel free to ask me anything about Alex's work!",
-  "who are you": "I'm Alex Chen, a passionate full-stack developer with 5+ years of experience crafting digital experiences.",
-  "what do you do": "I specialize in React, TypeScript, and Next.js. I build beautiful, performant web applications that users love.",
-  "services": "I offer: 🎨 UI/UX Design, 💻 Frontend Development, 🔧 Backend Development, 📱 Responsive Web Apps, and ⚡ Performance Optimization.",
-  "experience": "I have 5+ years of experience, 50+ completed projects, and 30+ happy clients worldwide!",
-  "skills": "My tech stack includes React, TypeScript, Next.js, Node.js, Tailwind CSS, and more. Check out the Skills section for details!",
-  "contact": "You can reach out via the Contact form below, or email me at hello@alexchen.dev. I'd love to hear from you!",
-  "hire": "Awesome! I'm currently available for freelance projects. Head to the Contact section or email me directly!",
-  "projects": "Check out my Projects section to see my latest work! I've built e-commerce platforms, SaaS dashboards, and more.",
-  "availability": "I'm currently available for new projects! Let's build something amazing together.",
-  "pricing": "Project pricing varies based on scope and complexity. Let's discuss your needs - reach out via the Contact form!",
-  "timeline": "Typical projects take 2-8 weeks depending on complexity. I always deliver on time!",
-  "technologies": "I work with React, TypeScript, Next.js, Node.js, PostgreSQL, MongoDB, AWS, and many more modern technologies.",
-  "default": "Great question! For more details, feel free to reach out via the Contact section, or ask me about my skills, projects, or services! 😊"
+const builtInResponses: Record<string, string[]> = {
+  // Greetings
+  "hi": [
+    "Hey there! 👋 Welcome to Adil's portfolio! What would you like to know?",
+    "Hi! Great to meet you! I'm NOVA, Adil's virtual assistant. How can I help?",
+    "Hello! 🌟 Ready to explore Adil's work? Ask me anything!"
+  ],
+  "hello": [
+    "Hello! 👋 I'm NOVA - Adil's AI assistant. What can I tell you about him?",
+    "Hey! Welcome! Feel free to ask about Adil's skills, projects, or experience!",
+    "Hi there! Nice to see you here! What brings you to Adil's portfolio?"
+  ],
+  "hey": [
+    "Hey! 👋 What's up? I'm here to help you learn about Adil!",
+    "Hey there! Ready to explore? Ask away!",
+    "Hey! Great to see you! What would you like to know?"
+  ],
+  
+  // How are you
+  "how are you": [
+    "I'm doing great, thanks for asking! 🌟 Always happy to chat about Adil's work. How are you?",
+    "Fantastic! Running at optimal performance 😄 How about you?",
+    "Pretty good! Just here helping visitors learn about Adil. How can I assist you today?"
+  ],
+  "how's it going": [
+    "Going great! Always excited to meet new people. What brings you here today?",
+    "Pretty awesome! I love chatting with visitors. What can I tell you?",
+    "Wonderful! Thanks for asking! What would you like to explore?"
+  ],
+  "what's up": [
+    "Not much, just helping visitors explore Adil's portfolio! What's up with you?",
+    "Just here doing my thing! 😊 What can I help you discover today?",
+    "The sky! 😄 Just kidding - I'm here to help! What would you like to know?"
+  ],
+  
+  // About Adil
+  "who are you": [
+    "I'm NOVA, Adil Sukumar's virtual assistant! Adil is a passionate developer and entrepreneur studying BTech in Computer Science with AI/ML specialization. He's building cool stuff in FinTech and AI!",
+    "I'm NOVA! 🤖 I represent Adil Sukumar - a tech enthusiast who loves AI, finance, and building things that matter. He's currently working on Spendture, a FinTech app!"
+  ],
+  "who is adil": [
+    "Adil Sukumar is a BTech student specializing in AI/ML, with a passion for FinTech, bioinformatics, and building impactful solutions. He's the founder of Spendture and has won multiple competitions!",
+    "Adil is a developer, entrepreneur, and multi-talented creator! He speaks 6 languages, has 80+ skills, and has built everything from trading bots to games!"
+  ],
+  "tell me about adil": [
+    "Adil is basically that person who can't stop asking 'what if?' 💡 He's working on a FinTech app called Spendture, has built trading bots, voice assistants, and even won a game development competition. Pretty cool, right?",
+    "Where do I start? 😄 Adil is a CS student with AI/ML focus, speaks 6 languages, has leadership experience across 5+ roles, and builds everything from IoT projects to AI apps!"
+  ],
+  
+  // Skills
+  "skills": [
+    "Adil has 80+ skills! 🚀 Highlights: Python, JavaScript, React, AI/ML, Deep Learning, FinTech, Bioinformatics, Arduino, and leadership. Check the Skills section for the full universe!",
+    "Oh, skills? There's a LOT! Programming (Python, JS, C++), AI/ML, Data Science, IoT with Arduino, and soft skills like leadership and public speaking. The Skills Universe shows all 80+!"
+  ],
+  "what can adil do": [
+    "Better question: what CAN'T he do? 😄 Coding (Python, JS, React), AI/ML, Data Science, IoT, FinTech, Game Dev, and he speaks 6 languages! Check the Skills section!",
+    "Adil can build web apps, train ML models, create trading bots, develop games, work with IoT, and lead teams. His 80+ skills cover tech, finance, and leadership!"
+  ],
+  
+  // Projects
+  "projects": [
+    "Check out the Projects section! 🎯 Highlights: Spendture (his FinTech baby), CyberSHE (won 1st at WiCyS Hackathon), a Voice AI Assistant, and more!",
+    "Adil's built some cool stuff! Spendture (AI + psychology for better money habits), CyberSHE (women's safety platform), trading bots, games, and IoT projects!"
+  ],
+  "spendture": [
+    "Spendture is Adil's baby! 💰 It's a FinTech app that uses AI and behavioral psychology to help people build better money habits. Smart reminders, journaling, the works!",
+    "Adil is building Spendture - a FinTech app combining AI with psychology to help people actually stick to their financial goals. It's his passion project!"
+  ],
+  "cybershe": [
+    "CyberSHE is a women's safety platform Adil built at WiCyS Hackathon - it has AI harassment detection, privacy tools, and encrypted messaging. They won 1st place! 🏆",
+    "CyberSHE won 1st at WiCyS Hackathon! It's a cybersecurity platform for women with AI-powered harassment detection and privacy tools."
+  ],
+  
+  // Experience
+  "experience": [
+    "Adil has 5+ leadership roles, 10+ projects built, 6 languages spoken, and multiple competition wins including robotics and game development! 🏆",
+    "Lots of experience! Leadership across multiple organizations, hackathon wins, Olympiad medals, and hands-on experience in AI, FinTech, IoT, and more!"
+  ],
+  
+  // Contact
+  "contact": [
+    "Want to reach Adil? Check the Contact section below! You can also find him on LinkedIn and GitHub. He'd love to connect! 📬",
+    "Head to the Contact section at the bottom! Adil is always open to interesting conversations and opportunities!"
+  ],
+  "hire": [
+    "Interested in working with Adil? Awesome! 🎉 Use the Contact form or check his LinkedIn. He's open to exciting opportunities!",
+    "Looking to hire Adil? Great choice! Reach out via the Contact section - he's always excited about new challenges!"
+  ],
+  
+  // Fun responses
+  "thanks": [
+    "You're welcome! 😊 Anything else you'd like to know?",
+    "Happy to help! Feel free to ask more questions!",
+    "My pleasure! 🌟 What else can I tell you?"
+  ],
+  "thank you": [
+    "You're very welcome! 💫 Let me know if you need anything else!",
+    "Glad I could help! Anything else on your mind?",
+    "Anytime! 🙌 Feel free to explore more!"
+  ],
+  "bye": [
+    "Goodbye! 👋 Come back anytime! Hope you enjoyed learning about Adil!",
+    "See you! 🌟 Thanks for stopping by Adil's portfolio!",
+    "Bye! Have a great day! Don't forget to check out the projects! 😊"
+  ],
+  "goodbye": [
+    "Take care! 👋 Feel free to come back and chat anytime!",
+    "Goodbye! Hope to see you again! 🌟",
+    "Bye for now! Best of luck with everything!"
+  ],
+  "nice": [
+    "Right? 😊 Anything else you'd like to explore?",
+    "Glad you think so! What else can I show you?",
+    "Thanks! What would you like to know more about?"
+  ],
+  "cool": [
+    "I know, right? 😎 Adil has some pretty cool stuff! What else interests you?",
+    "Pretty cool indeed! Want to know more about anything specific?",
+    "Glad you're impressed! There's lots more to explore!"
+  ],
+  "awesome": [
+    "Absolutely! 🔥 What else would you like to discover?",
+    "Right? Want to dive deeper into any topic?",
+    "Thanks! Adil would love to hear that! What else can I help with?"
+  ],
+  
+  // Random/Fun
+  "joke": [
+    "Why do programmers prefer dark mode? Because light attracts bugs! 🐛😄",
+    "Why did the developer go broke? Because he used up all his cache! 💰",
+    "How many programmers does it take to change a light bulb? None, that's a hardware problem! 💡"
+  ],
+  "fun fact": [
+    "Fun fact: Adil speaks 6 languages! That's more than some apps have localizations for! 🌍",
+    "Did you know? Adil won 1st place in a game development competition against 100+ schools! 🎮",
+    "Fun fact: Adil has 80+ skills ranging from AI to Arduino to Behavioral Finance! 🧠"
+  ],
+  
+  // Default
+  "default": [
+    "Interesting question! 🤔 For more details, check the relevant section or ask me about skills, projects, or how to contact Adil!",
+    "I'd love to help with that! Try asking about Adil's skills, projects, experience, or how to get in touch! 💡",
+    "Great question! Explore the portfolio sections above, or ask me specifically about skills, projects, or contact info! 😊"
+  ]
 };
 
 const quickQuestions = [
-  "Who are you?",
-  "What services do you offer?",
-  "Show me your skills",
-  "How can I hire you?",
+  "Who is Adil?",
+  "Tell me about projects",
+  "What are his skills?",
+  "How can I contact him?",
 ];
 
+const getRandomResponse = (responses: string[]): string => {
+  return responses[Math.floor(Math.random() * responses.length)];
+};
+
 const findResponse = (input: string): string => {
-  const lowered = input.toLowerCase();
+  const lowered = input.toLowerCase().trim();
   
-  for (const [key, response] of Object.entries(builtInResponses)) {
+  // Direct matches first
+  for (const [key, responses] of Object.entries(builtInResponses)) {
     if (key === "default") continue;
-    if (lowered.includes(key)) {
-      return response;
+    if (lowered === key || lowered.includes(key)) {
+      return getRandomResponse(responses);
     }
   }
   
-  // Check for keywords
-  if (lowered.includes("service") || lowered.includes("offer")) return builtInResponses.services;
-  if (lowered.includes("skill") || lowered.includes("tech") || lowered.includes("stack")) return builtInResponses.skills;
-  if (lowered.includes("project") || lowered.includes("work") || lowered.includes("portfolio")) return builtInResponses.projects;
-  if (lowered.includes("contact") || lowered.includes("reach") || lowered.includes("email")) return builtInResponses.contact;
-  if (lowered.includes("hire") || lowered.includes("available") || lowered.includes("freelance")) return builtInResponses.hire;
-  if (lowered.includes("price") || lowered.includes("cost") || lowered.includes("rate")) return builtInResponses.pricing;
-  if (lowered.includes("time") || lowered.includes("deadline") || lowered.includes("how long")) return builtInResponses.timeline;
-  if (lowered.includes("experience") || lowered.includes("years")) return builtInResponses.experience;
+  // Keyword matching
+  if (lowered.includes("how are") || lowered.includes("how're") || lowered.includes("how r u")) {
+    return getRandomResponse(builtInResponses["how are you"]);
+  }
+  if (lowered.includes("service") || lowered.includes("offer") || lowered.includes("do for me")) {
+    return "Adil offers expertise in: 🎨 UI/UX Design, 💻 Full-Stack Development, 🤖 AI/ML Solutions, 📊 Data Analytics, and 🔧 IoT Projects. Check the Contact section to discuss your needs!";
+  }
+  if (lowered.includes("skill") || lowered.includes("tech") || lowered.includes("stack") || lowered.includes("know")) {
+    return getRandomResponse(builtInResponses["skills"]);
+  }
+  if (lowered.includes("project") || lowered.includes("work") || lowered.includes("portfolio") || lowered.includes("built")) {
+    return getRandomResponse(builtInResponses["projects"]);
+  }
+  if (lowered.includes("contact") || lowered.includes("reach") || lowered.includes("email") || lowered.includes("connect")) {
+    return getRandomResponse(builtInResponses["contact"]);
+  }
+  if (lowered.includes("hire") || lowered.includes("available") || lowered.includes("freelance") || lowered.includes("work with")) {
+    return getRandomResponse(builtInResponses["hire"]);
+  }
+  if (lowered.includes("experience") || lowered.includes("years") || lowered.includes("background")) {
+    return getRandomResponse(builtInResponses["experience"]);
+  }
+  if (lowered.includes("adil") || lowered.includes("about him") || lowered.includes("about you")) {
+    return getRandomResponse(builtInResponses["tell me about adil"]);
+  }
+  if (lowered.includes("thank") || lowered.includes("thx") || lowered.includes("ty")) {
+    return getRandomResponse(builtInResponses["thanks"]);
+  }
+  if (lowered.includes("joke") || lowered.includes("funny") || lowered.includes("laugh")) {
+    return getRandomResponse(builtInResponses["joke"]);
+  }
+  if (lowered.includes("fun fact") || lowered.includes("interesting") || lowered.includes("did you know")) {
+    return getRandomResponse(builtInResponses["fun fact"]);
+  }
+  if (lowered.includes("great") || lowered.includes("amazing") || lowered.includes("wonderful") || lowered.includes("fantastic")) {
+    return "Glad you're enjoying it! 🌟 What else would you like to explore about Adil's work?";
+  }
+  if (lowered.includes("help")) {
+    return "I can help with info about: 👤 Adil's background, 🛠️ Skills (80+!), 💼 Projects, 📧 Contact info, and more! Just ask! 😊";
+  }
   
-  return builtInResponses.default;
+  return getRandomResponse(builtInResponses["default"]);
 };
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, text: "Hey! 👋 I'm Alex's assistant. Ask me anything about skills, projects, or how to get in touch!", isBot: true }
+    { id: 1, text: "Hey! 👋 I'm NOVA, Adil's virtual assistant. Ask me about his skills, projects, or just say hi!", isBot: true }
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -166,14 +330,14 @@ const Chatbot = () => {
                 <Sparkles className="w-5 h-5 text-primary-foreground" />
               </motion.div>
               <div>
-                <h3 className="font-display font-bold text-primary-foreground">Alex's Assistant</h3>
+                <h3 className="font-display font-bold text-primary-foreground">NOVA</h3>
                 <div className="flex items-center gap-1.5">
                   <motion.span
                     className="w-2 h-2 bg-green-400 rounded-full"
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   />
-                  <span className="text-xs text-primary-foreground/80">Online</span>
+                  <span className="text-xs text-primary-foreground/80">Adil's AI Assistant</span>
                 </div>
               </div>
             </div>

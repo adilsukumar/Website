@@ -73,7 +73,7 @@ const Navbar = () => {
               >
                 <Sparkles className="w-5 h-5 text-primary" />
               </motion.span>
-              AC
+              AS
             </motion.a>
 
             {/* Desktop Navigation */}
