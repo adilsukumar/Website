@@ -366,7 +366,12 @@ const Projects = () => {
                       whileHover={{
                         rotate: [0, -10, 10, 0],
                         scale: [1, 1.2, 1],
-                        transition: { duration: 0.5 },
+                      }}
+                      transition={{ 
+                        duration: 0.5,
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 10
                       }}
                     >
                       {project.image}
