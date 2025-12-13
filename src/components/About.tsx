@@ -150,6 +150,37 @@ const About = () => {
 
       <motion.div className="container mx-auto px-6" ref={ref}>
         <div className="max-w-6xl mx-auto">
+          {/* Skills cloud above heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="mb-12"
+          >
+            <div className="glass-strong rounded-3xl p-4 md:p-6 border-gradient-animated">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">Skill snapshot</p>
+                  <p className="font-display text-lg font-semibold">80+ tools, languages & domains</p>
+                </div>
+                <span className="text-xs sm:text-sm text-muted-foreground">Scroll to see more →</span>
+              </div>
+              <div className="mt-4 max-h-40 md:max-h-48 overflow-y-auto pr-1">
+                <div className="flex flex-wrap gap-2">
+                  {skillRows.flat().map((skill, index) => (
+                    <motion.span
+                      key={`${skill.name}-${index}`}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      className={`px-3 py-1 rounded-full bg-gradient-to-r ${skill.color} text-[0.7rem] font-medium text-white shadow`}
+                    >
+                      {skill.name}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -314,61 +345,7 @@ const About = () => {
             </motion.div>
           </div>
 
-          {/* Skills Marquee Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="relative"
-          >
-            <div className="text-center mb-8">
-              <span className="text-sm text-muted-foreground font-display">All Skills</span>
-            </div>
-
-            {/* Marquee container with gradient masks */}
-            <div className="relative overflow-hidden">
-              {/* Left gradient mask */}
-              <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-              {/* Right gradient mask */}
-              <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-
-              <div className="space-y-3">
-                {skillRows.map((row, rowIndex) => (
-                  <motion.div
-                    key={rowIndex}
-                    className="flex gap-3"
-                    initial={{ x: rowIndex % 2 === 0 ? "0%" : "-50%" }}
-                    animate={{ 
-                      x: rowIndex % 2 === 0 ? "-50%" : "0%"
-                    }}
-                    transition={{
-                      duration: 30 + rowIndex * 5,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    style={{ width: "200%" }}
-                  >
-                    {/* Double the skills for seamless loop */}
-                    {[...row, ...row].map((skill, skillIndex) => (
-                      <motion.div
-                        key={`${skill.name}-${skillIndex}`}
-                        whileHover={{ 
-                          scale: 1.15, 
-                          y: -5,
-                          zIndex: 20,
-                        }}
-                        className={`px-4 py-2 rounded-full bg-gradient-to-r ${skill.color} cursor-pointer flex-shrink-0 shadow-lg`}
-                      >
-                        <span className="text-white font-display font-medium text-sm whitespace-nowrap">
-                          {skill.name}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+          {/* Skills marquee removed - skills now shown above heading */}
         </div>
       </motion.div>
     </section>

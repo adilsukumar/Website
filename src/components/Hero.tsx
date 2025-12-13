@@ -10,7 +10,13 @@ const Hero = () => {
   const scale = useTransform(smoothProgress, [0, 0.5], [1, 0.8]);
   const name = "Adil Sukumar";
 
-  const subtitle = "Founder @Spendture | AI & Bioinformatics @ VIT | Data Science @ IIT Madras";
+  const roles = [
+    "Founder @Spendture",
+    "AI & Bioinformatics @ VIT",
+    "Data Science @ IIT Madras",
+  ];
+
+  const tagline = "Building at the edge of science, tech & psychology";
 
   const socials = [
     { icon: Github, href: "https://github.com/adilsukumar", label: "GitHub" },
@@ -45,7 +51,14 @@ const Hero = () => {
             <div className="overflow-hidden">
               <motion.div className="holographic block font-display text-5xl sm:text-7xl lg:text-8xl font-bold">
                 {name.split("").map((letter, i) => (
-                  <motion.span key={i} initial={{ opacity: 0, y: 80, rotateX: -90 }} animate={{ opacity: 1, y: 0, rotateX: 0 }} transition={{ delay: 0.3 + i * 0.06, duration: 0.8, ease: [0.16, 1, 0.3, 1] }} whileHover={{ scale: 1.2, color: "hsl(var(--primary))", transition: { duration: 0.2 } }} className="inline-block cursor-default">
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 80, rotateX: -90 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{ delay: 0.3 + i * 0.06, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    whileHover={{ scale: 1.1 }}
+                    className="inline-block cursor-default"
+                  >
                     {letter === " " ? "\u00A0" : letter}
                   </motion.span>
                 ))}
@@ -53,9 +66,29 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.8 }} className="text-base sm:text-lg text-muted-foreground max-w-2xl mb-12">
-            {subtitle}
-          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="space-y-3 mb-12"
+          >
+            <div className="flex flex-wrap gap-2">
+              {roles.map((role, i) => (
+                <motion.span
+                  key={role}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9 + i * 0.08, duration: 0.4 }}
+                  className="px-3 py-1 rounded-full text-xs sm:text-sm bg-muted text-muted-foreground border border-border/60"
+                >
+                  {role}
+                </motion.span>
+              ))}
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
+              {tagline}
+            </p>
+          </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1.4, ease: [0.16, 1, 0.3, 1] }} className="flex flex-wrap gap-4 mb-16">
             <motion.a href="#projects" className="group relative px-8 py-4 bg-gradient-animated text-primary-foreground font-display font-semibold rounded-xl overflow-hidden glow-intense border-gradient-animated" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
