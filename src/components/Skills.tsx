@@ -46,8 +46,8 @@ const Skills = () => {
     {
       icon: TrendingUp,
       title: "Algorithmic Trading",
-      description: "Building automated trading bots with PineScript, technical analysis, and risk management.",
-      technologies: ["PineScript", "Python", "APIs", "Technical Analysis"],
+      description: "Building automated trading bots with PineScript, technical analysis, fundamental analysis, and risk management.",
+      technologies: ["PineScript", "Python", "APIs", "Technical Analysis", "Fundamental Analysis"],
       color: "from-green-500 to-emerald-500",
       emoji: "📈",
     },
