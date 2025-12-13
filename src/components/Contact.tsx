@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, MapPin, Send, Github, Twitter, Linkedin, Sparkles, Check } from "lucide-react";
+import { Mail, MapPin, Send, Github, Linkedin, Sparkles, Check, ExternalLink } from "lucide-react";
 
 const Contact = () => {
   const ref = useRef(null);
@@ -25,23 +25,23 @@ const Contact = () => {
     {
       icon: Mail,
       label: "Email",
-      value: "hello@alexchen.dev",
-      href: "mailto:hello@alexchen.dev",
+      value: "adilsukumar24@gmail.com",
+      href: "mailto:adilsukumar24@gmail.com",
       color: "from-blue-500 to-cyan-500",
     },
     { 
       icon: MapPin, 
       label: "Location", 
-      value: "San Francisco, CA", 
+      value: "Chennai, Tamil Nadu, India", 
       href: "#",
       color: "from-pink-500 to-rose-500",
     },
   ];
 
   const socials = [
-    { icon: Github, label: "GitHub", href: "#", color: "hover:bg-gray-700" },
-    { icon: Twitter, label: "Twitter", href: "#", color: "hover:bg-blue-500" },
-    { icon: Linkedin, label: "LinkedIn", href: "#", color: "hover:bg-blue-700" },
+    { icon: Github, label: "GitHub", href: "https://github.com/adilsukumar", color: "hover:bg-gray-700" },
+    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/adilsukumar", color: "hover:bg-blue-700" },
+    { icon: ExternalLink, label: "Blog", href: "https://adilsukumar.blogspot.com/", color: "hover:bg-orange-500" },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -65,7 +65,7 @@ const Contact = () => {
       className="py-32 relative noise spotlight overflow-hidden"
       ref={containerRef}
     >
-      {/* Intense animated background */}
+      {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1400px] h-[700px] bg-gradient-animated rounded-full blur-3xl opacity-15"
@@ -135,11 +135,11 @@ const Contact = () => {
               >
                 <Sparkles className="w-4 h-4 text-primary" />
               </motion.div>
-              <span className="text-sm text-muted-foreground">Let's work together</span>
+              <span className="text-sm text-muted-foreground">Let's connect</span>
             </motion.div>
 
             <motion.h2 className="font-display text-4xl sm:text-5xl font-bold mb-4 overflow-hidden">
-              {"Let's ".split("").map((char, i) => (
+              {"Get in ".split("").map((char, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 100, rotateX: -90 }}
@@ -156,7 +156,7 @@ const Contact = () => {
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
               >
-                Connect
+                Touch
               </motion.span>
             </motion.h2>
 
@@ -166,7 +166,7 @@ const Contact = () => {
               transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-lg max-w-2xl mx-auto"
             >
-              Have a project in mind or just want to chat? I'd love to hear from you.
+              Have a project in mind, want to collaborate, or just want to connect? I'd love to hear from you!
             </motion.p>
           </motion.div>
 
@@ -243,7 +243,7 @@ const Contact = () => {
                       onFocus={() => setFocusedField("message")}
                       onBlur={() => setFocusedField(null)}
                       className="w-full px-4 py-3.5 glass-strong rounded-xl border-0 bg-muted focus:ring-2 focus:ring-primary focus:outline-none transition-smooth resize-none"
-                      placeholder="Tell me about your project..."
+                      placeholder="Tell me about your project or idea..."
                       animate={{
                         boxShadow: focusedField === "message" 
                           ? "0 0 30px hsl(var(--primary) / 0.3)" 
@@ -364,7 +364,7 @@ const Contact = () => {
                 className="glass-strong p-6 rounded-xl border-gradient-animated"
               >
                 <h3 className="font-display font-semibold mb-4 flex items-center gap-2">
-                  Follow Me
+                  Connect with me
                   <motion.span
                     animate={{ rotate: [0, 15, -15, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
@@ -377,6 +377,8 @@ const Contact = () => {
                     <motion.a
                       key={label}
                       href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       aria-label={label}
                       initial={{ opacity: 0, scale: 0, rotate: -180 }}
                       animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
@@ -406,36 +408,27 @@ const Contact = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ scale: 1.03, y: -5 }}
-                className="glass-strong p-6 rounded-xl border-gradient-animated cursor-pointer relative overflow-hidden group"
+                whileHover={{ scale: 1.02 }}
+                className="glass-strong p-6 rounded-xl border-gradient-animated relative overflow-hidden"
               >
                 <motion.div
-                  className="absolute inset-0 bg-gradient-animated opacity-0 group-hover:opacity-10 transition-opacity duration-500"
+                  className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10"
+                  animate={{ opacity: [0.3, 0.6, 0.3] }}
+                  transition={{ duration: 3, repeat: Infinity }}
                 />
-                <div className="flex items-center gap-3 mb-3 relative z-10">
-                  <motion.span
-                    className="relative flex h-4 w-4"
-                    animate={{ scale: [1, 1.3, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
-                  >
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500 glow"></span>
-                  </motion.span>
-                  <span className="font-display font-semibold">Currently Available</span>
-                  <motion.span
-                    animate={{ rotate: [0, 20, -20, 0], scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    🚀
-                  </motion.span>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-2">
+                    <motion.div
+                      className="w-3 h-3 bg-green-500 rounded-full"
+                      animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span className="font-display font-semibold">Open to Opportunities</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Currently looking for internships, collaborations, and exciting projects in AI, FinTech, and Bioinformatics.
+                  </p>
                 </div>
-                <motion.p
-                  className="text-muted-foreground text-sm relative z-10"
-                  animate={{ opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
-                >
-                  I'm open to freelance projects and full-time opportunities. Let's build something amazing together!
-                </motion.p>
               </motion.div>
             </motion.div>
           </div>
