@@ -27,7 +27,7 @@ const Projects = () => {
       image: "💰",
       tags: ["Python", "AI/ML", "FinTech", "Product Development"],
       liveUrl: "#",
-      githubUrl: "#",
+      githubUrl: null,
       featured: true,
       gradient: "from-green-500 via-emerald-500 to-teal-500",
     },
@@ -37,17 +37,17 @@ const Projects = () => {
       image: "🛡️",
       tags: ["React", "TypeScript", "Node.js", "AI", "Cybersecurity"],
       liveUrl: "#",
-      githubUrl: "https://github.com/adilsukumar/CyberSHE_WiCyS_Hackathon_.Saras-Hack-Squad",
+      githubUrl: "https://github.com/snehaldixitofficial/CyberSHE_WiCyS_Hackathon_.Saras-Hack-Squad",
       featured: true,
       gradient: "from-purple-500 via-pink-500 to-rose-500",
     },
     {
-      title: "Algorithmic Trading Bots",
-      description: "Python-based trading bots with real-time market APIs, technical indicator analysis, and automated buy/sell execution. Integrated ML for prediction accuracy.",
-      image: "📊",
-      tags: ["Python", "PineScript", "APIs", "Trading"],
+      title: "Student Grade Tracker",
+      description: "Python-based student dashboard for tracking academic progress with grade management, study session logging, and visual analytics with colorful charts.",
+      image: "📚",
+      tags: ["Python", "Data Visualization", "Education"],
       liveUrl: "#",
-      githubUrl: "#",
+      githubUrl: "https://github.com/AdilSukumar/Student_Grade_Tracker_Vityarthi",
       featured: false,
       gradient: "from-blue-500 to-indigo-500",
     },
@@ -57,17 +57,17 @@ const Projects = () => {
       image: "🎤",
       tags: ["Python", "NLP", "Voice AI", "Automation"],
       liveUrl: "#",
-      githubUrl: "#",
+      githubUrl: null,
       featured: false,
       gradient: "from-cyan-500 to-blue-500",
     },
     {
       title: "Smart Home Automation",
-      description: "Bluetooth-controlled home automation using Arduino and relay modules. Remote control of lights, fans, and appliances via custom mobile app.",
+      description: "Bluetooth-controlled home automation using Arduino and relay modules. Remote control of lights, fans, and appliances via custom mobile app. Won 3rd place in robotics competition.",
       image: "🏠",
-      tags: ["Arduino", "IoT", "Bluetooth", "Mobile App"],
+      tags: ["Arduino", "IoT", "Bluetooth", "Robotics"],
       liveUrl: "#",
-      githubUrl: "#",
+      githubUrl: null,
       featured: false,
       gradient: "from-orange-500 to-red-500",
     },
@@ -77,7 +77,7 @@ const Projects = () => {
       image: "🎮",
       tags: ["Python", "Game Design", "Sound Design", "UI/UX"],
       liveUrl: "#",
-      githubUrl: "#",
+      githubUrl: null,
       featured: false,
       gradient: "from-yellow-500 to-orange-500",
     },
@@ -89,62 +89,10 @@ const Projects = () => {
       className="py-32 relative noise spotlight overflow-hidden"
       ref={containerRef}
     >
-      {/* Animated background */}
+      {/* Simplified background for performance */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-0 left-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-3xl blob"
-          style={{ x: backgroundX, y: backgroundY }}
-        />
-        <motion.div
-          className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-3xl blob"
-          style={{ x: useTransform(smoothProgress, [0, 1], [100, -100]) }}
-        />
-        {/* Animated lines */}
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
-            style={{
-              width: `${60 + i * 10}%`,
-              top: `${15 + i * 18}%`,
-              left: `${5 + i * 5}%`,
-            }}
-            animate={{
-              opacity: [0, 0.5, 0],
-              scaleX: [0.5, 1, 0.5],
-              x: [-100, 100, -100],
-            }}
-            transition={{
-              duration: 4 + i,
-              repeat: Infinity,
-              delay: i * 0.5,
-              ease: [0.65, 0, 0.35, 1],
-            }}
-          />
-        ))}
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={`particle-${i}`}
-            className={`absolute w-1.5 h-1.5 rounded-full ${i % 2 === 0 ? 'bg-primary/40' : 'bg-secondary/40'}`}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [-30, 30, -30],
-              x: [-20, 20, -20],
-              opacity: [0, 1, 0],
-              scale: [0, 1.5, 0],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 3,
-              repeat: Infinity,
-              delay: Math.random() * 4,
-              ease: [0.65, 0, 0.35, 1],
-            }}
-          />
-        ))}
+        <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-3xl" />
       </div>
 
       <motion.div 
@@ -293,26 +241,28 @@ const Projects = () => {
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                           className="flex gap-4"
                         >
-                          <motion.a
+                        <motion.a
                             href={project.liveUrl}
-                            whileHover={{ scale: 1.1, y: -3 }}
+                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="px-5 py-2.5 bg-gradient text-primary-foreground rounded-xl font-medium flex items-center gap-2 glow"
+                            className="px-5 py-2.5 bg-gradient text-primary-foreground rounded-xl font-medium flex items-center gap-2"
                           >
                             <ExternalLink className="w-4 h-4" />
                             View Project
                           </motion.a>
-                          <motion.a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.1, y: -3 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-5 py-2.5 glass text-foreground rounded-xl font-medium flex items-center gap-2"
-                          >
-                            <Github className="w-4 h-4" />
-                            Source
-                          </motion.a>
+                          {project.githubUrl && (
+                            <motion.a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              className="px-5 py-2.5 glass text-foreground rounded-xl font-medium flex items-center gap-2"
+                            >
+                              <Github className="w-4 h-4" />
+                              Source
+                            </motion.a>
+                          )}
                         </motion.div>
                       </motion.div>
                     </motion.div>
@@ -369,30 +319,25 @@ const Projects = () => {
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ delay: 1.6 + index * 0.2 }}
                       >
-                        <motion.a
+                        <a
                           href={project.liveUrl}
-                          className="flex items-center gap-2 text-primary hover:text-primary/80 transition-smooth group/link"
-                          whileHover={{ x: 5 }}
+                          className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
                         >
                           <ExternalLink className="w-4 h-4" />
                           <span className="font-display font-medium">View Project</span>
-                          <motion.div
-                            initial={{ x: -5, opacity: 0 }}
-                            whileHover={{ x: 0, opacity: 1 }}
+                          <ArrowRight className="w-4 h-4" />
+                        </a>
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                           >
-                            <ArrowRight className="w-4 h-4" />
-                          </motion.div>
-                        </motion.a>
-                        <motion.a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-smooth"
-                          whileHover={{ x: 5 }}
-                        >
-                          <Github className="w-4 h-4" />
-                          <span className="font-display font-medium">Source</span>
-                        </motion.a>
+                            <Github className="w-4 h-4" />
+                            <span className="font-display font-medium">Source</span>
+                          </a>
+                        )}
                       </motion.div>
                     </div>
                   </div>
