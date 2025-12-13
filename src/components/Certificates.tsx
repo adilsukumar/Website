@@ -9,7 +9,7 @@ import pythonCert from "@/assets/certificates/python-essentials.jpg";
 const Certificates = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [selectedCert, setSelectedCert] = useState<string | null>(null);
+  const [selectedCert, setSelectedCert] = useState<{ image: string; rotate: boolean } | null>(null);
 
   const certificates = [
     {
@@ -69,7 +69,7 @@ const Certificates = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
                 whileHover={{ y: -5, scale: 1.02 }}
-                onClick={() => setSelectedCert(cert.image)}
+                onClick={() => setSelectedCert({ image: cert.image, rotate: cert.rotate })}
                 className="group glass rounded-2xl overflow-hidden cursor-pointer"
               >
                 {/* Certificate image */}
@@ -117,9 +117,9 @@ const Certificates = () => {
               <X className="w-6 h-6" />
             </button>
             <img
-              src={selectedCert}
+              src={selectedCert.image}
               alt="Certificate"
-              className="max-w-full max-h-[85vh] object-contain rounded-xl"
+              className={`max-w-full max-h-[85vh] object-contain rounded-xl ${selectedCert.rotate ? '-rotate-90' : ''}`}
             />
           </motion.div>
         </motion.div>
