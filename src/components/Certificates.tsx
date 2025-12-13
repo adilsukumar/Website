@@ -4,11 +4,7 @@ import { useRef, useState } from "react";
 import { Award, X } from "lucide-react";
 
 import wicysCert from "@/assets/certificates/wicys-hackathon.jpg";
-import entrepreneurshipCert from "@/assets/certificates/entrepreneurship-mindset.jpg";
-import financeLiteracyCert from "@/assets/certificates/finance-literacy-quiz.jpg";
-import responsibleAICert from "@/assets/certificates/responsible-ai.jpg";
 import pythonCert from "@/assets/certificates/python-essentials.jpg";
-import sebiCert from "@/assets/certificates/sebi-investor-awareness.jpg";
 
 const Certificates = () => {
   const ref = useRef(null);
@@ -19,30 +15,10 @@ const Certificates = () => {
     {
       title: "1st Place - WiCyS Hackathon",
       issuer: "WiCyS VIT Bhopal",
-      date: "2025",
+      date: "Sep 2025",
       image: wicysCert,
       color: "from-yellow-500 to-orange-500",
-    },
-    {
-      title: "Entrepreneurship Mindset for Young Innovators",
-      issuer: "Institution's Innovation Council, VIT Bhopal",
-      date: "Dec 2025",
-      image: entrepreneurshipCert,
-      color: "from-purple-500 to-pink-500",
-    },
-    {
-      title: "National Financial Literacy Quiz 2026",
-      issuer: "NISM & SEBI",
-      date: "2026",
-      image: financeLiteracyCert,
-      color: "from-amber-500 to-yellow-500",
-    },
-    {
-      title: "Responsible AI: Reimagining AI For All",
-      issuer: "VIT Bhopal ACM Student Chapter",
-      date: "Sep 2025",
-      image: responsibleAICert,
-      color: "from-blue-500 to-cyan-500",
+      rotate: true,
     },
     {
       title: "Python Essentials",
@@ -50,13 +26,7 @@ const Certificates = () => {
       date: "Nov 2025",
       image: pythonCert,
       color: "from-green-500 to-teal-500",
-    },
-    {
-      title: "SEBI Investor Awareness Test",
-      issuer: "SEBI & NISM",
-      date: "Nov 2025",
-      image: sebiCert,
-      color: "from-teal-500 to-green-500",
+      rotate: false,
     },
   ];
 
@@ -107,7 +77,7 @@ const Certificates = () => {
                   <img
                     src={cert.image}
                     alt={cert.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${cert.rotate ? 'rotate-90' : ''}`}
                   />
                   <div className={`absolute inset-0 bg-gradient-to-t ${cert.color} opacity-0 group-hover:opacity-20 transition-opacity`} />
                 </div>
