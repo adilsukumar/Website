@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Sparkles } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Sparkles, Download } from "lucide-react";
 import { useRef } from "react";
 
 const Hero = () => {
@@ -150,6 +150,16 @@ const Hero = () => {
                 transition={{ duration: 0.4 }}
               />
               <span className="relative z-10">Get In Touch</span>
+            </motion.a>
+            <motion.a
+              href="/Adil_Sukumar_Resume.pdf"
+              download
+              className="group px-8 py-4 glass font-display font-semibold rounded-xl relative overflow-hidden border-gradient-animated flex items-center gap-2"
+              whileHover={{ scale: 1.05, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Download className="w-4 h-4" />
+              <span className="relative z-10">Download Resume</span>
             </motion.a>
           </motion.div>
 

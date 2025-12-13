@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, MapPin, Send, Github, Linkedin, Sparkles, Check, ExternalLink } from "lucide-react";
+import { Mail, MapPin, Send, Github, Linkedin, Sparkles, Check, ExternalLink, Instagram, Download, BookOpen } from "lucide-react";
 
 const Contact = () => {
   const ref = useRef(null);
@@ -41,7 +41,9 @@ const Contact = () => {
   const socials = [
     { icon: Github, label: "GitHub", href: "https://github.com/adilsukumar", color: "hover:bg-gray-700" },
     { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/adilsukumar", color: "hover:bg-blue-700" },
-    { icon: ExternalLink, label: "Blog", href: "https://adilsukumar.blogspot.com/", color: "hover:bg-orange-500" },
+    { icon: Mail, label: "Email", href: "mailto:adilsukumar24@gmail.com", color: "hover:bg-red-500" },
+    { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/adilsukumar", color: "hover:bg-pink-600" },
+    { icon: BookOpen, label: "Blog", href: "https://adilsukumar.blogspot.com", color: "hover:bg-orange-500" },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {

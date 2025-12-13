@@ -26,8 +26,7 @@ const Projects = () => {
       description: "A next-generation FinTech platform combining AI, behavioral psychology, and emotional design to foster healthier financial habits. Features smart reminders, psychological cues, and financial journaling.",
       image: "💰",
       tags: ["Python", "AI/ML", "FinTech", "Product Development"],
-      liveUrl: "#",
-      githubUrl: null,
+      sourceUrl: "https://www.linkedin.com/company/spendture",
       featured: true,
       gradient: "from-green-500 via-emerald-500 to-teal-500",
     },
@@ -36,8 +35,7 @@ const Projects = () => {
       description: "A women-centric digital safety platform built during WiCyS Hackathon. Features AI-powered harassment detection, privacy audits, encrypted messaging, and emergency helpline access.",
       image: "🛡️",
       tags: ["React", "TypeScript", "Node.js", "AI", "Cybersecurity"],
-      liveUrl: "#",
-      githubUrl: "https://github.com/snehaldixitofficial/CyberSHE_WiCyS_Hackathon_.Saras-Hack-Squad",
+      sourceUrl: "https://github.com/adilsukumar/CyberSHE_WiCyS_Hackathon_.Saras-Hack-Squad",
       featured: true,
       gradient: "from-purple-500 via-pink-500 to-rose-500",
     },
@@ -46,8 +44,7 @@ const Projects = () => {
       description: "Python-based student dashboard for tracking academic progress with grade management, study session logging, and visual analytics with colorful charts.",
       image: "📚",
       tags: ["Python", "Data Visualization", "Education"],
-      liveUrl: "#",
-      githubUrl: "https://github.com/AdilSukumar/Student_Grade_Tracker_Vityarthi",
+      sourceUrl: null,
       featured: false,
       gradient: "from-blue-500 to-indigo-500",
     },
@@ -56,8 +53,7 @@ const Projects = () => {
       description: "Advanced Python-based voice assistant with speech-to-text, desktop automation, email handling, reminders, and GPT-powered chatbot fallback.",
       image: "🎤",
       tags: ["Python", "NLP", "Voice AI", "Automation"],
-      liveUrl: "#",
-      githubUrl: null,
+      sourceUrl: null,
       featured: false,
       gradient: "from-cyan-500 to-blue-500",
     },
@@ -66,8 +62,7 @@ const Projects = () => {
       description: "Bluetooth-controlled home automation using Arduino and relay modules. Remote control of lights, fans, and appliances via custom mobile app. Won 3rd place in robotics competition.",
       image: "🏠",
       tags: ["Arduino", "IoT", "Bluetooth", "Robotics"],
-      liveUrl: "#",
-      githubUrl: null,
+      sourceUrl: null,
       featured: false,
       gradient: "from-orange-500 to-red-500",
     },
@@ -76,8 +71,7 @@ const Projects = () => {
       description: "Custom 2D game with original mechanics, sound design, storytelling, and real-time difficulty scaling. Won 1st place among 100+ schools.",
       image: "🎮",
       tags: ["Python", "Game Design", "Sound Design", "UI/UX"],
-      liveUrl: "#",
-      githubUrl: null,
+      sourceUrl: null,
       featured: false,
       gradient: "from-yellow-500 to-orange-500",
     },
@@ -241,25 +235,16 @@ const Projects = () => {
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                           className="flex gap-4"
                         >
-                        <motion.a
-                            href={project.liveUrl}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-5 py-2.5 bg-gradient text-primary-foreground rounded-xl font-medium flex items-center gap-2"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                            View Project
-                          </motion.a>
-                          {project.githubUrl && (
+                          {project.sourceUrl && (
                             <motion.a
-                              href={project.githubUrl}
+                              href={project.sourceUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              className="px-5 py-2.5 glass text-foreground rounded-xl font-medium flex items-center gap-2"
+                              className="px-5 py-2.5 bg-gradient text-primary-foreground rounded-xl font-medium flex items-center gap-2"
                             >
-                              <Github className="w-4 h-4" />
+                              <ExternalLink className="w-4 h-4" />
                               Source
                             </motion.a>
                           )}
@@ -319,23 +304,20 @@ const Projects = () => {
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ delay: 1.6 + index * 0.2 }}
                       >
-                        <a
-                          href={project.liveUrl}
-                          className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-                        >
+                        <span className="flex items-center gap-2 text-muted-foreground">
                           <ExternalLink className="w-4 h-4" />
                           <span className="font-display font-medium">View Project</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </a>
-                        {project.githubUrl && (
+                        </span>
+                        {project.sourceUrl && (
                           <a
-                            href={project.githubUrl}
+                            href={project.sourceUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                            className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
                           >
                             <Github className="w-4 h-4" />
                             <span className="font-display font-medium">Source</span>
+                            <ArrowRight className="w-4 h-4" />
                           </a>
                         )}
                       </motion.div>
@@ -408,26 +390,6 @@ const Projects = () => {
                           {tag}
                         </span>
                       ))}
-                    </div>
-
-                    {/* Links */}
-                    <div className="flex gap-4">
-                      <motion.a
-                        href={project.githubUrl}
-                        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-smooth"
-                        whileHover={{ x: 3 }}
-                      >
-                        <Github className="w-4 h-4" />
-                        Code
-                      </motion.a>
-                      <motion.a
-                        href={project.liveUrl}
-                        className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-smooth"
-                        whileHover={{ x: 3 }}
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        View
-                      </motion.a>
                     </div>
                   </div>
                 </motion.div>
