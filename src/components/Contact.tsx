@@ -1,20 +1,25 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, MapPin, Send, Github, Twitter, Linkedin, Sparkles } from "lucide-react";
+import { Mail, MapPin, Send, Github, Twitter, Linkedin, Sparkles, Check } from "lucide-react";
 
 const Contact = () => {
   const ref = useRef(null);
   const containerRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  const backgroundScale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1.2]);
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const backgroundScale = useTransform(smoothProgress, [0, 0.5, 1], [0.6, 1.2, 0.8]);
+  const backgroundRotate = useTransform(smoothProgress, [0, 1], [0, 180]);
+  const sectionOpacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
 
   const contactInfo = [
     {
@@ -22,101 +27,143 @@ const Contact = () => {
       label: "Email",
       value: "hello@alexchen.dev",
       href: "mailto:hello@alexchen.dev",
+      color: "from-blue-500 to-cyan-500",
     },
-    { icon: MapPin, label: "Location", value: "San Francisco, CA", href: "#" },
+    { 
+      icon: MapPin, 
+      label: "Location", 
+      value: "San Francisco, CA", 
+      href: "#",
+      color: "from-pink-500 to-rose-500",
+    },
   ];
 
   const socials = [
-    { icon: Github, label: "GitHub", href: "#" },
-    { icon: Twitter, label: "Twitter", href: "#" },
-    { icon: Linkedin, label: "LinkedIn", href: "#" },
+    { icon: Github, label: "GitHub", href: "#", color: "hover:bg-gray-700" },
+    { icon: Twitter, label: "Twitter", href: "#", color: "hover:bg-blue-500" },
+    { icon: Linkedin, label: "LinkedIn", href: "#", color: "hover:bg-blue-700" },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => setIsSubmitting(false), 2000);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 3000);
+    }, 2000);
   };
 
-  const inputVariants = {
-    focus: {
-      scale: 1.02,
-      boxShadow: "0 0 20px hsl(var(--primary) / 0.3)",
-    },
-  };
+  const formFields = [
+    { id: "name", label: "Name", type: "text", placeholder: "Your name" },
+    { id: "email", label: "Email", type: "email", placeholder: "your@email.com" },
+  ];
 
   return (
     <section
       id="contact"
-      className="py-32 relative noise overflow-hidden"
+      className="py-32 relative noise spotlight overflow-hidden"
       ref={containerRef}
     >
-      {/* Background decoration with parallax */}
+      {/* Intense animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-gradient rounded-full blur-3xl opacity-10"
-          style={{ scale: backgroundScale }}
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1400px] h-[700px] bg-gradient-animated rounded-full blur-3xl opacity-15"
+          style={{ scale: backgroundScale, rotate: backgroundRotate }}
         />
+        
         {/* Floating shapes */}
-        {[...Array(5)].map((_, i) => (
+        {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-4 h-4 bg-primary/20 rounded-full"
+            className={`absolute rounded-full ${i % 3 === 0 ? 'bg-primary/20 w-6 h-6' : i % 3 === 1 ? 'bg-secondary/20 w-4 h-4' : 'bg-foreground/10 w-3 h-3'}`}
             style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + i * 10}%`,
+              left: `${5 + i * 8}%`,
+              top: `${15 + (i % 4) * 20}%`,
             }}
             animate={{
-              y: [-20, 20, -20],
-              x: [-10, 10, -10],
-              scale: [1, 1.5, 1],
-              opacity: [0.3, 0.6, 0.3],
+              y: [-40, 40, -40],
+              x: [-20, 20, -20],
+              scale: [1, 1.8, 1],
+              opacity: [0.2, 0.6, 0.2],
+              rotate: [0, 180, 360],
             }}
             transition={{
-              duration: 4 + i,
+              duration: 5 + i * 0.5,
               repeat: Infinity,
-              delay: i * 0.5,
+              delay: i * 0.3,
+              ease: [0.65, 0, 0.35, 1],
             }}
           />
         ))}
+
+        {/* Animated grid */}
+        <motion.div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
+                             linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+          animate={{ backgroundPosition: ["0px 0px", "60px 60px"] }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10" ref={ref}>
+      <motion.div 
+        className="container mx-auto px-6 relative z-10" 
+        ref={ref}
+        style={{ opacity: sectionOpacity }}
+      >
         <div className="max-w-4xl mx-auto">
           {/* Section header */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 100 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
             <motion.div
-              initial={{ scale: 0 }}
-              animate={isInView ? { scale: 1 } : {}}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full mb-6"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={isInView ? { scale: 1, rotate: 0 } : {}}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
+              className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full mb-6 border-gradient-animated"
             >
-              <Sparkles className="w-4 h-4 text-primary" />
+              <motion.div
+                animate={{ rotate: [0, 360], scale: [1, 1.2, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                <Sparkles className="w-4 h-4 text-primary" />
+              </motion.div>
               <span className="text-sm text-muted-foreground">Let's work together</span>
             </motion.div>
-            <motion.h2 className="font-display text-4xl sm:text-5xl font-bold mb-4">
+
+            <motion.h2 className="font-display text-4xl sm:text-5xl font-bold mb-4 overflow-hidden">
               {"Let's ".split("").map((char, i) => (
                 <motion.span
                   key={i}
-                  initial={{ opacity: 0, y: 50, rotate: -10 }}
-                  animate={isInView ? { opacity: 1, y: 0, rotate: 0 } : {}}
-                  transition={{ delay: 0.3 + i * 0.05, type: "spring" }}
+                  initial={{ opacity: 0, y: 100, rotateX: -90 }}
+                  animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                  transition={{ delay: 0.3 + i * 0.04, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                   className="inline-block"
                 >
                   {char === " " ? "\u00A0" : char}
                 </motion.span>
               ))}
-              <span className="text-gradient">Connect</span>
+              <motion.span 
+                className="holographic"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
+              >
+                Connect
+              </motion.span>
             </motion.h2>
+
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.6 }}
+              initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+              animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+              transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-lg max-w-2xl mx-auto"
             >
               Have a project in mind or just want to chat? I'd love to hear from you.
@@ -126,77 +173,141 @@ const Contact = () => {
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact form */}
             <motion.div
-              initial={{ opacity: 0, x: -50, rotateY: -10 }}
+              initial={{ opacity: 0, x: -100, rotateY: -20 }}
               animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="perspective-1000"
             >
               <form className="space-y-6" onSubmit={handleSubmit}>
-                {[
-                  { id: "name", label: "Name", type: "text", placeholder: "Your name" },
-                  { id: "email", label: "Email", type: "email", placeholder: "your@email.com" },
-                ].map((field, index) => (
+                {formFields.map((field, index) => (
                   <motion.div
                     key={field.id}
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.4 + index * 0.1 }}
+                    initial={{ opacity: 0, x: -50, rotateY: -10 }}
+                    animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
+                    transition={{ delay: 0.7 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <label htmlFor={field.id} className="block text-sm font-medium mb-2">
+                    <motion.label 
+                      htmlFor={field.id} 
+                      className="block text-sm font-medium mb-2"
+                      animate={{ color: focusedField === field.id ? "hsl(var(--primary))" : "hsl(var(--foreground))" }}
+                    >
                       {field.label}
-                    </label>
-                    <motion.input
-                      type={field.type}
-                      id={field.id}
-                      whileFocus={inputVariants.focus}
-                      className="w-full px-4 py-3 glass rounded-xl border-0 bg-muted focus:ring-2 focus:ring-primary focus:outline-none transition-all"
-                      placeholder={field.placeholder}
-                    />
+                    </motion.label>
+                    <motion.div
+                      className="relative"
+                      whileHover={{ scale: 1.02 }}
+                      whileFocus={{ scale: 1.02 }}
+                    >
+                      <motion.input
+                        type={field.type}
+                        id={field.id}
+                        onFocus={() => setFocusedField(field.id)}
+                        onBlur={() => setFocusedField(null)}
+                        className="w-full px-4 py-3.5 glass-strong rounded-xl border-0 bg-muted focus:ring-2 focus:ring-primary focus:outline-none transition-smooth"
+                        placeholder={field.placeholder}
+                        animate={{
+                          boxShadow: focusedField === field.id 
+                            ? "0 0 30px hsl(var(--primary) / 0.3)" 
+                            : "none"
+                        }}
+                      />
+                      <motion.div
+                        className="absolute inset-0 rounded-xl border-2 border-primary pointer-events-none"
+                        initial={{ opacity: 0, scale: 1.05 }}
+                        animate={{ 
+                          opacity: focusedField === field.id ? 1 : 0,
+                          scale: focusedField === field.id ? 1 : 1.05
+                        }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    </motion.div>
                   </motion.div>
                 ))}
+
                 <motion.div
-                  initial={{ opacity: 0, x: -30 }}
+                  initial={{ opacity: 0, x: -50 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.6 }}
+                  transition={{ delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <label htmlFor="message" className="block text-sm font-medium mb-2">
+                  <motion.label 
+                    htmlFor="message" 
+                    className="block text-sm font-medium mb-2"
+                    animate={{ color: focusedField === "message" ? "hsl(var(--primary))" : "hsl(var(--foreground))" }}
+                  >
                     Message
-                  </label>
-                  <motion.textarea
-                    id="message"
-                    rows={5}
-                    whileFocus={inputVariants.focus}
-                    className="w-full px-4 py-3 glass rounded-xl border-0 bg-muted focus:ring-2 focus:ring-primary focus:outline-none transition-all resize-none"
-                    placeholder="Tell me about your project..."
-                  />
+                  </motion.label>
+                  <motion.div className="relative" whileHover={{ scale: 1.01 }}>
+                    <motion.textarea
+                      id="message"
+                      rows={5}
+                      onFocus={() => setFocusedField("message")}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full px-4 py-3.5 glass-strong rounded-xl border-0 bg-muted focus:ring-2 focus:ring-primary focus:outline-none transition-smooth resize-none"
+                      placeholder="Tell me about your project..."
+                      animate={{
+                        boxShadow: focusedField === "message" 
+                          ? "0 0 30px hsl(var(--primary) / 0.3)" 
+                          : "none"
+                      }}
+                    />
+                    <motion.div
+                      className="absolute inset-0 rounded-xl border-2 border-primary pointer-events-none"
+                      initial={{ opacity: 0, scale: 1.02 }}
+                      animate={{ 
+                        opacity: focusedField === "message" ? 1 : 0,
+                        scale: focusedField === "message" ? 1 : 1.02
+                      }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  </motion.div>
                 </motion.div>
+
                 <motion.button
                   type="submit"
-                  disabled={isSubmitting}
-                  initial={{ opacity: 0, y: 20 }}
+                  disabled={isSubmitting || isSuccess}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.7 }}
-                  whileHover={{ scale: 1.02 }}
+                  transition={{ delay: 1, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full group flex items-center justify-center gap-2 px-8 py-4 bg-gradient text-primary-foreground font-display font-semibold rounded-xl overflow-hidden transition-all glow disabled:opacity-70"
+                  className={`w-full group flex items-center justify-center gap-2 px-8 py-4 font-display font-semibold rounded-xl overflow-hidden transition-smooth disabled:cursor-not-allowed relative ${
+                    isSuccess ? 'bg-green-500' : 'bg-gradient-animated glow-intense'
+                  }`}
                 >
-                  <motion.span
-                    animate={isSubmitting ? { opacity: 0 } : { opacity: 1 }}
-                  >
-                    Send Message
-                  </motion.span>
                   <motion.div
+                    className="absolute inset-0 bg-white/20"
+                    initial={{ x: "-100%", skewX: -20 }}
+                    whileHover={{ x: "200%" }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                  
+                  <motion.span
+                    className="relative z-10 text-primary-foreground"
+                    animate={{ opacity: isSubmitting ? 0.5 : 1 }}
+                  >
+                    {isSuccess ? "Message Sent!" : isSubmitting ? "Sending..." : "Send Message"}
+                  </motion.span>
+                  
+                  <motion.div
+                    className="relative z-10"
                     animate={
                       isSubmitting
-                        ? { rotate: 360, x: [0, 100] }
+                        ? { rotate: 360 }
+                        : isSuccess
+                        ? { scale: [0, 1.2, 1] }
                         : { x: 0 }
                     }
                     transition={
                       isSubmitting
-                        ? { duration: 0.5 }
-                        : { type: "spring", stiffness: 200 }
+                        ? { duration: 1, repeat: Infinity, ease: "linear" }
+                        : { duration: 0.3 }
                     }
                   >
-                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    {isSuccess ? (
+                      <Check className="w-5 h-5 text-primary-foreground" />
+                    ) : (
+                      <Send className="w-5 h-5 text-primary-foreground group-hover:translate-x-1 transition-transform" />
+                    )}
                   </motion.div>
                 </motion.button>
               </form>
@@ -204,37 +315,41 @@ const Contact = () => {
 
             {/* Contact info */}
             <motion.div
-              initial={{ opacity: 0, x: 50, rotateY: 10 }}
+              initial={{ opacity: 0, x: 100, rotateY: 20 }}
               animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="space-y-6"
+              transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-6 perspective-1000"
             >
               {/* Info cards */}
               <div className="space-y-4">
-                {contactInfo.map(({ icon: Icon, label, value, href }, index) => (
+                {contactInfo.map(({ icon: Icon, label, value, href, color }, index) => (
                   <motion.a
                     key={label}
                     href={href}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.5 + index * 0.1 }}
+                    initial={{ opacity: 0, y: 50, rotateX: -20 }}
+                    animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                    transition={{ delay: 0.8 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                     whileHover={{
-                      scale: 1.02,
-                      x: 10,
-                      transition: { type: "spring", stiffness: 300 },
+                      scale: 1.05,
+                      x: 15,
+                      rotateY: 5,
+                      transition: { type: "spring", stiffness: 300, damping: 20 },
                     }}
-                    className="flex items-center gap-4 p-4 glass rounded-xl hover:glow transition-all duration-300 block"
+                    className="flex items-center gap-4 p-5 glass-strong rounded-xl hover:glow-intense transition-smooth block border-gradient-animated relative overflow-hidden group"
                   >
                     <motion.div
-                      className="w-12 h-12 bg-gradient rounded-xl flex items-center justify-center flex-shrink-0"
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.5 }}
+                      className={`absolute inset-0 bg-gradient-to-r ${color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                    />
+                    <motion.div
+                      className={`w-14 h-14 bg-gradient-to-r ${color} rounded-xl flex items-center justify-center flex-shrink-0 relative z-10`}
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <Icon className="w-5 h-5 text-primary-foreground" />
+                      <Icon className="w-6 h-6 text-white" />
                     </motion.div>
-                    <div>
+                    <div className="relative z-10">
                       <div className="text-sm text-muted-foreground">{label}</div>
-                      <div className="font-display font-medium">{value}</div>
+                      <div className="font-display font-medium group-hover:text-gradient transition-smooth">{value}</div>
                     </div>
                   </motion.a>
                 ))}
@@ -242,34 +357,45 @@ const Contact = () => {
 
               {/* Social links */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.7 }}
-                className="glass p-6 rounded-xl"
+                transition={{ delay: 1, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ scale: 1.02 }}
+                className="glass-strong p-6 rounded-xl border-gradient-animated"
               >
-                <h3 className="font-display font-semibold mb-4">Follow Me</h3>
+                <h3 className="font-display font-semibold mb-4 flex items-center gap-2">
+                  Follow Me
+                  <motion.span
+                    animate={{ rotate: [0, 15, -15, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    👋
+                  </motion.span>
+                </h3>
                 <div className="flex gap-4">
-                  {socials.map(({ icon: Icon, label, href }, index) => (
+                  {socials.map(({ icon: Icon, label, href, color }, index) => (
                     <motion.a
                       key={label}
                       href={href}
                       aria-label={label}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                      animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
                       transition={{
-                        delay: 0.8 + index * 0.1,
+                        delay: 1.1 + index * 0.1,
                         type: "spring",
                         stiffness: 200,
+                        damping: 15,
                       }}
                       whileHover={{
-                        scale: 1.2,
+                        scale: 1.3,
                         rotate: 360,
-                        transition: { duration: 0.4 },
+                        y: -8,
+                        transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
                       }}
                       whileTap={{ scale: 0.9 }}
-                      className="w-12 h-12 glass rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary hover:glow transition-all duration-300"
+                      className={`w-14 h-14 glass rounded-xl flex items-center justify-center text-muted-foreground hover:text-white ${color} hover:glow-intense transition-smooth`}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-6 h-6" />
                     </motion.a>
                   ))}
                 </div>
@@ -277,36 +403,44 @@ const Contact = () => {
 
               {/* Availability */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.9 }}
-                whileHover={{ scale: 1.02 }}
-                className="glass p-6 rounded-xl border-gradient cursor-pointer"
+                transition={{ delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ scale: 1.03, y: -5 }}
+                className="glass-strong p-6 rounded-xl border-gradient-animated cursor-pointer relative overflow-hidden group"
               >
-                <div className="flex items-center gap-3 mb-3">
+                <motion.div
+                  className="absolute inset-0 bg-gradient-animated opacity-0 group-hover:opacity-10 transition-opacity duration-500"
+                />
+                <div className="flex items-center gap-3 mb-3 relative z-10">
                   <motion.span
-                    className="relative flex h-3 w-3"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    className="relative flex h-4 w-4"
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
                   >
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500 glow"></span>
                   </motion.span>
                   <span className="font-display font-semibold">Currently Available</span>
+                  <motion.span
+                    animate={{ rotate: [0, 20, -20, 0], scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    🚀
+                  </motion.span>
                 </div>
                 <motion.p
-                  className="text-muted-foreground text-sm"
+                  className="text-muted-foreground text-sm relative z-10"
                   animate={{ opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 3, repeat: Infinity }}
+                  transition={{ duration: 3, repeat: Infinity, ease: [0.65, 0, 0.35, 1] }}
                 >
-                  I'm open to freelance projects and full-time opportunities. Let's build
-                  something amazing together!
+                  I'm open to freelance projects and full-time opportunities. Let's build something amazing together!
                 </motion.p>
               </motion.div>
             </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
