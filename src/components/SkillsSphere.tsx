@@ -92,13 +92,13 @@ const SkillNode = ({
   onHover: (index: number | null) => void;
   time: number;
 }) => {
-  // Smooth orbital movement - faster speed
-  const orbitSpeed = 0.00012 + (index % 5) * 0.00003;
-  const floatAmplitude = 3 + (index % 5);
-  const floatSpeed = 0.0006 + (index % 3) * 0.0002;
+  // Smooth orbital movement
+  const orbitSpeed = 0.0001 + (index % 5) * 0.00003;
+  const floatAmplitude = 3 + (index % 4);
+  const floatSpeed = 0.0005 + (index % 3) * 0.0002;
   
-  // Slow down to 15% speed when hovering (smooth slowdown)
-  const speedMultiplier = isPaused ? 0.15 : 1;
+  // Slow down to ~40% speed when hovering (smooth but readable)
+  const speedMultiplier = isPaused ? 0.4 : 1;
   
   const currentAngle = position.baseAngle + time * orbitSpeed * speedMultiplier;
   const floatOffset = Math.sin(time * floatSpeed * speedMultiplier + index) * floatAmplitude;
@@ -331,57 +331,54 @@ const BackgroundStars = () => {
   );
 };
 
-// Top hint text component
+// Left-side shooting hint text
 const HoverHint = () => {
   return (
     <motion.div
-      className="absolute top-0 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1.5, duration: 0.8, type: "spring", stiffness: 80 }}
+      className="absolute left-4 top-1/3 z-50 flex items-center gap-3 pointer-events-none"
+      initial={{ opacity: 0, x: -60 }}
+      animate={{ opacity: 1, x: [-40, 0, -40] }}
+      transition={{
+        delay: 1.5,
+        duration: 6,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
     >
+      {/* Shooting star trail */}
       <motion.div
-        animate={{ 
-          rotate: [0, 10, -10, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{ 
-          duration: 2.5, 
-          repeat: Infinity, 
-          ease: "easeInOut" 
-        }}
-      >
-        <Sparkles className="w-5 h-5 text-primary drop-shadow-[0_0_10px_hsl(185,100%,50%)]" />
-      </motion.div>
-      
-      <motion.span
-        className="text-sm font-medium tracking-wider"
+        className="h-0.5 w-24 rounded-full"
         style={{
-          background: "linear-gradient(90deg, hsl(185, 100%, 60%), hsl(280, 100%, 70%))",
-          backgroundClip: "text",
-          WebkitBackgroundClip: "text",
-          color: "transparent",
+          background:
+            "linear-gradient(90deg, transparent, hsl(185, 100%, 55%), hsl(280, 100%, 70%))",
         }}
-        animate={{ opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 3, repeat: Infinity }}
-      >
-        Hover the stars to explore
-      </motion.span>
-      
-      <motion.div
-        animate={{ 
-          rotate: [0, -10, 10, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{ 
-          duration: 2.5, 
-          repeat: Infinity, 
-          ease: "easeInOut",
-          delay: 0.5,
-        }}
-      >
-        <Sparkles className="w-5 h-5 text-secondary drop-shadow-[0_0_10px_hsl(280,100%,65%)]" />
-      </motion.div>
+        animate={{ opacity: [0.1, 1, 0.4] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Star + text */}
+      <div className="flex items-center gap-2">
+        <motion.div
+          animate={{ rotate: [0, 12, -12, 0], scale: [1, 1.1, 1] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Sparkles className="w-5 h-5 text-primary drop-shadow-[0_0_10px_hsl(185,100%,50%)]" />
+        </motion.div>
+        <motion.span
+          className="text-xs sm:text-sm font-medium tracking-wide whitespace-nowrap"
+          style={{
+            background:
+              "linear-gradient(90deg, hsl(185, 100%, 60%), hsl(280, 100%, 70%))",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            color: "transparent",
+          }}
+          animate={{ opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        >
+          Hover the stars to explore
+        </motion.span>
+      </div>
     </motion.div>
   );
 };
