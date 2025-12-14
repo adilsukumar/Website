@@ -80,7 +80,7 @@ const SkillNode = ({
   position, 
   index, 
   isHovered,
-  isPaused,
+  isInArea,
   onHover,
   time,
 }: { 
@@ -88,17 +88,17 @@ const SkillNode = ({
   position: { x: number; y: number; z: number; baseAngle: number; baseRadius: number };
   index: number;
   isHovered: boolean;
-  isPaused: boolean;
+  isInArea: boolean;
   onHover: (index: number | null) => void;
   time: number;
 }) => {
   // Smooth orbital movement
-  const orbitSpeed = 0.0001 + (index % 5) * 0.00003;
-  const floatAmplitude = 3 + (index % 4);
-  const floatSpeed = 0.0005 + (index % 3) * 0.0002;
+  const orbitSpeed = 0.00008 + (index % 5) * 0.00002;
+  const floatAmplitude = 2 + (index % 4);
+  const floatSpeed = 0.0004 + (index % 3) * 0.00015;
   
-  // Slow down to ~40% speed when hovering (smooth but readable)
-  const speedMultiplier = isPaused ? 0.4 : 1;
+  // Slow to 40% when cursor is in the area, normal otherwise
+  const speedMultiplier = isInArea ? 0.4 : 1;
   
   const currentAngle = position.baseAngle + time * orbitSpeed * speedMultiplier;
   const floatOffset = Math.sin(time * floatSpeed * speedMultiplier + index) * floatAmplitude;
@@ -110,64 +110,62 @@ const SkillNode = ({
   const opacity = 0.5 + (position.z + 50) / 130;
 
   return (
-    <motion.div
+    <div
       className="absolute cursor-pointer"
       style={{
         left: `calc(50% + ${animatedX}px)`,
         top: `calc(50% + ${animatedY}px)`,
         zIndex: Math.floor(position.z + 50),
-      }}
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ 
-        opacity: isPaused && !isHovered ? 0.4 : 1, 
-        scale: isHovered ? 1.5 : 1,
-      }}
-      transition={{ 
-        delay: index * 0.012,
-        duration: 0.8,
-        type: "spring",
-        stiffness: 80,
-        damping: 12,
-        scale: { type: "spring", stiffness: 200, damping: 15 }
+        transition: "transform 0.15s ease-out",
+        transform: `scale(${isHovered ? 1.5 : 1})`,
       }}
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
     >
+      {/* Pulse ring - only on hovered star */}
+      {isHovered && (
+        <motion.div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: size * 5,
+            height: size * 5,
+            border: `1.5px solid ${skill.color}`,
+            left: "50%",
+            top: "50%",
+            x: "-50%",
+            y: "-50%",
+          }}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: [1, 1.8, 2.2], opacity: [0.7, 0.3, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
+        />
+      )}
       {/* Glow aura */}
-      <motion.div
-        className="absolute rounded-full"
+      <div
+        className="absolute rounded-full pointer-events-none"
         style={{
           width: size * 3,
           height: size * 3,
-          background: `radial-gradient(circle, ${skill.glow}50, transparent 70%)`,
+          background: `radial-gradient(circle, ${skill.glow}${isHovered ? '70' : '40'}, transparent 70%)`,
           left: "50%",
           top: "50%",
           transform: "translate(-50%, -50%)",
           filter: "blur(3px)",
-        }}
-        animate={{
-          scale: isHovered ? [1, 1.4, 1.2] : [1, 1.1, 1],
-          opacity: isHovered ? [0.9, 1, 0.9] : [0.25, 0.4, 0.25],
-        }}
-        transition={{
-          duration: isHovered ? 1 : 4,
-          repeat: Infinity,
-          ease: "easeInOut",
+          transition: "opacity 0.2s ease",
+          opacity: isHovered ? 0.9 : 0.35,
         }}
       />
       
       {/* Core node */}
-      <motion.div
+      <div
         className="rounded-full relative"
         style={{
           width: size,
           height: size,
           background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), ${skill.color})`,
-          boxShadow: `
-            0 0 ${isHovered ? 30 : 8}px ${skill.glow},
-            inset 0 0 ${size/3}px rgba(255,255,255,0.4)
-          `,
+          boxShadow: `0 0 ${isHovered ? 25 : 8}px ${skill.glow}, inset 0 0 ${size/3}px rgba(255,255,255,0.4)`,
           opacity,
+          transition: "box-shadow 0.2s ease",
         }}
       />
 
@@ -191,10 +189,7 @@ const SkillNode = ({
                 background: `linear-gradient(135deg, ${skill.color}50, ${skill.color}20)`,
                 border: `1px solid ${skill.color}60`,
                 color: "white",
-                boxShadow: `
-                  0 10px 40px ${skill.glow}40,
-                  0 0 0 1px ${skill.color}20
-                `,
+                boxShadow: `0 10px 40px ${skill.glow}40, 0 0 0 1px ${skill.color}20`,
               }}
             >
               {skill.name}
@@ -208,7 +203,7 @@ const SkillNode = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
 
@@ -222,26 +217,27 @@ const ConnectionLines = ({
   time: number;
   isPaused: boolean;
 }) => {
-  const effectiveTime = isPaused ? 0 : time;
+  // Use 40% speed when in area, 100% otherwise
+  const speedMultiplier = isPaused ? 0.4 : 1;
   const connections: { from: number; to: number; opacity: number }[] = [];
   
   positions.forEach((pos1, i) => {
     positions.forEach((pos2, j) => {
       if (i < j) {
-        const orbitSpeed1 = 0.00003 + (i % 5) * 0.00001;
-        const orbitSpeed2 = 0.00003 + (j % 5) * 0.00001;
+        const orbitSpeed1 = (0.00008 + (i % 5) * 0.00002) * speedMultiplier;
+        const orbitSpeed2 = (0.00008 + (j % 5) * 0.00002) * speedMultiplier;
         
-        const x1 = Math.cos(pos1.baseAngle + effectiveTime * orbitSpeed1) * pos1.baseRadius;
-        const y1 = Math.sin(pos1.baseAngle + effectiveTime * orbitSpeed1) * pos1.baseRadius * 0.6;
-        const x2 = Math.cos(pos2.baseAngle + effectiveTime * orbitSpeed2) * pos2.baseRadius;
-        const y2 = Math.sin(pos2.baseAngle + effectiveTime * orbitSpeed2) * pos2.baseRadius * 0.6;
+        const x1 = Math.cos(pos1.baseAngle + time * orbitSpeed1) * pos1.baseRadius;
+        const y1 = Math.sin(pos1.baseAngle + time * orbitSpeed1) * pos1.baseRadius * 0.6;
+        const x2 = Math.cos(pos2.baseAngle + time * orbitSpeed2) * pos2.baseRadius;
+        const y2 = Math.sin(pos2.baseAngle + time * orbitSpeed2) * pos2.baseRadius * 0.6;
         
         const dist = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-        if (dist < 80 && connections.length < 35) {
+        if (dist < 80 && connections.length < 30) {
           connections.push({
             from: i,
             to: j,
-            opacity: (1 - dist / 80) * 0.35,
+            opacity: (1 - dist / 80) * 0.3,
           });
         }
       }
@@ -252,22 +248,22 @@ const ConnectionLines = ({
     <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
       <defs>
         <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="hsl(185, 100%, 50%)" stopOpacity="0.15" />
-          <stop offset="50%" stopColor="hsl(280, 100%, 65%)" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="hsl(185, 100%, 50%)" stopOpacity="0.15" />
+          <stop offset="0%" stopColor="hsl(185, 100%, 50%)" stopOpacity="0.12" />
+          <stop offset="50%" stopColor="hsl(280, 100%, 65%)" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="hsl(185, 100%, 50%)" stopOpacity="0.12" />
         </linearGradient>
       </defs>
       {connections.map((conn, i) => {
-        const orbitSpeed1 = 0.00003 + (conn.from % 5) * 0.00001;
-        const orbitSpeed2 = 0.00003 + (conn.to % 5) * 0.00001;
+        const orbitSpeed1 = (0.00008 + (conn.from % 5) * 0.00002) * speedMultiplier;
+        const orbitSpeed2 = (0.00008 + (conn.to % 5) * 0.00002) * speedMultiplier;
         
-        const x1 = Math.cos(positions[conn.from].baseAngle + effectiveTime * orbitSpeed1) * positions[conn.from].baseRadius + 350;
-        const y1 = Math.sin(positions[conn.from].baseAngle + effectiveTime * orbitSpeed1) * positions[conn.from].baseRadius * 0.6 + 350;
-        const x2 = Math.cos(positions[conn.to].baseAngle + effectiveTime * orbitSpeed2) * positions[conn.to].baseRadius + 350;
-        const y2 = Math.sin(positions[conn.to].baseAngle + effectiveTime * orbitSpeed2) * positions[conn.to].baseRadius * 0.6 + 350;
+        const x1 = Math.cos(positions[conn.from].baseAngle + time * orbitSpeed1) * positions[conn.from].baseRadius + 350;
+        const y1 = Math.sin(positions[conn.from].baseAngle + time * orbitSpeed1) * positions[conn.from].baseRadius * 0.6 + 350;
+        const x2 = Math.cos(positions[conn.to].baseAngle + time * orbitSpeed2) * positions[conn.to].baseRadius + 350;
+        const y2 = Math.sin(positions[conn.to].baseAngle + time * orbitSpeed2) * positions[conn.to].baseRadius * 0.6 + 350;
         
         return (
-          <motion.line
+          <line
             key={i}
             x1={x1}
             y1={y1}
@@ -275,9 +271,7 @@ const ConnectionLines = ({
             y2={y2}
             stroke="url(#lineGradient)"
             strokeWidth="1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isPaused ? conn.opacity * 0.3 : conn.opacity }}
-            transition={{ duration: 0.8 }}
+            opacity={conn.opacity}
           />
         );
       })}
@@ -385,12 +379,11 @@ const HoverHint = () => {
 
 const SkillsSphere = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isInArea, setIsInArea] = useState(false);
   const [time, setTime] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  const isPaused = hoveredIndex !== null;
 
-  // Animation loop for flowing effect - slows down when hovering
+  // Animation loop for flowing effect
   useEffect(() => {
     let animationId: number;
     let lastTime = Date.now();
@@ -405,18 +398,17 @@ const SkillsSphere = () => {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
-
   const positions = useMemo(() => 
     allSkills.map((_, i) => generateGalaxyPosition(i, allSkills.length)), 
     []
   );
 
-  
-
   return (
     <div
       ref={containerRef}
       className="relative w-full h-[700px] overflow-hidden"
+      onMouseEnter={() => setIsInArea(true)}
+      onMouseLeave={() => { setIsInArea(false); setHoveredIndex(null); }}
     >
       {/* Background radial gradient */}
       <div 
@@ -441,7 +433,7 @@ const SkillsSphere = () => {
       {/* Main galaxy container */}
       <div className="relative w-full h-full flex items-center justify-center">
         {/* Connection lines */}
-        <ConnectionLines positions={positions} time={time} isPaused={isPaused} />
+        <ConnectionLines positions={positions} time={time} isPaused={isInArea} />
 
         {/* Center core */}
         <motion.div
@@ -464,7 +456,7 @@ const SkillsSphere = () => {
               left: -70,
               top: -70,
             }}
-            animate={{ rotate: isPaused ? 0 : 360 }}
+            animate={{ rotate: 360 }}
             transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
@@ -475,7 +467,7 @@ const SkillsSphere = () => {
               left: -50,
               top: -50,
             }}
-            animate={{ rotate: isPaused ? 0 : -360 }}
+            animate={{ rotate: -360 }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           />
           
@@ -530,7 +522,7 @@ const SkillsSphere = () => {
             position={positions[index]}
             index={index}
             isHovered={hoveredIndex === index}
-            isPaused={isPaused}
+            isInArea={isInArea}
             onHover={setHoveredIndex}
             time={time}
           />
