@@ -82,6 +82,8 @@ const SkillNode = ({
   isHovered,
   isInArea,
   onHover,
+  onTouch,
+  isTouched,
   time,
 }: { 
   skill: typeof allSkills[0];
@@ -90,24 +92,56 @@ const SkillNode = ({
   isHovered: boolean;
   isInArea: boolean;
   onHover: (index: number | null) => void;
+  onTouch: (index: number | null) => void;
+  isTouched: boolean;
   time: number;
 }) => {
-  // Smooth orbital movement
-  const orbitSpeed = 0.00008 + (index % 5) * 0.00002;
-  const floatAmplitude = 2 + (index % 4);
-  const floatSpeed = 0.0004 + (index % 3) * 0.00015;
+  // Different movement patterns based on index
+  const patternType = index % 4;
+  const baseSpeed = 0.00006 + (index % 6) * 0.00001;
+  const speedMultiplier = isInArea ? 0.5 : 1;
+  const t = time * baseSpeed * speedMultiplier;
   
-  // Slow to 40% when cursor is in the area, normal otherwise
-  const speedMultiplier = isInArea ? 0.4 : 1;
+  // Create flowing patterns that change direction smoothly
+  let animatedX: number;
+  let animatedY: number;
   
-  const currentAngle = position.baseAngle + time * orbitSpeed * speedMultiplier;
-  const floatOffset = Math.sin(time * floatSpeed * speedMultiplier + index) * floatAmplitude;
-  
-  const animatedX = Math.cos(currentAngle) * position.baseRadius + floatOffset;
-  const animatedY = Math.sin(currentAngle) * position.baseRadius * 0.6 + Math.cos(time * floatSpeed * speedMultiplier * 0.7 + index) * floatAmplitude * 0.5;
+  if (!isInArea) {
+    // Normal pattern - smooth orbital with wave variations
+    const wave1 = Math.sin(t * 1.2 + index * 0.5) * 15;
+    const wave2 = Math.cos(t * 0.8 + index * 0.3) * 10;
+    animatedX = Math.cos(position.baseAngle + t) * position.baseRadius + wave1;
+    animatedY = Math.sin(position.baseAngle + t) * position.baseRadius * 0.6 + wave2;
+  } else {
+    // Alternative pattern when cursor is in area - figure-8 / lemniscate variations
+    const phase = index * 0.4;
+    if (patternType === 0) {
+      // Figure-8 pattern
+      animatedX = Math.cos(t + phase) * position.baseRadius * 0.9;
+      animatedY = Math.sin(t * 2 + phase) * position.baseRadius * 0.35;
+    } else if (patternType === 1) {
+      // Elliptical with drift
+      animatedX = Math.cos(t * 0.7 + phase) * position.baseRadius + Math.sin(t * 0.3) * 20;
+      animatedY = Math.sin(t * 0.7 + phase) * position.baseRadius * 0.5 + Math.cos(t * 0.2) * 15;
+    } else if (patternType === 2) {
+      // Gentle wave pattern
+      animatedX = Math.cos(t * 0.5 + phase) * position.baseRadius * 0.85 + Math.sin(t * 1.5) * 25;
+      animatedY = Math.sin(t * 0.6 + phase) * position.baseRadius * 0.55;
+    } else {
+      // Spiraling inward/outward
+      const radiusMod = position.baseRadius * (0.85 + Math.sin(t * 0.4) * 0.15);
+      animatedX = Math.cos(t * 0.8 + phase) * radiusMod;
+      animatedY = Math.sin(t * 0.8 + phase) * radiusMod * 0.55;
+    }
+  }
 
   const size = 5 + (position.z + 50) / 20;
   const opacity = 0.5 + (position.z + 50) / 130;
+  
+  // Glow scales up on touch (click), not hover
+  const glowScale = isTouched ? 2.2 : 1;
+  const glowOpacity = isTouched ? 1 : 0.35;
+  const coreGlow = isTouched ? 40 : 8;
 
   return (
     <div
@@ -116,43 +150,26 @@ const SkillNode = ({
         left: `calc(50% + ${animatedX}px)`,
         top: `calc(50% + ${animatedY}px)`,
         zIndex: Math.floor(position.z + 50),
-        transition: "transform 0.15s ease-out",
-        transform: `scale(${isHovered ? 1.5 : 1})`,
+        transition: "transform 0.3s ease-out",
+        transform: `scale(${isTouched ? 1.8 : isHovered ? 1.3 : 1})`,
       }}
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
+      onClick={() => onTouch(isTouched ? null : index)}
     >
-      {/* Pulse ring - only on hovered star */}
-      {isHovered && (
-        <motion.div
-          className="absolute rounded-full pointer-events-none"
-          style={{
-            width: size * 5,
-            height: size * 5,
-            border: `1.5px solid ${skill.color}`,
-            left: "50%",
-            top: "50%",
-            x: "-50%",
-            y: "-50%",
-          }}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: [1, 1.8, 2.2], opacity: [0.7, 0.3, 0] }}
-          transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
-        />
-      )}
-      {/* Glow aura */}
+      {/* Glow aura - grows bigger and brighter on touch */}
       <div
         className="absolute rounded-full pointer-events-none"
         style={{
-          width: size * 3,
-          height: size * 3,
-          background: `radial-gradient(circle, ${skill.glow}${isHovered ? '70' : '40'}, transparent 70%)`,
+          width: size * 3 * glowScale,
+          height: size * 3 * glowScale,
+          background: `radial-gradient(circle, ${skill.glow}${isTouched ? '90' : '40'}, transparent 70%)`,
           left: "50%",
           top: "50%",
           transform: "translate(-50%, -50%)",
-          filter: "blur(3px)",
-          transition: "opacity 0.2s ease",
-          opacity: isHovered ? 0.9 : 0.35,
+          filter: `blur(${isTouched ? 6 : 3}px)`,
+          transition: "all 0.3s ease-out",
+          opacity: glowOpacity,
         }}
       />
       
@@ -163,9 +180,9 @@ const SkillNode = ({
           width: size,
           height: size,
           background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), ${skill.color})`,
-          boxShadow: `0 0 ${isHovered ? 25 : 8}px ${skill.glow}, inset 0 0 ${size/3}px rgba(255,255,255,0.4)`,
+          boxShadow: `0 0 ${coreGlow}px ${skill.glow}, inset 0 0 ${size/3}px rgba(255,255,255,0.4)`,
           opacity,
-          transition: "box-shadow 0.2s ease",
+          transition: "box-shadow 0.3s ease-out",
         }}
       />
 
@@ -329,7 +346,7 @@ const BackgroundStars = () => {
 const HoverHint = () => {
   return (
     <motion.div
-      className="absolute left-4 top-1/3 z-50 flex items-center gap-3 pointer-events-none"
+      className="absolute left-4 top-[22%] z-50 flex items-center gap-3 pointer-events-none"
       initial={{ opacity: 0, x: -60 }}
       animate={{ opacity: 1, x: [-40, 0, -40] }}
       transition={{
@@ -379,6 +396,7 @@ const HoverHint = () => {
 
 const SkillsSphere = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [touchedIndex, setTouchedIndex] = useState<number | null>(null);
   const [isInArea, setIsInArea] = useState(false);
   const [time, setTime] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -524,6 +542,8 @@ const SkillsSphere = () => {
             isHovered={hoveredIndex === index}
             isInArea={isInArea}
             onHover={setHoveredIndex}
+            onTouch={setTouchedIndex}
+            isTouched={touchedIndex === index}
             time={time}
           />
         ))}
