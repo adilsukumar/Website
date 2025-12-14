@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Sparkles } from "lucide-react";
 
@@ -92,13 +92,13 @@ const SkillNode = ({
   onHover: (index: number | null) => void;
   time: number;
 }) => {
-  // Much slower orbital movement
-  const orbitSpeed = 0.00003 + (index % 5) * 0.00001;
-  const floatAmplitude = 2 + (index % 5);
-  const floatSpeed = 0.0002 + (index % 3) * 0.0001;
+  // Smooth orbital movement - faster speed
+  const orbitSpeed = 0.00012 + (index % 5) * 0.00003;
+  const floatAmplitude = 3 + (index % 5);
+  const floatSpeed = 0.0006 + (index % 3) * 0.0002;
   
-  // Slow down to 5% speed when hovering (almost stop but not fully)
-  const speedMultiplier = isPaused ? 0.05 : 1;
+  // Slow down to 15% speed when hovering (smooth slowdown)
+  const speedMultiplier = isPaused ? 0.15 : 1;
   
   const currentAngle = position.baseAngle + time * orbitSpeed * speedMultiplier;
   const floatOffset = Math.sin(time * floatSpeed * speedMultiplier + index) * floatAmplitude;
@@ -392,13 +392,6 @@ const SkillsSphere = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   
   const isPaused = hoveredIndex !== null;
-  
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  
-  const springConfig = { stiffness: 30, damping: 20 };
-  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [6, -6]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-6, 6]), springConfig);
 
   // Animation loop for flowing effect - slows down when hovering
   useEffect(() => {
@@ -416,15 +409,6 @@ const SkillsSphere = () => {
   }, []);
 
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    mouseX.set(e.clientX - centerX);
-    mouseY.set(e.clientY - centerY);
-  };
-
   const positions = useMemo(() => 
     allSkills.map((_, i) => generateGalaxyPosition(i, allSkills.length)), 
     []
@@ -433,11 +417,9 @@ const SkillsSphere = () => {
   
 
   return (
-    <motion.div
+    <div
       ref={containerRef}
       className="relative w-full h-[700px] overflow-hidden"
-      onMouseMove={handleMouseMove}
-      style={{ perspective: 1200 }}
     >
       {/* Background radial gradient */}
       <div 
@@ -460,14 +442,7 @@ const SkillsSphere = () => {
       <HoverHint />
 
       {/* Main galaxy container */}
-      <motion.div
-        className="relative w-full h-full flex items-center justify-center"
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
-      >
+      <div className="relative w-full h-full flex items-center justify-center">
         {/* Connection lines */}
         <ConnectionLines positions={positions} time={time} isPaused={isPaused} />
 
@@ -563,7 +538,7 @@ const SkillsSphere = () => {
             time={time}
           />
         ))}
-      </motion.div>
+      </div>
 
       {/* Skill count badge */}
       <motion.div
@@ -618,7 +593,7 @@ const SkillsSphere = () => {
           </motion.div>
         ))}
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 
