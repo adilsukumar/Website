@@ -1,43 +1,36 @@
 import { motion } from "framer-motion";
 
-// Skills matching the exact screenshot - spiral organic pattern around center
+// Skills matching the screenshot layout around the center
 const skills = [
   // Top cluster
-  { name: "Robotics", bg: "#6B7280", x: 20, y: -180 },
-  { name: "MongoDB", bg: "#22C55E", x: 220, y: -170 },
-  { name: "Voice", bg: "#F87171", x: 130, y: -155 },
-  { name: "PineScript", bg: "#A855F7", x: -30, y: -130 },
-  { name: "APIs", bg: "#10B981", x: 70, y: -110 },
+  { name: "Robotics", gradient: "linear-gradient(135deg, #9CA3AF 0%, #4B5563 100%)", x: 0, y: -190 },
+  { name: "MongoDB", gradient: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)", x: 210, y: -175 },
+  { name: "Voice", gradient: "linear-gradient(135deg, #FB7185 0%, #F97316 100%)", x: 110, y: -160 },
+  { name: "PineScript", gradient: "linear-gradient(135deg, #A3E635 0%, #22C55E 100%)", x: -20, y: -145 },
+  { name: "APIs", gradient: "linear-gradient(135deg, #06B6D4 0%, #3B82F6 100%)", x: 70, y: -120 },
   
-  // Upper left
-  { name: "IoT", bg: "#22D3EE", x: -240, y: -100 },
-  { name: "Gen AI", bg: "#EC4899", x: -110, y: -70 },
+  // Upper left arc
+  { name: "IoT", gradient: "linear-gradient(135deg, #38BDF8 0%, #6366F1 100%)", x: -210, y: -115 },
+  { name: "Gen AI", gradient: "linear-gradient(135deg, #EC4899 0%, #A855F7 100%)", x: -90, y: -80 },
+  { name: "Trading Bots", gradient: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)", x: -160, y: -50 },
+  { name: "NLP", gradient: "linear-gradient(135deg, #818CF8 0%, #A855F7 100%)", x: -110, y: -5 },
+  { name: "Arduino", gradient: "linear-gradient(135deg, #22D3EE 0%, #14B8A6 100%)", x: -220, y: 60 },
+  { name: "Genomics", gradient: "linear-gradient(135deg, #F97316 0%, #EF4444 100%)", x: -150, y: 115 },
+  { name: "TensorFlow", gradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)", x: -30, y: 115 },
   
-  // Upper right
-  { name: "SQL", bg: "#60A5FA", x: 200, y: -95 },
-  { name: "Git", bg: "#F97316", x: 280, y: -60 },
-  { name: "Leadership", bg: "#EAB308", x: 380, y: -30 },
+  // Upper right arc
+  { name: "SQL", gradient: "linear-gradient(135deg, #38BDF8 0%, #2563EB 100%)", x: 190, y: -95 },
+  { name: "Git", gradient: "linear-gradient(135deg, #FB923C 0%, #F97316 100%)", x: 265, y: -60 },
+  { name: "Leadership", gradient: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)", x: 340, y: -25 },
+  { name: "Python", gradient: "linear-gradient(135deg, #FACC15 0%, #3B82F6 100%)", x: 270, y: 25 },
+  { name: "AI/ML", gradient: "linear-gradient(135deg, #F472B6 0%, #A855F7 100%)", x: 300, y: 80 },
   
-  // Middle left
-  { name: "Trading Bots", bg: "#22C55E", x: -190, y: -30 },
-  { name: "NLP", bg: "#8B5CF6", x: -130, y: 30 },
-  { name: "Arduino", bg: "#2DD4BF", x: -240, y: 80 },
-  { name: "Genomics", bg: "#EF4444", x: -160, y: 130 },
-  
-  // Middle right
-  { name: "Python", bg: "#3B82F6", x: 300, y: 30 },
-  { name: "AI/ML", bg: "#EC4899", x: 320, y: 90 },
-  
-  // Lower left
-  { name: "TensorFlow", bg: "#F59E0B", x: -50, y: 120 },
-  { name: "Deep Learning", bg: "#8B5CF6", x: -100, y: 200 },
-  
-  // Lower center-right
-  { name: "TypeScript", bg: "#60A5FA", x: 160, y: 150 },
-  { name: "React", bg: "#06B6D4", x: 280, y: 155 },
-  { name: "Data Science", bg: "#F97316", x: 90, y: 190 },
-  { name: "FinTech", bg: "#10B981", x: 230, y: 195 },
-  { name: "Bioinformatics", bg: "#14B8A6", x: 140, y: 250 },
+  // Lower arc
+  { name: "TypeScript", gradient: "linear-gradient(135deg, #60A5FA 0%, #2563EB 100%)", x: 170, y: 150 },
+  { name: "React", gradient: "linear-gradient(135deg, #22D3EE 0%, #0EA5E9 100%)", x: 270, y: 145 },
+  { name: "Data Science", gradient: "linear-gradient(135deg, #FB923C 0%, #F97316 100%)", x: 70, y: 185 },
+  { name: "Deep Learning", gradient: "linear-gradient(135deg, #A855F7 0%, #6366F1 100%)", x: -80, y: 210 },
+  { name: "Bioinformatics", gradient: "linear-gradient(135deg, #2DD4BF 0%, #14B8A6 100%)", x: 140, y: 235 },
 ];
 
 const SkillsSphere = () => {
@@ -81,7 +74,7 @@ const SkillsSphere = () => {
           key={skill.name}
           className="absolute px-5 py-2 rounded-2xl text-white font-semibold text-base whitespace-nowrap z-20 cursor-default"
           style={{
-            backgroundColor: skill.bg,
+            backgroundImage: skill.gradient,
             boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
             left: "50%",
             top: "50%",
