@@ -77,10 +77,8 @@ const SkillsSphere = () => {
               key={skill}
               className="absolute px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-white font-medium text-xs sm:text-sm whitespace-nowrap z-20 cursor-default"
               style={{
-                left: "50%",
-                top: "50%",
-                marginLeft: x,
-                marginTop: y,
+                left: `calc(50% + ${x}px)`,
+                top: `calc(50% + ${y}px)`,
                 transform: "translate(-50%, -50%)",
                 background: gradient,
                 boxShadow: "0 3px 12px rgba(0,0,0,0.2)",
