@@ -92,19 +92,19 @@ const SkillNode = ({
   onHover: (index: number | null) => void;
   time: number;
 }) => {
-  // Much slower orbital movement (reduced by 10x)
+  // Much slower orbital movement
   const orbitSpeed = 0.00003 + (index % 5) * 0.00001;
   const floatAmplitude = 2 + (index % 5);
   const floatSpeed = 0.0002 + (index % 3) * 0.0001;
   
-  // Use paused time when hovering any skill
-  const effectiveTime = isPaused ? 0 : time;
+  // Slow down to 5% speed when hovering (almost stop but not fully)
+  const speedMultiplier = isPaused ? 0.05 : 1;
   
-  const currentAngle = position.baseAngle + effectiveTime * orbitSpeed;
-  const floatOffset = Math.sin(effectiveTime * floatSpeed + index) * floatAmplitude;
+  const currentAngle = position.baseAngle + time * orbitSpeed * speedMultiplier;
+  const floatOffset = Math.sin(time * floatSpeed * speedMultiplier + index) * floatAmplitude;
   
   const animatedX = Math.cos(currentAngle) * position.baseRadius + floatOffset;
-  const animatedY = Math.sin(currentAngle) * position.baseRadius * 0.6 + Math.cos(effectiveTime * floatSpeed * 0.7 + index) * floatAmplitude * 0.5;
+  const animatedY = Math.sin(currentAngle) * position.baseRadius * 0.6 + Math.cos(time * floatSpeed * speedMultiplier * 0.7 + index) * floatAmplitude * 0.5;
 
   const size = 5 + (position.z + 50) / 20;
   const opacity = 0.5 + (position.z + 50) / 130;
@@ -133,29 +133,6 @@ const SkillNode = ({
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
     >
-      {/* Outer pulse ring */}
-      <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: size * 4,
-          height: size * 4,
-          border: `1px solid ${skill.color}`,
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-          opacity: isHovered ? 0.6 : 0,
-        }}
-        animate={isHovered ? {
-          scale: [1, 2, 2.5],
-          opacity: [0.6, 0.2, 0],
-        } : {}}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          ease: "easeOut",
-        }}
-      />
-      
       {/* Glow aura */}
       <motion.div
         className="absolute rounded-full"
@@ -354,66 +331,56 @@ const BackgroundStars = () => {
   );
 };
 
-// Shooting star component
-const ShootingStar = () => {
+// Top hint text component
+const HoverHint = () => {
   return (
     <motion.div
-      className="absolute z-50 pointer-events-none"
-      initial={{ opacity: 0, x: "80%", y: "15%" }}
-      animate={{ opacity: 1, x: "5%", y: "35%" }}
-      transition={{ delay: 1, duration: 2, ease: [0.4, 0, 0.2, 1] }}
+      className="absolute top-0 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.5, duration: 0.8, type: "spring", stiffness: 80 }}
     >
-      {/* Star trail */}
       <motion.div
-        className="absolute"
-        style={{
-          width: 180,
-          height: 2,
-          background: "linear-gradient(90deg, transparent, hsl(185, 100%, 50%), hsl(280, 100%, 65%))",
-          borderRadius: 2,
-          filter: "blur(1px)",
-          transformOrigin: "right center",
+        animate={{ 
+          rotate: [0, 10, -10, 0],
+          scale: [1, 1.15, 1],
         }}
-        initial={{ scaleX: 0, opacity: 0 }}
-        animate={{ scaleX: 1, opacity: [0, 1, 1, 0.5] }}
-        transition={{ delay: 1, duration: 2, ease: "easeOut" }}
-      />
-      
-      {/* Star head with sparkle */}
-      <motion.div
-        className="relative flex items-center gap-3"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 0.5 }}
+        transition={{ 
+          duration: 2.5, 
+          repeat: Infinity, 
+          ease: "easeInOut" 
+        }}
       >
-        <motion.div
-          animate={{ 
-            rotate: [0, 15, -15, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{ 
-            duration: 2, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
-          }}
-        >
-          <Sparkles className="w-5 h-5 text-primary drop-shadow-[0_0_8px_hsl(185,100%,50%)]" />
-        </motion.div>
-        
-        <motion.span
-          className="text-sm font-medium tracking-wide whitespace-nowrap"
-          style={{
-            background: "linear-gradient(90deg, hsl(185, 100%, 60%), hsl(280, 100%, 70%))",
-            backgroundClip: "text",
-            WebkitBackgroundClip: "text",
-            color: "transparent",
-            textShadow: "0 0 20px hsl(185, 100%, 50%, 0.3)",
-          }}
-          animate={{ opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 2.5, repeat: Infinity }}
-        >
-          Hover the stars ✦
-        </motion.span>
+        <Sparkles className="w-5 h-5 text-primary drop-shadow-[0_0_10px_hsl(185,100%,50%)]" />
+      </motion.div>
+      
+      <motion.span
+        className="text-sm font-medium tracking-wider"
+        style={{
+          background: "linear-gradient(90deg, hsl(185, 100%, 60%), hsl(280, 100%, 70%))",
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+          color: "transparent",
+        }}
+        animate={{ opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 3, repeat: Infinity }}
+      >
+        Hover the stars to explore
+      </motion.span>
+      
+      <motion.div
+        animate={{ 
+          rotate: [0, -10, 10, 0],
+          scale: [1, 1.15, 1],
+        }}
+        transition={{ 
+          duration: 2.5, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          delay: 0.5,
+        }}
+      >
+        <Sparkles className="w-5 h-5 text-secondary drop-shadow-[0_0_10px_hsl(280,100%,65%)]" />
       </motion.div>
     </motion.div>
   );
@@ -422,7 +389,6 @@ const ShootingStar = () => {
 const SkillsSphere = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [time, setTime] = useState(0);
-  const [pausedTime, setPausedTime] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const isPaused = hoveredIndex !== null;
@@ -434,29 +400,21 @@ const SkillsSphere = () => {
   const rotateX = useSpring(useTransform(mouseY, [-300, 300], [6, -6]), springConfig);
   const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-6, 6]), springConfig);
 
-  // Animation loop for flowing effect - pauses when hovering
+  // Animation loop for flowing effect - slows down when hovering
   useEffect(() => {
     let animationId: number;
     let lastTime = Date.now();
     
     const animate = () => {
       const now = Date.now();
-      if (!isPaused) {
-        setTime(prev => prev + (now - lastTime));
-      }
+      setTime(prev => prev + (now - lastTime));
       lastTime = now;
       animationId = requestAnimationFrame(animate);
     };
     animationId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationId);
-  }, [isPaused]);
+  }, []);
 
-  // Store time when paused
-  useEffect(() => {
-    if (isPaused) {
-      setPausedTime(time);
-    }
-  }, [isPaused, time]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -472,7 +430,7 @@ const SkillsSphere = () => {
     []
   );
 
-  const effectiveTime = isPaused ? pausedTime : time;
+  
 
   return (
     <motion.div
@@ -498,8 +456,8 @@ const SkillsSphere = () => {
       {/* Background stars */}
       <BackgroundStars />
 
-      {/* Shooting star with text */}
-      <ShootingStar />
+      {/* Top hint text */}
+      <HoverHint />
 
       {/* Main galaxy container */}
       <motion.div
@@ -511,7 +469,7 @@ const SkillsSphere = () => {
         }}
       >
         {/* Connection lines */}
-        <ConnectionLines positions={positions} time={effectiveTime} isPaused={isPaused} />
+        <ConnectionLines positions={positions} time={time} isPaused={isPaused} />
 
         {/* Center core */}
         <motion.div
@@ -602,7 +560,7 @@ const SkillsSphere = () => {
             isHovered={hoveredIndex === index}
             isPaused={isPaused}
             onHover={setHoveredIndex}
-            time={effectiveTime}
+            time={time}
           />
         ))}
       </motion.div>
