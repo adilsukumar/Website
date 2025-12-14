@@ -151,19 +151,21 @@ const About = () => {
 
       <motion.div className="container mx-auto px-6" ref={ref}>
         <div className="max-w-6xl mx-auto">
-          {/* 3D Skills Planet Sphere */}
+          {/* 3D Skills Planet Sphere - Full width centered */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.8 }}
-            className="mb-8"
+            className="mb-8 -mx-6 sm:-mx-0"
           >
             <Suspense fallback={
-              <div className="h-[400px] flex items-center justify-center">
+              <div className="h-[700px] flex items-center justify-center">
                 <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
               </div>
             }>
-              <SkillsSphere />
+              <div className="flex justify-center w-full">
+                <SkillsSphere />
+              </div>
             </Suspense>
           </motion.div>
 
