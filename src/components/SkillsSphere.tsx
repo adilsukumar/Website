@@ -10,7 +10,7 @@ const allSkills = [
   "Power BI", "Excel", "Matplotlib", "Selenium", "Web Scraping", "Chatbots",
   "Voice AI", "Raspberry Pi", "Bluetooth", "Genomics", "NGS Analysis",
   "Risk Management", "Algo Trading", "Technical Analysis", "Bootstrap", "Tailwind",
-  "Express.js", "REST", "Postman", "Statistics", "PineScript", "Machine Learning"
+  "Express.js", "REST", "Postman", "Statistics"
 ];
 
 const gradients = [
@@ -28,117 +28,108 @@ const gradients = [
   "linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)",
 ];
 
-// Generate circular positions in multiple rings
-const generateCircularPositions = () => {
-  const positions: { x: number; y: number }[] = [];
-  
-  const rings = [
-    { count: 8, radius: 140 },
-    { count: 12, radius: 220 },
-    { count: 16, radius: 300 },
-    { count: 20, radius: 390 },
-    { count: 6, radius: 470 },
-  ];
-  
-  rings.forEach((ring, ringIndex) => {
-    const offsetAngle = ringIndex * 12; // Stagger each ring
-    for (let i = 0; i < ring.count; i++) {
-      const angle = (i / ring.count) * 360 + offsetAngle;
-      const jitter = (Math.random() - 0.5) * 25;
-      const x = Math.cos(angle * Math.PI / 180) * (ring.radius + jitter);
-      const y = Math.sin(angle * Math.PI / 180) * (ring.radius + jitter);
-      positions.push({ x, y });
-    }
-  });
-  
-  return positions;
-};
-
-const positions = generateCircularPositions();
+// Tight circular rings
+const rings = [
+  { radius: 100, count: 10 },
+  { radius: 160, count: 14 },
+  { radius: 220, count: 18 },
+  { radius: 280, count: 18 },
+];
 
 const SkillsSphere = () => {
-  return (
-    <div className="relative w-full h-[700px] sm:h-[850px] flex items-center justify-center overflow-hidden">
-      {/* Ambient particles */}
-      {Array.from({ length: 20 }).map((_, i) => (
-        <motion.div
-          key={`particle-${i}`}
-          className="absolute w-1.5 h-1.5 rounded-full bg-primary/30"
-          style={{
-            left: `${15 + Math.random() * 70}%`,
-            top: `${15 + Math.random() * 70}%`,
-          }}
-          animate={{
-            y: [0, -25, 0],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 4 + Math.random() * 3,
-            repeat: Infinity,
-            delay: Math.random() * 3,
-          }}
-        />
-      ))}
+  let skillIndex = 0;
 
-      {/* Center code icon - transparent, no box */}
-      <motion.span 
-        className="absolute z-30 text-5xl sm:text-7xl font-bold text-primary/70 select-none"
-        style={{ 
-          textShadow: "0 0 40px hsl(var(--primary) / 0.4)" 
+  return (
+    <div className="relative w-full h-[650px] sm:h-[700px] flex items-center justify-center overflow-hidden">
+      {/* Subtle glow behind */}
+      <div 
+        className="absolute w-[500px] h-[500px] rounded-full opacity-10"
+        style={{
+          background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)",
         }}
-        animate={{ scale: [1, 1.05, 1], opacity: [0.6, 0.8, 0.6] }}
+      />
+
+      {/* Center code icon */}
+      <motion.span 
+        className="absolute z-30 text-4xl sm:text-5xl font-bold text-primary/60 select-none"
+        style={{ textShadow: "0 0 30px hsl(var(--primary) / 0.4)" }}
+        animate={{ scale: [1, 1.08, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
         {"</>"}
       </motion.span>
 
-      {/* Skill badges in circular arrangement */}
-      {allSkills.map((skill, i) => {
-        const pos = positions[i % positions.length];
-        const gradient = gradients[i % gradients.length];
-        const floatDelay = Math.random() * 5;
-        const floatDuration = 5 + Math.random() * 3;
-        const floatX = 6 + Math.random() * 10;
-        const floatY = 6 + Math.random() * 10;
+      {/* Skill rings */}
+      {rings.map((ring, ringIndex) => {
+        const ringSkills = allSkills.slice(skillIndex, skillIndex + ring.count);
+        skillIndex += ring.count;
         
-        return (
-          <motion.div
-            key={skill}
-            className="absolute px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-white font-semibold text-sm sm:text-base whitespace-nowrap z-20 cursor-default"
-            style={{
-              left: "50%",
-              top: "50%",
-              background: gradient,
-              boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
-            }}
-            initial={{ 
-              opacity: 0, 
-              scale: 0,
-              x: pos.x,
-              y: pos.y,
-            }}
-            animate={{ 
-              opacity: 1,
-              scale: 1,
-              x: [pos.x, pos.x + floatX, pos.x - floatX * 0.5, pos.x],
-              y: [pos.y, pos.y - floatY, pos.y + floatY * 0.5, pos.y],
-            }}
-            transition={{ 
-              opacity: { delay: i * 0.025, duration: 0.4 },
-              scale: { delay: i * 0.025, duration: 0.4 },
-              x: { duration: floatDuration, repeat: Infinity, delay: floatDelay, ease: "easeInOut" },
-              y: { duration: floatDuration, repeat: Infinity, delay: floatDelay, ease: "easeInOut" },
-            }}
-            whileHover={{ 
-              scale: 1.15, 
-              zIndex: 50,
-              boxShadow: "0 8px 30px rgba(0,0,0,0.35)",
-            }}
-          >
-            {skill}
-          </motion.div>
-        );
+        return ringSkills.map((skill, i) => {
+          const angle = (i / ring.count) * 360 - 90;
+          const x = Math.cos(angle * Math.PI / 180) * ring.radius;
+          const y = Math.sin(angle * Math.PI / 180) * ring.radius;
+          const gradient = gradients[(ringIndex * 3 + i) % gradients.length];
+          const floatDuration = 4 + Math.random() * 2;
+          const floatDelay = Math.random() * 3;
+          
+          return (
+            <motion.div
+              key={skill}
+              className="absolute px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-white font-medium text-xs sm:text-sm whitespace-nowrap z-20 cursor-default"
+              style={{
+                left: "50%",
+                top: "50%",
+                marginLeft: x,
+                marginTop: y,
+                transform: "translate(-50%, -50%)",
+                background: gradient,
+                boxShadow: "0 3px 12px rgba(0,0,0,0.2)",
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ 
+                opacity: 1,
+                scale: 1,
+                x: [0, 3, -2, 0],
+                y: [0, -3, 2, 0],
+              }}
+              transition={{ 
+                opacity: { delay: (ringIndex * 0.1) + (i * 0.02), duration: 0.3 },
+                scale: { delay: (ringIndex * 0.1) + (i * 0.02), duration: 0.3 },
+                x: { duration: floatDuration, repeat: Infinity, delay: floatDelay, ease: "easeInOut" },
+                y: { duration: floatDuration, repeat: Infinity, delay: floatDelay, ease: "easeInOut" },
+              }}
+              whileHover={{ 
+                scale: 1.2, 
+                zIndex: 50,
+                boxShadow: "0 6px 25px rgba(0,0,0,0.3)",
+              }}
+            >
+              {skill}
+            </motion.div>
+          );
+        });
       })}
+
+      {/* Floating particles */}
+      {Array.from({ length: 12 }).map((_, i) => (
+        <motion.div
+          key={`particle-${i}`}
+          className="absolute w-1 h-1 rounded-full bg-primary/40"
+          style={{
+            left: `${25 + Math.random() * 50}%`,
+            top: `${25 + Math.random() * 50}%`,
+          }}
+          animate={{
+            y: [0, -15, 0],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: Math.random() * 2,
+          }}
+        />
+      ))}
     </div>
   );
 };
