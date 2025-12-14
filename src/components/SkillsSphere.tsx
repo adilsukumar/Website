@@ -14,62 +14,62 @@ const allSkills = [
 ];
 
 const gradients = [
-  "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", // Purple
-  "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)", // Pink
-  "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", // Blue
-  "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)", // Green
-  "linear-gradient(135deg, #fa709a 0%, #fee140 100%)", // Orange-Pink
-  "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)", // Light teal-pink
-  "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)", // Light pink
-  "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)", // Peach
-  "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", // Purple repeat
-  "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)", // Deep purple-blue
-  "linear-gradient(135deg, #ff6b6b 0%, #feca57 100%)", // Red-yellow
-  "linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%)", // Sky blue
+  "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+  "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+  "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+  "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+  "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+  "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+  "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+  "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
+  "linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)",
+  "linear-gradient(135deg, #ff6b6b 0%, #feca57 100%)",
+  "linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%)",
+  "linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)",
 ];
 
-// Pre-calculated non-overlapping positions spread around center
-const positions = [
-  // Inner area (closer to center)
-  { x: -120, y: -60 }, { x: 80, y: -80 }, { x: -80, y: 80 }, { x: 120, y: 60 },
-  { x: -160, y: 0 }, { x: 160, y: 0 }, { x: 0, y: -120 }, { x: 0, y: 120 },
+// Generate circular positions in multiple rings
+const generateCircularPositions = () => {
+  const positions: { x: number; y: number }[] = [];
   
-  // Middle ring
-  { x: -220, y: -100 }, { x: -180, y: 80 }, { x: 200, y: -90 }, { x: 180, y: 100 },
-  { x: -100, y: -160 }, { x: 100, y: -150 }, { x: -80, y: 170 }, { x: 110, y: 160 },
-  { x: -260, y: 20 }, { x: 260, y: -20 }, { x: -240, y: -60 }, { x: 240, y: 70 },
+  const rings = [
+    { count: 8, radius: 140 },
+    { count: 12, radius: 220 },
+    { count: 16, radius: 300 },
+    { count: 20, radius: 390 },
+    { count: 6, radius: 470 },
+  ];
   
-  // Outer ring
-  { x: -320, y: -140 }, { x: -300, y: 60 }, { x: -280, y: 140 }, { x: 320, y: -130 },
-  { x: 300, y: 50 }, { x: 280, y: 150 }, { x: -180, y: -200 }, { x: 180, y: -190 },
-  { x: -160, y: 220 }, { x: 160, y: 210 }, { x: 0, y: -220 }, { x: 0, y: 230 },
+  rings.forEach((ring, ringIndex) => {
+    const offsetAngle = ringIndex * 12; // Stagger each ring
+    for (let i = 0; i < ring.count; i++) {
+      const angle = (i / ring.count) * 360 + offsetAngle;
+      const jitter = (Math.random() - 0.5) * 25;
+      const x = Math.cos(angle * Math.PI / 180) * (ring.radius + jitter);
+      const y = Math.sin(angle * Math.PI / 180) * (ring.radius + jitter);
+      positions.push({ x, y });
+    }
+  });
   
-  // Far outer positions
-  { x: -380, y: -80 }, { x: -360, y: 120 }, { x: 380, y: -70 }, { x: 360, y: 110 },
-  { x: -420, y: 0 }, { x: 420, y: 10 }, { x: -340, y: -180 }, { x: 340, y: -170 },
-  { x: -320, y: 200 }, { x: 320, y: 190 }, { x: -240, y: -240 }, { x: 240, y: -230 },
-  { x: -220, y: 260 }, { x: 220, y: 250 }, { x: -100, y: -280 }, { x: 100, y: -270 },
-  { x: -80, y: 290 }, { x: 80, y: 280 }, { x: -450, y: -120 }, { x: 450, y: -110 },
-  { x: -430, y: 160 }, { x: 430, y: 150 }, { x: -60, y: -320 }, { x: 60, y: 310 },
-  { x: -500, y: 40 }, { x: 500, y: -30 }, { x: -480, y: -60 }, { x: 480, y: 80 },
-  { x: -280, y: -300 }, { x: 280, y: 290 }, { x: -180, y: 320 }, { x: 180, y: -310 },
-];
+  return positions;
+};
+
+const positions = generateCircularPositions();
 
 const SkillsSphere = () => {
   return (
-    <div className="relative w-full h-[700px] sm:h-[800px] flex items-center justify-center overflow-hidden">
+    <div className="relative w-full h-[700px] sm:h-[850px] flex items-center justify-center overflow-hidden">
       {/* Ambient particles */}
-      {Array.from({ length: 25 }).map((_, i) => (
+      {Array.from({ length: 20 }).map((_, i) => (
         <motion.div
           key={`particle-${i}`}
           className="absolute w-1.5 h-1.5 rounded-full bg-primary/30"
           style={{
-            left: `${10 + Math.random() * 80}%`,
-            top: `${10 + Math.random() * 80}%`,
+            left: `${15 + Math.random() * 70}%`,
+            top: `${15 + Math.random() * 70}%`,
           }}
           animate={{
-            y: [0, -30, 0],
-            x: [0, Math.random() * 20 - 10, 0],
+            y: [0, -25, 0],
             opacity: [0.2, 0.5, 0.2],
           }}
           transition={{
@@ -80,40 +80,36 @@ const SkillsSphere = () => {
         />
       ))}
 
-      {/* Center code icon */}
-      <motion.div 
-        className="absolute z-30 flex items-center justify-center"
-        animate={{ scale: [1, 1.05, 1] }}
+      {/* Center code icon - transparent, no box */}
+      <motion.span 
+        className="absolute z-30 text-5xl sm:text-7xl font-bold text-primary/70 select-none"
+        style={{ 
+          textShadow: "0 0 40px hsl(var(--primary) / 0.4)" 
+        }}
+        animate={{ scale: [1, 1.05, 1], opacity: [0.6, 0.8, 0.6] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span 
-          className="text-5xl sm:text-7xl font-bold text-primary/80"
-          style={{ 
-            textShadow: "0 0 30px hsl(var(--primary) / 0.5)" 
-          }}
-        >
-          {"</>"}
-        </span>
-      </motion.div>
+        {"</>"}
+      </motion.span>
 
-      {/* Skill badges */}
+      {/* Skill badges in circular arrangement */}
       {allSkills.map((skill, i) => {
         const pos = positions[i % positions.length];
         const gradient = gradients[i % gradients.length];
         const floatDelay = Math.random() * 5;
-        const floatDuration = 4 + Math.random() * 3;
-        const floatX = 8 + Math.random() * 12;
-        const floatY = 8 + Math.random() * 12;
+        const floatDuration = 5 + Math.random() * 3;
+        const floatX = 6 + Math.random() * 10;
+        const floatY = 6 + Math.random() * 10;
         
         return (
           <motion.div
             key={skill}
-            className="absolute px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-white font-semibold text-sm sm:text-base whitespace-nowrap z-20 cursor-default shadow-lg"
+            className="absolute px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-white font-semibold text-sm sm:text-base whitespace-nowrap z-20 cursor-default"
             style={{
               left: "50%",
               top: "50%",
               background: gradient,
-              boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
             }}
             initial={{ 
               opacity: 0, 
@@ -128,15 +124,15 @@ const SkillsSphere = () => {
               y: [pos.y, pos.y - floatY, pos.y + floatY * 0.5, pos.y],
             }}
             transition={{ 
-              opacity: { delay: i * 0.03, duration: 0.4 },
-              scale: { delay: i * 0.03, duration: 0.4 },
+              opacity: { delay: i * 0.025, duration: 0.4 },
+              scale: { delay: i * 0.025, duration: 0.4 },
               x: { duration: floatDuration, repeat: Infinity, delay: floatDelay, ease: "easeInOut" },
               y: { duration: floatDuration, repeat: Infinity, delay: floatDelay, ease: "easeInOut" },
             }}
             whileHover={{ 
               scale: 1.15, 
               zIndex: 50,
-              boxShadow: "0 8px 30px rgba(0,0,0,0.3)",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.35)",
             }}
           >
             {skill}
