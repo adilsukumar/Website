@@ -16,22 +16,32 @@ const allSkills = [
 
 const colors = ["#f472b6", "#a78bfa", "#60a5fa", "#34d399", "#fbbf24", "#f87171", "#fb923c", "#22d3ee"];
 
-// Generate random positions for skills
-const generateRandomPositions = (count: number, minRadius: number, maxRadius: number) => {
-  const positions: { x: number; y: number; angle: number }[] = [];
+// Distribute skills in multiple rings around the center
+const rings = [
+  { count: 12, radius: 90 },   // Inner ring
+  { count: 18, radius: 150 },  // Middle ring
+  { count: 30, radius: 220 },  // Outer ring
+];
+
+const generatePositions = () => {
+  const positions: { x: number; y: number; ring: number }[] = [];
+  let skillIndex = 0;
   
-  for (let i = 0; i < count; i++) {
-    const angle = Math.random() * 360;
-    const radius = minRadius + Math.random() * (maxRadius - minRadius);
-    const x = Math.cos(angle * Math.PI / 180) * radius;
-    const y = Math.sin(angle * Math.PI / 180) * radius;
-    positions.push({ x, y, angle });
-  }
+  rings.forEach((ring, ringIndex) => {
+    for (let i = 0; i < ring.count && skillIndex < allSkills.length; i++) {
+      const angle = (i / ring.count) * 360 - 90 + (ringIndex * 15); // Offset each ring
+      const jitter = (Math.random() - 0.5) * 20; // Small random offset
+      const x = Math.cos(angle * Math.PI / 180) * (ring.radius + jitter);
+      const y = Math.sin(angle * Math.PI / 180) * (ring.radius + jitter);
+      positions.push({ x, y, ring: ringIndex });
+      skillIndex++;
+    }
+  });
   
   return positions;
 };
 
-const skillPositions = generateRandomPositions(allSkills.length, 80, 260);
+const skillPositions = generatePositions();
 
 const SkillsSphere = () => {
   return (
