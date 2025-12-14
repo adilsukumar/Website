@@ -125,7 +125,7 @@ const Navbar = () => {
                 whileHover={{ x: "200%" }}
                 transition={{ duration: 0.6 }}
               />
-              <span className="relative z-10">Hire Me</span>
+              <span className="relative z-10">Let's Talk</span>
             </motion.a>
 
             {/* Mobile Menu Button */}
@@ -208,7 +208,7 @@ const Navbar = () => {
                 whileTap={{ scale: 0.95 }}
                 className="mt-4 px-8 py-4 bg-gradient text-primary-foreground font-display font-semibold rounded-lg glow"
               >
-                Hire Me
+                Let's Talk
               </motion.a>
             </motion.nav>
           </motion.div>
