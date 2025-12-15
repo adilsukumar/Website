@@ -524,15 +524,17 @@ const SkillsSphere = () => {
 
       {/* Skill count badge */}
       <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 glass px-5 py-2.5 rounded-full"
+        className="absolute bottom-6 inset-x-0 flex justify-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2, type: "spring", stiffness: 80 }}
       >
-        <span className="text-muted-foreground text-sm">
-          <span className="text-primary font-bold">{allSkills.length}+</span> skills across{" "}
-          <span className="text-secondary font-bold">{skillCategories.length}</span> domains
-        </span>
+        <div className="glass px-5 py-2.5 rounded-full">
+          <span className="text-muted-foreground text-sm">
+            <span className="text-primary font-bold">{allSkills.length}+</span> skills across{" "}
+            <span className="text-secondary font-bold">{skillCategories.length}</span> domains
+          </span>
+        </div>
       </motion.div>
 
       {/* Category legend */}
