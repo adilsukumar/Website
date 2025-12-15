@@ -3,6 +3,7 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, MapPin, Send, Github, Linkedin, Sparkles, Check, ExternalLink, Instagram, Download, BookOpen } from "lucide-react";
 
+
 const Contact = () => {
   const ref = useRef(null);
   const containerRef = useRef(null);
@@ -46,14 +47,33 @@ const Contact = () => {
     { icon: BookOpen, label: "Blog", href: "https://adilsukumar.blogspot.com", color: "hover:bg-orange-500" },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    
+    const form = e.target as HTMLFormElement;
+    
+    try {
+      const response = await fetch('https://formspree.io/f/mdkqvzkz', {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        setIsSuccess(true);
+        form.reset();
+        setTimeout(() => setIsSuccess(false), 3000);
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      alert('Failed to send message. Please try again.');
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 3000);
-    }, 2000);
+    }
   };
 
   const formFields = [
@@ -180,7 +200,7 @@ const Contact = () => {
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="perspective-1000"
             >
-              <form className="space-y-6" onSubmit={handleSubmit}>
+              <form className="space-y-6" onSubmit={handleSubmit} action="https://formspree.io/f/mdkqvzkz" method="POST">
                 {formFields.map((field, index) => (
                   <motion.div
                     key={field.id}
@@ -203,6 +223,8 @@ const Contact = () => {
                       <motion.input
                         type={field.type}
                         id={field.id}
+                        name={field.id}
+                        required
                         onFocus={() => setFocusedField(field.id)}
                         onBlur={() => setFocusedField(null)}
                         className="w-full px-4 py-3.5 glass-strong rounded-xl border-0 bg-muted focus:ring-2 focus:ring-primary focus:outline-none transition-smooth"
@@ -241,7 +263,9 @@ const Contact = () => {
                   <motion.div className="relative" whileHover={{ scale: 1.01 }}>
                     <motion.textarea
                       id="message"
+                      name="message"
                       rows={5}
+                      required
                       onFocus={() => setFocusedField("message")}
                       onBlur={() => setFocusedField(null)}
                       className="w-full px-4 py-3.5 glass-strong rounded-xl border-0 bg-muted focus:ring-2 focus:ring-primary focus:outline-none transition-smooth resize-none"

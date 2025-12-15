@@ -9,6 +9,49 @@ interface Message {
 }
 
 const builtInResponses: Record<string, string[]> = {
+  // Commands
+  "help": [
+    "🚀 Commands: /skills /projects /contact /random /joke /about\n\nOr just ask me anything! 🌟",
+    "Available: /skills, /projects, /achievements, /contact, /random, /joke\n\nJust chat naturally too! 😊"
+  ],
+  "/skills": [
+    "🛠️ Python, JavaScript, React, AI/ML, Data Science, FinTech, IoT, Arduino\n\n80+ skills total! Check Skills section! 🚀",
+    "⚡ Core: Python, JS, React, Node.js\n🤖 AI/ML: TensorFlow, PyTorch\n💰 FinTech: Trading bots, Blockchain\n\n80+ skills! 🌟"
+  ],
+  
+  "/projects": [
+    "🚀 Spendture (FinTech AI), CyberSHE (1st place hackathon), Voice AI Assistant, Smart Home IoT, Game Dev (1st place)\n\nCheck Projects section! 🌟",
+    "💰 Spendture: AI FinTech app\n🛡️ CyberSHE: Safety platform (won!)\n🤖 Voice AI: Like JARVIS\n🎮 Game: 1st place winner! ✨"
+  ],
+  
+  "/achievements": [
+    "🏆 NSTSE State Rank 2, IEO AIR 44, NCO School Rank 1, Game Dev 1st place, Robotics 3rd, WiCyS Hackathon 1st! 💎",
+    "⭐ Multiple Olympiad medals, Hackathon wins, Competition champion, Leadership roles! 🚀"
+  ],
+  
+  "/contact": [
+    "📧 adilsukumar24@gmail.com\n💼 linkedin.com/in/adilsukumar\n🐙 github.com/adilsukumar\n\nUse contact form below! 🚀",
+    "📡 Email, LinkedIn, GitHub, Contact form\n\nAlways open to connect! 🌟"
+  ],
+  
+  "/random": [
+    "🎲 RANDOM FACT GENERATOR:\n\nAdil speaks 6 languages fluently! That's like having a universal translator built-in! 🌍\n\nLanguages: Tamil, Telugu, English, Hindi, French (A2), German (A1)\n\nPretty cool for intergalactic communication! 👽",
+    "🌟 SURPRISE FACT:\n\nAdil has 80+ skills! That's more skills than most RPG characters at max level! 🎮\n\nFrom Python to Psychology, Arduino to AI - he's basically a real-life skill tree! 🌳",
+    "⚡ MIND-BLOWING FACT:\n\nAdil built a voice AI assistant that's like having JARVIS! It handles emails, sets reminders, and when stumped, calls GPT for backup! 🤖\n\nTalk about standing on the shoulders of giants! 🚀",
+    "🎯 COOL DISCOVERY:\n\nSpendture combines AI with behavioral psychology! It's not just another budgeting app - it actually helps people change their money habits! 💰\n\nTechnology + Psychology = Magic! ✨"
+  ],
+  
+  "/joke": [
+    "😄 HUMOR PROTOCOL ACTIVATED:\n\nWhy do programmers prefer dark mode?\nBecause light attracts bugs! 🐛\n\n*NOVA processing laughter... complete* 🤖",
+    "🎭 COMEDY SUBROUTINE:\n\nHow many programmers does it take to change a light bulb?\nNone! That's a hardware problem! 💡\n\n*Error 404: Humor not found... just kidding!* 😂",
+    "😂 JOKE DATABASE ACCESS:\n\nWhy did the developer go broke?\nBecause he used up all his cache! 💰\n\n*NOVA's comedy circuits are functioning optimally!* 🤖",
+    "🎪 ENTERTAINMENT MODE:\n\nWhat's a programmer's favorite hangout place?\nFoo Bar! 🍺\n\n*Initiating laugh track... beep boop!* 🤖"
+  ],
+  
+  "/about": [
+    "🌟 ADIL SUKUMAR - PROFILE LOADED:\n\n🎓 BTech Computer Science (AI/ML Specialization)\n🚀 Founder & CEO of Spendture\n🏆 Multi-competition winner\n🌍 Polyglot (6 languages)\n🤖 AI enthusiast & FinTech innovator\n🎯 Building solutions that matter\n\nMission: Use technology to solve real-world problems! 🌎",
+    "👨‍💻 SUBJECT: ADIL SUKUMAR\n\nStatus: Student, Entrepreneur, Innovator\nSpecialty: Turning ideas into reality\nPassion: AI, FinTech, Problem-solving\nAchievements: 80+ skills, Multiple awards\nCurrent Project: Spendture (FinTech revolution)\nGoal: Making technology accessible & impactful\n\nA true digital native building tomorrow! 🚀"
+  ],
   // Greetings
   "hi": [
     "Hey there! 👋 Welcome to Adil's portfolio! What would you like to know?",
@@ -155,10 +198,12 @@ const builtInResponses: Record<string, string[]> = {
 };
 
 const quickQuestions = [
+  "/help",
+  "/skills", 
+  "/projects",
+  "/contact",
+  "/random",
   "Who is Adil?",
-  "Tell me about projects",
-  "What are his skills?",
-  "How can I contact him?",
 ];
 
 const getRandomResponse = (responses: string[]): string => {
@@ -168,9 +213,17 @@ const getRandomResponse = (responses: string[]): string => {
 const findResponse = (input: string): string => {
   const lowered = input.toLowerCase().trim();
   
-  // Direct matches first
+  // Command matches first (exact)
+  if (lowered.startsWith('/')) {
+    const command = lowered.split(' ')[0];
+    if (builtInResponses[command]) {
+      return getRandomResponse(builtInResponses[command]);
+    }
+  }
+  
+  // Direct matches
   for (const [key, responses] of Object.entries(builtInResponses)) {
-    if (key === "default") continue;
+    if (key === "default" || key.startsWith('/')) continue;
     if (lowered === key || lowered.includes(key)) {
       return getRandomResponse(responses);
     }
@@ -213,8 +266,14 @@ const findResponse = (input: string): string => {
   if (lowered.includes("great") || lowered.includes("amazing") || lowered.includes("wonderful") || lowered.includes("fantastic")) {
     return "Glad you're enjoying it! 🌟 What else would you like to explore about Adil's work?";
   }
-  if (lowered.includes("help")) {
-    return "I can help with info about: 👤 Adil's background, 🛠️ Skills (80+!), 💼 Projects, 📧 Contact info, and more! Just ask! 😊";
+  if (lowered.includes("help") || lowered.includes("command") || lowered.includes("what can you do")) {
+    return getRandomResponse(builtInResponses["help"]);
+  }
+  if (lowered.includes("random fact") || lowered.includes("surprise me") || lowered.includes("tell me something")) {
+    return getRandomResponse(builtInResponses["/random"]);
+  }
+  if (lowered.includes("achievement") || lowered.includes("award") || lowered.includes("win") || lowered.includes("medal")) {
+    return getRandomResponse(builtInResponses["/achievements"]);
   }
   
   return getRandomResponse(builtInResponses["default"]);
@@ -223,7 +282,7 @@ const findResponse = (input: string): string => {
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, text: "Hey! 👋 I'm NOVA, Adil's virtual assistant. Ask me about his skills, projects, or just say hi!", isBot: true }
+    { id: 1, text: "🚀 Hey! I'm NOVA - Adil's AI assistant! \n\nType '/help' for commands or just chat! What would you like to know? 🌟", isBot: true }
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);

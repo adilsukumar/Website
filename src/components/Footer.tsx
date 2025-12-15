@@ -19,6 +19,7 @@ const Footer = () => {
     { label: "About", href: "#about" },
     { label: "Skills", href: "#skills" },
     { label: "Projects", href: "#projects" },
+    { label: "Certificates", href: "#certificates" },
     { label: "Contact", href: "#contact" },
   ];
 
@@ -115,7 +116,7 @@ const Footer = () => {
                 >
                   <Sparkles className="w-6 h-6 text-primary" />
                 </motion.div>
-                AC
+                AS
               </motion.a>
             </motion.div>
 
@@ -125,7 +126,7 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap justify-center gap-8"
+              className="flex flex-wrap justify-center gap-6 ml-36"
             >
               {links.map((link, index) => (
                 <motion.a
@@ -158,7 +159,7 @@ const Footer = () => {
               transition={{ delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-sm flex items-center gap-2"
             >
-              <span>© {currentYear} Alex Chen.</span>
+              <span>© {currentYear} Adil Sukumar.</span>
               <span className="flex items-center gap-1">
                 Made with
                 <motion.span

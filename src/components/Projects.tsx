@@ -18,12 +18,12 @@ const Projects = () => {
   const backgroundX = useTransform(smoothProgress, [0, 1], [-200, 200]);
   const backgroundY = useTransform(smoothProgress, [0, 1], [100, -100]);
   const sectionScale = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0.9, 1, 1, 0.9]);
-  const sectionOpacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
+  const sectionOpacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [1, 1, 1, 1]);
 
   const projects = [
     {
       title: "Spendture",
-      description: "My baby. A FinTech app that uses AI and psychology to help people build better money habits. Smart reminders, journaling, the works. Still building it out.",
+      description: "A FinTech app that uses AI and psychology to help people build better money habits. Smart reminders, journaling, the works. Still building it out.",
       image: "💰",
       tags: ["Python", "AI/ML", "FinTech", "Product Development"],
       sourceUrl: "https://www.linkedin.com/company/spendture",
@@ -92,7 +92,7 @@ const Projects = () => {
       <motion.div 
         className="container mx-auto px-6" 
         ref={ref}
-        style={{ scale: sectionScale, opacity: sectionOpacity }}
+
       >
         <div className="max-w-6xl mx-auto">
           {/* Section header */}
