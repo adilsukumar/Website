@@ -319,7 +319,7 @@ const BackgroundStars = () => {
 const HoverHint = () => {
   return (
     <motion.div
-      className="absolute left-4 top-[22%] z-50 flex items-center gap-3 pointer-events-none"
+      className="absolute left-6 top-6 z-50 flex items-center gap-3 pointer-events-none"
       initial={{ opacity: 0, x: -60 }}
       animate={{ opacity: 1, x: [-40, 0, -40] }}
       transition={{
