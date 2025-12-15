@@ -9,16 +9,7 @@ const Projects = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const backgroundX = useTransform(smoothProgress, [0, 1], [-200, 200]);
-  const backgroundY = useTransform(smoothProgress, [0, 1], [100, -100]);
-  const sectionScale = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0.9, 1, 1, 0.9]);
-  const sectionOpacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [1, 1, 1, 1]);
 
   const projects = [
     {
@@ -80,7 +71,7 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="py-32 relative noise spotlight overflow-hidden"
+      className="py-32 relative noise spotlight"
       ref={containerRef}
     >
       {/* Simplified background for performance */}
@@ -92,7 +83,6 @@ const Projects = () => {
       <motion.div 
         className="container mx-auto px-6" 
         ref={ref}
-
       >
         <div className="max-w-6xl mx-auto">
           {/* Section header */}

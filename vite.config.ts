@@ -1,7 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from "path";
 
-export default defineConfig({
-  base: "/Website/",
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? "/Website/" : "/",
   plugins: [react()],
-});
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
+  },
+}));
