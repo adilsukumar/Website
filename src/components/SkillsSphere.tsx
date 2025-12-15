@@ -96,44 +96,56 @@ const SkillNode = ({
   isTouched: boolean;
   time: number;
 }) => {
-  // Different movement patterns based on index
-  const patternType = index % 4;
-  const baseSpeed = 0.00006 + (index % 6) * 0.00001;
-  const speedMultiplier = isInArea ? 0.5 : 1;
-  const t = time * baseSpeed * speedMultiplier;
+  // Always 100% speed - no slowdown
+  const baseSpeed = 0.00008 + (index % 6) * 0.00001;
+  const t = time * baseSpeed;
   
-  // Create flowing patterns that change direction smoothly
-  let animatedX: number;
-  let animatedY: number;
+  // Cycle through all 4 patterns every 10 seconds (2.5s each)
+  const cycleTime = (time / 1000) % 10; // 0-10 seconds cycle
+  const patternIndex = Math.floor(cycleTime / 2.5); // 0, 1, 2, 3
+  const patternProgress = (cycleTime % 2.5) / 2.5; // 0-1 within each pattern
   
-  if (!isInArea) {
-    // Normal pattern - smooth orbital with wave variations
-    const wave1 = Math.sin(t * 1.2 + index * 0.5) * 15;
-    const wave2 = Math.cos(t * 0.8 + index * 0.3) * 10;
-    animatedX = Math.cos(position.baseAngle + t) * position.baseRadius + wave1;
-    animatedY = Math.sin(position.baseAngle + t) * position.baseRadius * 0.6 + wave2;
-  } else {
-    // Alternative pattern when cursor is in area - figure-8 / lemniscate variations
-    const phase = index * 0.4;
-    if (patternType === 0) {
-      // Figure-8 pattern
-      animatedX = Math.cos(t + phase) * position.baseRadius * 0.9;
-      animatedY = Math.sin(t * 2 + phase) * position.baseRadius * 0.35;
-    } else if (patternType === 1) {
-      // Elliptical with drift
-      animatedX = Math.cos(t * 0.7 + phase) * position.baseRadius + Math.sin(t * 0.3) * 20;
-      animatedY = Math.sin(t * 0.7 + phase) * position.baseRadius * 0.5 + Math.cos(t * 0.2) * 15;
-    } else if (patternType === 2) {
-      // Gentle wave pattern
-      animatedX = Math.cos(t * 0.5 + phase) * position.baseRadius * 0.85 + Math.sin(t * 1.5) * 25;
-      animatedY = Math.sin(t * 0.6 + phase) * position.baseRadius * 0.55;
-    } else {
-      // Spiraling inward/outward
-      const radiusMod = position.baseRadius * (0.85 + Math.sin(t * 0.4) * 0.15);
-      animatedX = Math.cos(t * 0.8 + phase) * radiusMod;
-      animatedY = Math.sin(t * 0.8 + phase) * radiusMod * 0.55;
-    }
+  // Smooth blend factor for transitioning between patterns
+  const blendZone = 0.15; // 15% of pattern time for blending
+  let blendFactor = 1;
+  if (patternProgress > (1 - blendZone)) {
+    blendFactor = 1 - (patternProgress - (1 - blendZone)) / blendZone;
+  } else if (patternProgress < blendZone) {
+    blendFactor = patternProgress / blendZone;
   }
+  
+  const phase = index * 0.4;
+  
+  // Calculate positions for current and next pattern
+  const getPatternPosition = (pattern: number) => {
+    let x: number, y: number;
+    switch (pattern % 4) {
+      case 0: // Figure-8 pattern
+        x = Math.cos(t + phase) * position.baseRadius * 0.9;
+        y = Math.sin(t * 2 + phase) * position.baseRadius * 0.4;
+        break;
+      case 1: // Elliptical with drift
+        x = Math.cos(t * 0.8 + phase) * position.baseRadius + Math.sin(t * 0.4) * 25;
+        y = Math.sin(t * 0.8 + phase) * position.baseRadius * 0.5 + Math.cos(t * 0.3) * 18;
+        break;
+      case 2: // Wave pattern
+        x = Math.cos(t * 0.6 + phase) * position.baseRadius * 0.85 + Math.sin(t * 1.8) * 30;
+        y = Math.sin(t * 0.7 + phase) * position.baseRadius * 0.55;
+        break;
+      default: // Spiraling
+        const radiusMod = position.baseRadius * (0.8 + Math.sin(t * 0.5) * 0.2);
+        x = Math.cos(t * 0.9 + phase) * radiusMod;
+        y = Math.sin(t * 0.9 + phase) * radiusMod * 0.55;
+    }
+    return { x, y };
+  };
+  
+  const current = getPatternPosition(patternIndex);
+  const next = getPatternPosition(patternIndex + 1);
+  
+  // Blend between patterns for smooth transition
+  const animatedX = current.x * blendFactor + next.x * (1 - blendFactor);
+  const animatedY = current.y * blendFactor + next.y * (1 - blendFactor);
 
   const size = 5 + (position.z + 50) / 20;
   const opacity = 0.5 + (position.z + 50) / 130;
