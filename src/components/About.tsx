@@ -156,7 +156,7 @@ const About = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.8 }}
-            className="mb-8 -mx-6 sm:-mx-0"
+            className="mb-8 w-full overflow-hidden"
           >
             <Suspense fallback={
               <div className="h-[700px] flex items-center justify-center">
