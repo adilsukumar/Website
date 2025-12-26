@@ -58,13 +58,13 @@ const Projects = () => {
       gradient: "from-orange-500 to-red-500",
     },
     {
-      title: "Game Development Project",
-      description: "A 2D game I made from scratch - gameplay, sound, story, everything. Won 1st place out of 100+ schools. Still proud of this one.",
-      image: "🎮",
-      tags: ["Python", "Game Design", "Sound Design", "UI/UX"],
+      title: "A Map of Memories",
+      description: "An interactive global memory map where people pin personal stories and feelings to real places. Like a collective diary that lets you explore meaningful moments left by others around the world.",
+      image: "🗺️",
+      tags: ["React", "Maps API", "Node.js", "MongoDB"],
       sourceUrl: null,
       featured: false,
-      gradient: "from-yellow-500 to-orange-500",
+      gradient: "from-indigo-500 to-purple-500",
     },
   ];
 
@@ -73,6 +73,7 @@ const Projects = () => {
       id="projects"
       className="py-32 relative noise spotlight"
       ref={containerRef}
+      style={{ position: "relative" }}
     >
       {/* Simplified background for performance */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

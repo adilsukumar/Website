@@ -16,7 +16,7 @@ const AnimatedBackground = () => {
 
       {/* Moon */}
       <div 
-        className="absolute top-[8%] right-[12%] w-20 h-20 rounded-full"
+        className="absolute top-[1%] right-[15%] w-20 h-20 rounded-full"
         style={{
           background: "radial-gradient(circle at 30% 30%, hsl(45 20% 95%) 0%, hsl(45 15% 85%) 50%, hsl(45 10% 75%) 100%)",
           boxShadow: `
@@ -41,35 +41,38 @@ const AnimatedBackground = () => {
         />
       </div>
 
-      {/* Stars - static for performance */}
-      {[...Array(50)].map((_, i) => (
+      {/* Stars - static for performance - reduced count */}
+      {[...Array(30)].map((_, i) => (
         <div
           key={i}
           className="absolute rounded-full bg-white"
           style={{
-            width: 1 + (i % 3),
-            height: 1 + (i % 3),
-            left: `${(i * 7.3) % 100}%`,
-            top: `${(i * 5.7) % 70}%`,
-            opacity: 0.3 + (i % 5) * 0.15,
+            width: 1 + (i % 2),
+            height: 1 + (i % 2),
+            left: `${(i * 8.3) % 100}%`,
+            top: `${(i * 6.7) % 70}%`,
+            opacity: 0.2 + (i % 3) * 0.1,
+            transform: 'translate3d(0,0,0)',
           }}
         />
       ))}
 
-      {/* Subtle gradient orbs - simplified */}
+      {/* Subtle gradient orbs - simplified and optimized */}
       <div
-        className="absolute -top-1/4 -left-1/4 w-[600px] h-[600px] rounded-full"
+        className="absolute -top-1/4 -left-1/4 w-[500px] h-[500px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(250 80% 50% / 0.15) 0%, transparent 60%)",
-          filter: "blur(60px)",
+          background: "radial-gradient(circle, hsl(250 80% 50% / 0.1) 0%, transparent 60%)",
+          filter: "blur(40px)",
+          transform: 'translate3d(0,0,0)',
         }}
       />
       
       <div
-        className="absolute -bottom-1/4 -right-1/4 w-[500px] h-[500px] rounded-full"
+        className="absolute -bottom-1/4 -right-1/4 w-[400px] h-[400px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(200 80% 50% / 0.1) 0%, transparent 60%)",
-          filter: "blur(60px)",
+          background: "radial-gradient(circle, hsl(200 80% 50% / 0.08) 0%, transparent 60%)",
+          filter: "blur(40px)",
+          transform: 'translate3d(0,0,0)',
         }}
       />
 

@@ -28,6 +28,14 @@ const Certificates = () => {
       color: "from-green-500 to-teal-500",
       rotate: false,
     },
+    {
+      title: "Quantum Computing Workshop",
+      issuer: "VIT Bhopal",
+      date: "2025",
+      image: "/quantum-computing-workshop.png",
+      color: "from-purple-500 to-blue-500",
+      rotate: false,
+    },
   ];
 
   return (

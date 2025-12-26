@@ -340,9 +340,9 @@ const Chatbot = () => {
         animate={{
           boxShadow: isOpen 
             ? "0 0 20px hsl(var(--primary) / 0.3)" 
-            : ["0 0 20px hsl(var(--primary) / 0.3)", "0 0 40px hsl(var(--primary) / 0.6)", "0 0 20px hsl(var(--primary) / 0.3)"]
+            : ["0 0 20px hsl(var(--primary) / 0.3)", "0 0 30px hsl(var(--primary) / 0.4)", "0 0 20px hsl(var(--primary) / 0.3)"]
         }}
-        transition={{ duration: 2, repeat: isOpen ? 0 : Infinity }}
+        transition={{ duration: 3, repeat: isOpen ? 0 : Infinity }}
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
@@ -384,7 +384,7 @@ const Chatbot = () => {
               <motion.div
                 className="p-2 bg-primary-foreground/20 rounded-full"
                 animate={{ rotate: [0, 360] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
               >
                 <Sparkles className="w-5 h-5 text-primary-foreground" />
               </motion.div>
@@ -393,8 +393,8 @@ const Chatbot = () => {
                 <div className="flex items-center gap-1.5">
                   <motion.span
                     className="w-2 h-2 bg-green-400 rounded-full"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
                   />
                   <span className="text-xs text-primary-foreground/80">Adil's AI Assistant</span>
                 </div>

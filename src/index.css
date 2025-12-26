@@ -45,6 +45,11 @@
     --glass-bg: 220 20% 10% / 0.6;
     --glass-border: 220 15% 25% / 0.5;
 
+    /* RGB values for animations */
+    --foreground-rgb: 248, 250, 252;
+    --primary-rgb: 0, 212, 255;
+    --secondary-rgb: 168, 85, 247;
+
     /* Custom easing */
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -69,10 +74,24 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    /* Performance optimizations */
+    transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* Performance optimizations for animations */
+  * {
+    will-change: auto;
+  }
+  
+  *:hover, *:focus, *:active {
+    will-change: transform;
   }
 
   /* Custom cursor */

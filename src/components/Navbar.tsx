@@ -11,24 +11,35 @@ const Navbar = () => {
   const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (!ticking) {
+        // Use requestIdleCallback for non-critical updates
+        requestIdleCallback(() => {
+          requestAnimationFrame(() => {
+            setIsScrolled(window.scrollY > 50);
 
-      // Determine active section
-      const sections = ["about", "skills", "projects", "certificates", "contact"];
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            setActiveSection(section);
-            break;
-          }
-        }
+            // Determine active section - throttled
+            const sections = ["about", "skills", "projects", "certificates", "contact"];
+            for (const section of sections) {
+              const element = document.getElementById(section);
+              if (element) {
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= 200 && rect.bottom >= 200) {
+                  setActiveSection(section);
+                  break;
+                }
+              }
+            }
+            ticking = false;
+          });
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -40,6 +51,13 @@ const Navbar = () => {
     { label: "Contact", href: "#contact" },
   ];
 
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <motion.header
@@ -49,6 +67,7 @@ const Navbar = () => {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled ? "glass py-3" : "py-6"
         }`}
+        style={{ position: "fixed" }}
       >
         {/* Progress bar */}
         <motion.div
@@ -79,9 +98,9 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link, index) => (
-                <motion.a
+                <motion.button
                   key={link.label}
-                  href={link.href}
+                  onClick={() => scrollToSection(link.href)}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
@@ -102,13 +121,13 @@ const Navbar = () => {
                     whileHover={{ width: "100%" }}
                     transition={{ duration: 0.3 }}
                   />
-                </motion.a>
+                </motion.button>
               ))}
             </nav>
 
             {/* CTA Button */}
-            <motion.a
-              href="#contact"
+            <motion.button
+              onClick={() => scrollToSection("#contact")}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, type: "spring" }}
@@ -126,7 +145,7 @@ const Navbar = () => {
                 transition={{ duration: 0.6 }}
               />
               <span className="relative z-10">Let's Talk</span>
-            </motion.a>
+            </motion.button>
 
             {/* Mobile Menu Button */}
             <motion.button
@@ -179,9 +198,12 @@ const Navbar = () => {
               className="flex flex-col items-center gap-8 p-8"
             >
               {navLinks.map((link, index) => (
-                <motion.a
+                <motion.button
                   key={link.label}
-                  href={link.href}
+                  onClick={() => {
+                    scrollToSection(link.href);
+                    setIsMobileMenuOpen(false);
+                  }}
                   initial={{ opacity: 0, x: -50, rotate: -10 }}
                   animate={{ opacity: 1, x: 0, rotate: 0 }}
                   exit={{ opacity: 0, x: 50 }}
@@ -190,26 +212,27 @@ const Navbar = () => {
                     type: "spring",
                     stiffness: 100,
                   }}
-                  onClick={() => setIsMobileMenuOpen(false)}
                   whileHover={{ scale: 1.1, x: 10 }}
                   whileTap={{ scale: 0.95 }}
                   className="font-display text-3xl font-semibold text-foreground hover:text-gradient transition-colors"
                 >
                   {link.label}
-                </motion.a>
+                </motion.button>
               ))}
-              <motion.a
-                href="#contact"
+              <motion.button
+                onClick={() => {
+                  scrollToSection("#contact");
+                  setIsMobileMenuOpen(false);
+                }}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, type: "spring" }}
-                onClick={() => setIsMobileMenuOpen(false)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="mt-4 px-8 py-4 bg-gradient text-primary-foreground font-display font-semibold rounded-lg glow"
               >
                 Let's Talk
-              </motion.a>
+              </motion.button>
             </motion.nav>
           </motion.div>
         )}

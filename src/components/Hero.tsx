@@ -10,6 +10,13 @@ const Hero = () => {
   const scale = useTransform(smoothProgress, [0, 0.5], [1, 0.8]);
   const name = "Adil Sukumar";
 
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const roles = [
     "Founder @Spendture",
     "AI & Bioinformatics @ VIT",
@@ -83,13 +90,23 @@ const Hero = () => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1.4, ease: [0.16, 1, 0.3, 1] }} className="flex flex-wrap gap-4 mb-16">
-            <motion.a href="#projects" className="group relative px-8 py-4 bg-gradient-animated text-primary-foreground font-display font-semibold rounded-xl overflow-hidden glow-intense border-gradient-animated" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.button 
+              onClick={() => scrollToSection("#projects")}
+              className="group relative px-8 py-4 bg-gradient-animated text-primary-foreground font-display font-semibold rounded-xl overflow-hidden glow-intense border-gradient-animated" 
+              whileHover={{ scale: 1.05 }} 
+              whileTap={{ scale: 0.95 }}
+            >
               <motion.span className="absolute inset-0 bg-white/20" initial={{ x: "-100%", skewX: -20 }} whileHover={{ x: "200%" }} transition={{ duration: 0.8 }} />
               <span className="relative z-10">View My Work</span>
-            </motion.a>
-            <motion.a href="#contact" className="group px-8 py-4 glass font-display font-semibold rounded-xl relative overflow-hidden border-gradient-animated" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            </motion.button>
+            <motion.button 
+              onClick={() => scrollToSection("#contact")}
+              className="group px-8 py-4 glass font-display font-semibold rounded-xl relative overflow-hidden border-gradient-animated" 
+              whileHover={{ scale: 1.05 }} 
+              whileTap={{ scale: 0.95 }}
+            >
               <span className="relative z-10">Get In Touch</span>
-            </motion.a>
+            </motion.button>
             <motion.a href="/Adil_Sukumar_Resume.pdf" download="Adil_Sukumar_Resume.pdf" className="group px-8 py-4 glass font-display font-semibold rounded-xl relative overflow-hidden border-gradient-animated flex items-center gap-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Download className="w-4 h-4" />
               <span className="relative z-10">Download Resume</span>
