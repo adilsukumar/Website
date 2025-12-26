@@ -5,7 +5,6 @@ import { Award, X } from "lucide-react";
 
 import wicysCert from "@/assets/certificates/wicys-hackathon.jpg";
 import pythonCert from "@/assets/certificates/python-essentials.jpg";
-import quantumCert from "@/assets/certificates/quantum-computing-workshop.jpg";
 
 const Certificates = () => {
   const ref = useRef(null);
@@ -33,7 +32,7 @@ const Certificates = () => {
       title: "Quantum Computing Workshop",
       issuer: "VIT Bhopal",
       date: "2025",
-      image: quantumCert,
+      image: "/quantum-computing-workshop.png",
       color: "from-purple-500 to-blue-500",
       rotate: false,
     },
