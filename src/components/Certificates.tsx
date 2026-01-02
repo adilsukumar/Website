@@ -32,7 +32,7 @@ const Certificates = () => {
     {
       title: "Quantum Computing Workshop",
       issuer: "VIT Bhopal",
-      date: "2025",
+      date: "Nov 2025",
       image: quantumCert,
       color: "from-purple-500 to-blue-500",
       rotate: false,
